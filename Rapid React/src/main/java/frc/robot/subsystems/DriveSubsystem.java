@@ -31,7 +31,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   private final DifferentialDrive drive = new DifferentialDrive(MCG_L, MCG_R); //todo check right side inversion
 
-  private double error;
+  private double HeadingError; // calculates sensor error for driving straight
   private double integral;
 
   public DriveSubsystem() {
@@ -57,15 +57,15 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  //calculates shit so we can drive straight
+  //calculates stuff so we can drive straight
   private double driveTrainP() {
-    error = falconFL.getSelectedSensorPosition() - falconFR.getSelectedSensorPosition();
+    HeadingError = falconFL.getSelectedSensorPosition() - falconFR.getSelectedSensorPosition();
     //integral += error*.02;
-    return DriveConstants.DRIVE_P*error;
+    return DriveConstants.DRIVE_P * HeadingError;
   }
   //drives straight
   public void driveStraight(double xSpeed) {
-    drive.arcadeDrive(xSpeed, -driveTrainP());
+    drive.arcadeDrive(xSpeed, /* -? */driveTrainP());
   }
   /**
    * sets the speed of the drive train with arcade controls ask Mikey what it does? If you see this remind me to ask them.
@@ -75,7 +75,7 @@ public class DriveSubsystem extends SubsystemBase {
   
    //arcade drive, yay! discussion should we do tank this year? discussion we need to have
    public void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
-    if (zRotation == 0 )
+    if (zRotation == 0 ) //todo test variable thresholds: if (zRotation > -.1 && zRotation < .1)
       driveStraight(xSpeed);
     drive.arcadeDrive(xSpeed, zRotation);
   }
