@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
@@ -21,9 +22,9 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double xSpeed = Robot.m_robotContainer.m_driverController.getLeftY();
-    double zRotation = Robot.m_robotContainer.m_driverController.getRightY();
-    Robot.driveSubsystem.teleop(xSpeed, zRotation);
+    double xSpeed = RobotContainer.xbox.getLeftY();
+    double zRotation = RobotContainer.xbox.getRightX();
+    Robot.driveSubsystem.setDriveSpeed_Arcade(xSpeed, zRotation);
 
 
   }
