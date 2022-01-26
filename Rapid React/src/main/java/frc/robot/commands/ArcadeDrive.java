@@ -5,16 +5,15 @@
 package frc.robot.commands;
 
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 public class ArcadeDrive extends CommandBase {
   /** Creates a new ArcadeDrive. */
-  public ArcadeDrive() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.driveSubsystem);
-  }
-
+  public ArcadeDrive(DriveSubsystem drive) {
+    addRequirements(drive);
+ }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
