@@ -26,6 +26,7 @@ public final class Constants {
         public static final int FALCON_FL_ID = 0;
         public static final int FALCON_BR_ID = 0;
         public static final int FALCON_BL_ID = 0;
+        
 
         public static final double DRIVE_P = 4; /**not sure what these do TODO ask mikey but im pretty sure theyre the offset
          for the drive forward but yeah so like do we need to change this Mikey? If you see this remind me to ask them, it was 
@@ -35,6 +36,13 @@ public final class Constants {
         //public static final double TIC_FT = ((Math.PI)/2014)/10.75; (Is this accurate still?)
 
 
+    }
+
+    public final class ShooterConstants
+    {
+        public static final int NEO_TURRET_ID = 0;
+        public static final float Kp = 0.033f; //to fix 
+        public static final float min_command = 0.033f; //to fix?
     }
 
     public final class OIConstants {
