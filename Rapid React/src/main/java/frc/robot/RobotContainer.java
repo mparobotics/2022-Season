@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TurretAutoAlign;
+import frc.robot.commands.TurretTurnLeft;
+import frc.robot.commands.TurretTurnRight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
@@ -39,6 +41,10 @@ public class RobotContainer {
     driveSub.setDefaultCommand(new ArcadeDrive (driveSub));
   }
 
+
+
+
+
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -47,7 +53,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(helms, Button.kA.value).whenPressed(new TurretAutoAlign());
-
+    new JoystickButton(helms, Button.kLeftBumper.value).whenPressed(new TurretTurnLeft());
+    new JoystickButton(helms, Button.kRightBumper.value).whenPressed(new TurretTurnRight());
   }
 
   /**

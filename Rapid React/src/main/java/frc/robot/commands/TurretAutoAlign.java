@@ -21,14 +21,13 @@ public class TurretAutoAlign extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-  double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-  double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+  double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);//offset on x axis
+  double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);//offset from target on y axis
+  double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);//is target in view?
   boolean tapeFound;
   SmartDashboard.putNumber("LimelightX", tx);
   SmartDashboard.putNumber("LimelightY", ty);
   SmartDashboard.putNumber("LimelightX", tv);
-
   if (tv != 1) {tapeFound = false;}
   else {tapeFound = true;}
   SmartDashboard.putBoolean("limelight vision", tapeFound);
@@ -38,7 +37,7 @@ public class TurretAutoAlign extends CommandBase {
     double steering_adjust = 0.0f;
     if (tx > 1.0)
     {
-            steering_adjust = ShooterConstants.Kp * heading_error - ShooterConstants.min_command;
+            steering_adjust = ShooterConstants.Kp * heading_error - ShooterConstants.min_command; //Kp is a number that does something, and the min command is the minimum needed for it to react
     }
     else if (tx < 1.0)
     {
