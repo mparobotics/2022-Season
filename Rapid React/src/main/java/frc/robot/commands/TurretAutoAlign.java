@@ -24,6 +24,11 @@ public class TurretAutoAlign extends CommandBase {
   double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);//offset on x axis
   double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);//offset from target on y axis
   double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);//is target in view?
+  double h1 = ShooterConstants.limelight_height; //corresponds to the case study graph in limelight document
+  double h2 = ShooterConstants.hub_height; //corresponds to the case study graph in limelight document
+  double a1 = ShooterConstants.limelight_angle; //corresponds to the case study graph in limelight document; angle between the camera and the ground
+  double d ; //corresponds to the case study graph in limelight document; horizontal distance between the camera and the target
+
   boolean tapeFound;
   SmartDashboard.putNumber("LimelightX", tx);
   SmartDashboard.putNumber("LimelightY", ty);
@@ -32,6 +37,10 @@ public class TurretAutoAlign extends CommandBase {
   else {tapeFound = true;}
   SmartDashboard.putBoolean("limelight vision", tapeFound);
   if (tapeFound = true){
+
+    d = (h2-h1) / Math.tan(a1+ty); // caculate the distance
+  SmartDashboard.putNumber("DistanceFromHub", d); 
+
     //Robot.driveSubsystem.teleop(0, 0);
     double heading_error = tx; //needs inverting?
     double steering_adjust = 0.0f;
