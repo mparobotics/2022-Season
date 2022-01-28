@@ -40,7 +40,7 @@ public final class Constants {
 
     public final class ShooterConstants
     {
-        public static final int NEO_TURRET_ID = 0;
+        public static final int NEO_TURRET_ID = 52;
         public static final float Kp = 0.033f; //to fix 
         public static final float min_command = 0.033f; //to fix?
         public static final double hub_height = 104; //inches
