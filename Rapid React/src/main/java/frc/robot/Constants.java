@@ -44,7 +44,7 @@ public final class Constants {
         public static final float Kp = 0.033f; //to fix 
         public static final float min_command = 0.033f; //to fix?
         public static final double hub_height = 104; //inches
-        public static final double limelight_height = 9.625; //inches
+        public static final double limelight_height = 8.875; //inches
         public static final double limelight_angle = 45; //degrees
 
     }
