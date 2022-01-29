@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.Constants.ShooterConstants;
-
+import java.lang.Math; // to use the Pi value in line 40
 
 public class TurretAutoAlign extends CommandBase {
   /** Creates a new TurretAutoAlign. */
@@ -22,13 +22,13 @@ public class TurretAutoAlign extends CommandBase {
   @Override
   public void execute() {
   double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);//offset on x axis
-  double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);//offset from target on y axis
+  double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);//degrees, offset from target on y axis
   double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);//is target in view?
   double h1 = ShooterConstants.limelight_height; //corresponds to the case study graph in limelight document
   double h2 = ShooterConstants.hub_height; //corresponds to the case study graph in limelight document
-  double a1 = ShooterConstants.limelight_angle; //corresponds to the case study graph in limelight document; angle between the camera and the ground
+  double a1 = ShooterConstants.limelight_angle; //degrees, corresponds to the case study graph in limelight document; angle between the camera and the ground
   double d ; //corresponds to the case study graph in limelight document; horizontal distance between the camera and the target
-
+  
   boolean tapeFound;
   SmartDashboard.putNumber("LimelightX", tx);
   SmartDashboard.putNumber("LimelightY", ty);
@@ -37,8 +37,8 @@ public class TurretAutoAlign extends CommandBase {
   else {tapeFound = true;}
   SmartDashboard.putBoolean("limelight vision", tapeFound);
   if (tapeFound = true){
-
-    d = (h2-h1) / Math.tan(a1+ty); // caculate the distance
+    double angleRad = Math.PI*(ty+a1)/180; // converting ty+a1 from degrees to radians
+    d = (h2-h1) / Math.tan(angleRad); // caculate the distance
   SmartDashboard.putNumber("DistanceFromHub", d); 
 
     //Robot.driveSubsystem.teleop(0, 0);
