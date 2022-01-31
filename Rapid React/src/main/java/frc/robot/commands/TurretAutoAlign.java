@@ -46,14 +46,21 @@ public class TurretAutoAlign extends CommandBase {
     double steering_adjust = 0.0f;
     if (tx > 1.0)
     {
-            steering_adjust = ShooterConstants.Kp * heading_error - ShooterConstants.min_command; //Kp is a number that does something, and the min command is the minimum needed for it to react
+        steering_adjust = ShooterConstants.Kp * heading_error + ShooterConstants.min_command; //Kp is a number that does something, and the min command is the minimum needed for it to react
+        Robot.turretSubsystem.turnTurret(steering_adjust);//toTest
     }
+  
     else if (tx < 1.0)
     {
-            steering_adjust = ShooterConstants.Kp * heading_error + ShooterConstants.min_command;
+        steering_adjust = ShooterConstants.Kp * heading_error - ShooterConstants.min_command;
+        Robot.turretSubsystem.turnTurret(steering_adjust);//toTest
     }
-    Robot.turretSubsystem.turnTurret(steering_adjust);//toTest
-  }}
+
+    
+  }
+  else{new TurretNeutral();}
+
+}
 
   // Called once the command ends or is interrupted.
   @Override

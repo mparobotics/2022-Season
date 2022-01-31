@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TurretAutoAlign;
+import frc.robot.commands.TurretNeutral;
 import frc.robot.commands.TurretTurnLeft;
 import frc.robot.commands.TurretTurnRight;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -52,9 +53,15 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(helms, Button.kA.value).whenPressed(new TurretAutoAlign());
-    new JoystickButton(helms, Button.kLeftBumper.value).whenPressed(new TurretTurnLeft());
-    new JoystickButton(helms, Button.kRightBumper.value).whenPressed(new TurretTurnRight());
+    new JoystickButton(helms, Button.kA.value).whenHeld(new TurretAutoAlign());
+    new JoystickButton(helms, Button.kLeftBumper.value).whenHeld(new TurretTurnLeft());
+    new JoystickButton(helms, Button.kRightBumper.value).whenHeld(new TurretTurnRight());
+    
+    //neutralizes turret
+    new JoystickButton(helms, Button.kA.value).whenReleased(new TurretNeutral());
+    new JoystickButton(helms, Button.kLeftBumper.value).whenReleased(new TurretNeutral());
+    new JoystickButton(helms, Button.kRightBumper.value).whenReleased(new TurretNeutral());
+    
   }
 
   /**
