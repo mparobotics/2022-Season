@@ -36,7 +36,7 @@ public class TurretAutoAlign extends CommandBase {
   if (tv != 1) {tapeFound = false;}
   else {tapeFound = true;}
   SmartDashboard.putBoolean("limelight vision", tapeFound);
-  if (tapeFound = true){
+  if (tapeFound == true){
     double angleRad = Math.PI*(ty+a1)/180; // converting ty+a1 from degrees to radians
     d = (h2-h1) / Math.tan(angleRad); // caculate the distance
   SmartDashboard.putNumber("DistanceFromHub", d); 

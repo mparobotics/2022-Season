@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.LedRainbow;
 import frc.robot.commands.TurretAutoAlign;
 import frc.robot.commands.TurretNeutral;
 import frc.robot.commands.TurretTurnLeft;
@@ -61,6 +62,9 @@ public class RobotContainer {
     new JoystickButton(helms, Button.kA.value).whenReleased(new TurretNeutral());
     new JoystickButton(helms, Button.kLeftBumper.value).whenReleased(new TurretNeutral());
     new JoystickButton(helms, Button.kRightBumper.value).whenReleased(new TurretNeutral());
+    
+    //rainbows leds
+    new JoystickButton(helms, Button.kB.value).whenHeld(new LedRainbow());
     
   }
 

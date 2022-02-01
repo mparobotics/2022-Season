@@ -55,6 +55,12 @@ public final class Constants {
     
     }
 
+    public final class LedConstants //constants for the LEDs
+    {
+        public static final int LED_Length = 150;
+        public static final int LED_Port = 4;
+    }
+
 
 
 

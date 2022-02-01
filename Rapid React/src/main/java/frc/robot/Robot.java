@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
 /**
@@ -20,6 +21,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   public static DriveSubsystem driveSubsystem = new DriveSubsystem();
   public static TurretSubsystem turretSubsystem = new TurretSubsystem();
+  public static LedSubsystem ledSubsytem = new LedSubsystem();
   private RobotContainer m_robotContainer;
 
   /**
