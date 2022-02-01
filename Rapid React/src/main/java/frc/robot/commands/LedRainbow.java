@@ -4,13 +4,15 @@
 
 package frc.robot.commands;
 import frc.robot.Robot;
+import frc.robot.subsystems.LedSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class LedRainbow extends CommandBase {
   /** Creates a new LedRainbow. */
-  public LedRainbow() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+  public LedRainbow(LedSubsystem led) {
+    addRequirements(led);
+ }
+
 
   // Called when the command is initially scheduled.
   @Override
