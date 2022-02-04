@@ -10,7 +10,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.LedRainbow;
+import frc.robot.commands.Elevator;
+import frc.robot.commands.ElevatorReverse;
+import frc.robot.commands.Intake;
+import frc.robot.commands.IntakeReverse;
 import frc.robot.commands.TurretAutoAlign;
 import frc.robot.commands.TurretNeutral;
 import frc.robot.commands.TurretTurnLeft;
@@ -19,7 +22,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.ElevatorSub;
+import frc.robot.subsystems.IntakeSub;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,13 +34,14 @@ import frc.robot.subsystems.LedSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public DriveSubsystem driveSub = new DriveSubsystem();
-  public LedSubsystem LedSub = new LedSubsystem();
   
 
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   //Initializing Controllers
   public static XboxController xbox = new XboxController(OIConstants.XBOX_ID);
-  private XboxController helms = new XboxController(OIConstants.HELMS_ID);
+  public static XboxController helms = new XboxController(OIConstants.HELMS_ID);
+  public IntakeSub intakeSub = new IntakeSub(); 
+  public ElevatorSub elevatorsub = new ElevatorSub();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -44,9 +49,6 @@ public class RobotContainer {
     configureButtonBindings();
     driveSub.setDefaultCommand(new ArcadeDrive (driveSub));
   }
-
-
-
 
 
   /**
@@ -64,10 +66,17 @@ public class RobotContainer {
     new JoystickButton(helms, Button.kA.value).whenReleased(new TurretNeutral());
     new JoystickButton(helms, Button.kLeftBumper.value).whenReleased(new TurretNeutral());
     new JoystickButton(helms, Button.kRightBumper.value).whenReleased(new TurretNeutral());
-    
-    //rainbows leds
-    new JoystickButton(helms, Button.kB.value).whenHeld(new LedRainbow(LedSub));
-    
+
+    //intake settings
+    new JoystickButton(xbox, Button.kA.value).whenHeld(new Intake(intakeSub));
+    new JoystickButton(xbox, Button.kB.value).whenHeld(new IntakeReverse(intakeSub));
+
+    //Elevator settings
+    new JoystickButton(helms, Button.kB.value).whenHeld(new Elevator(elevatorsub));
+    new JoystickButton(helms, Button.kX.value).whenHeld(new ElevatorReverse(elevatorsub));
+
+
+
   }
 
   /**
