@@ -55,10 +55,17 @@ public final class Constants {
     
     }
 
-    public final class LedConstants //constants for the LEDs
+    public final class IntakeConstants
     {
-        public static final int LED_Length = 150;
-        public static final int LED_Port = 4;
+        public static final int INTAKE_ID = 0;
+        public static final double INTAKE_SPEED = 0.5;
+    }
+
+    public final class ElevatorConstants
+    {
+        public static final int FRONT_ELEVATOR_ID = 0;
+        public static final int BACK_ELEVATOR_ID = 0;
+        public static final double ELEVATOR_SPEED = 0.5;
     }
 
 
