@@ -41,8 +41,8 @@ public final class Constants {
     public final class ShooterConstants
     {
         public static final int NEO_TURRET_ID = 52;
-        /**public static final float Kp = 0.01f; //to fix 
-        public static final float min_command = 0.01f; to fix? */
+        public static final float Kp = -0.005f; //speed modifier of le turret
+        public static final float min_command = 0.00001f; //deadzone of le turret
         public static final double hub_height = 104 ; //inches 
         public static final double limelight_height = 9.125; //inches
         public static final double limelight_angle = 33; //degrees

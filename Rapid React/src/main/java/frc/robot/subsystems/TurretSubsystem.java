@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -21,7 +22,7 @@ public class TurretSubsystem extends SubsystemBase {
   public TurretSubsystem() {
 }
   public void turnTurret (double turnSpeed) {
-    m_motor.set(turnSpeed);
+    m_motor.set(turnSpeed); 
     printTurretEncoder();
   }
 
@@ -29,6 +30,7 @@ public class TurretSubsystem extends SubsystemBase {
   {
     SmartDashboard.putNumber("Encoder Position", m_encoder.getPosition());
   }
+
 
   @Override
   public void periodic() {

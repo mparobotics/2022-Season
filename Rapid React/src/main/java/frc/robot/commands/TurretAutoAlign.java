@@ -44,17 +44,17 @@ public class TurretAutoAlign extends CommandBase {
     //Robot.driveSubsystem.teleop(0, 0);
     double heading_error = tx; //needs inverting?
     double steering_adjust = 0.0f;
-    if (tx > 2.0) //to test deadzone
+    if (tx > 0 ) //to test deadzone
     {
-        //steering_adjust = ShooterConstants.Kp * heading_error + ShooterConstants.min_command; //Kp is a number that does something, and the min command is the minimum needed for it to react
-        steering_adjust = .1; //to test speed and inversion
+        steering_adjust = ShooterConstants.Kp * heading_error - ShooterConstants.min_command; //Kp is a number that does something, and the min command is the minimum needed for it to react
+        //steering_adjust = -.05; //to test speed and inversion
         Robot.turretSubsystem.turnTurret(steering_adjust);//toTest
     }
   
-    else if (tx < -2.0) //to test deadzone
+    else if (tx < 0 ) //to test deadzone
     {
-        //steering_adjust = ShooterConstants.Kp * heading_error - ShooterConstants.min_command;
-        steering_adjust = -.1; //to test speed and inversion
+        steering_adjust = ShooterConstants.Kp * heading_error + ShooterConstants.min_command;
+        //steering_adjust = .05; //to test speed and inversion
         Robot.turretSubsystem.turnTurret(steering_adjust);//toTest
     }
 
