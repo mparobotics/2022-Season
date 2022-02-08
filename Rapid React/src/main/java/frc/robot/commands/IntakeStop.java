@@ -5,12 +5,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
+import frc.robot.subsystems.IntakeSub;
 
-
-public class TurretAutoAlign extends CommandBase {
-  /** Creates a new TurretAutoAlign. */
-
+public class IntakeStop extends CommandBase {
+  IntakeSub intakeSub;
+  public IntakeStop() {
+   }
 
   // Called when the command is initially scheduled.
   @Override
@@ -19,9 +19,8 @@ public class TurretAutoAlign extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  Robot.turretSubsystem.autoTurn(); //goes to autoTurn in turret subsystem
-  
-}
+    IntakeSub.IntakeStop(); //stops the elevator
+  }
 
   // Called once the command ends or is interrupted.
   @Override

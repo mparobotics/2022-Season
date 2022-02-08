@@ -35,8 +35,23 @@ public class DriveSubsystem extends SubsystemBase {
   private double integral;
 
   public DriveSubsystem() {
-    
-}
+    setBrake();
+    falconFR.configOpenloopRamp(1.0); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconFR.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
+
+    falconFL.configOpenloopRamp(1.0); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconFL.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
+
+    falconBL.configOpenloopRamp(1.0); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconBL.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
+
+    falconBR.configOpenloopRamp(1.0); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconBR.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
+
+    falconBR.follow(falconFR); //talonBR follows TalonFR
+    falconBL.follow(falconFL); //talonBL follows TalonFR 
+
+  }
 
   public void setCoast() {
     //setting coast or brake mode, can also be done in Phoenix tuner

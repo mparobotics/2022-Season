@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.Elevator;
+import frc.robot.commands.ElevatorNeutral;
 import frc.robot.commands.ElevatorReverse;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeReverse;
+import frc.robot.commands.IntakeStop;
 import frc.robot.commands.TurretAutoAlign;
 import frc.robot.commands.TurretNeutral;
 import frc.robot.commands.TurretTurnLeft;
@@ -62,19 +64,26 @@ public class RobotContainer {
     new JoystickButton(helms, Button.kA.value).whenHeld(new TurretAutoAlign());
     new JoystickButton(helms, Button.kLeftBumper.value).whenHeld(new TurretTurnLeft());
     new JoystickButton(helms, Button.kRightBumper.value).whenHeld(new TurretTurnRight());
-    
     //neutralizes turret
     new JoystickButton(helms, Button.kA.value).whenReleased(new TurretNeutral());
     new JoystickButton(helms, Button.kLeftBumper.value).whenReleased(new TurretNeutral());
     new JoystickButton(helms, Button.kRightBumper.value).whenReleased(new TurretNeutral());
 
+    
     //intake settings
     new JoystickButton(xbox, Button.kA.value).whenHeld(new Intake(intakeSub));
     new JoystickButton(xbox, Button.kB.value).whenHeld(new IntakeReverse(intakeSub));
+    //intake stop
+    new JoystickButton(xbox, Button.kA.value).whenReleased(new IntakeStop());
+    new JoystickButton(xbox, Button.kB.value).whenReleased(new IntakeStop());
 
+    
     //Elevator settings
     new JoystickButton(helms, Button.kB.value).whenHeld(new Elevator(elevatorsub));
     new JoystickButton(helms, Button.kX.value).whenHeld(new ElevatorReverse(elevatorsub));
+    //elevator stop
+    new JoystickButton(helms, Button.kB.value).whenReleased(new ElevatorNeutral());
+    new JoystickButton(helms, Button.kX.value).whenReleased(new ElevatorNeutral());
 
 
 

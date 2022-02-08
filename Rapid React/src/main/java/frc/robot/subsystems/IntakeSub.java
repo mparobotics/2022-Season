@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 //import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,10 +12,10 @@ import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSub extends SubsystemBase {
   /** Creates a new Intake. */
-  static WPI_TalonFX intake;
+  static WPI_TalonSRX intake;
 
   public IntakeSub() {
-    intake = new WPI_TalonFX(IntakeConstants.INTAKE_ID);
+    intake = new WPI_TalonSRX(IntakeConstants.INTAKE_ID);
   }
 
   @Override
@@ -28,7 +28,7 @@ public class IntakeSub extends SubsystemBase {
     intake.set(speed);
   }
 
-  public void stop()
+  public static void IntakeStop()
   {
     intake.set(0);
   }

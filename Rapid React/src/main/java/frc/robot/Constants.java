@@ -46,6 +46,7 @@ public final class Constants {
         public static final double hub_height = 104 ; //inches 
         public static final double limelight_height = 9.125; //inches
         public static final double limelight_angle = 33; //degrees
+        public static final int FALCON_shooter_ID = 0; //placeholder
 
     }
 
@@ -57,15 +58,15 @@ public final class Constants {
 
     public final class IntakeConstants
     {
-        public static final int INTAKE_ID = 0;
-        public static final double INTAKE_SPEED = 0.5;
+        public static final int INTAKE_ID = 8;
+        public static final double INTAKE_SPEED = 0.5; //placeholder
     }
 
     public final class ElevatorConstants
     {
-        public static final int FRONT_ELEVATOR_ID = 0;
-        public static final int BACK_ELEVATOR_ID = 0;
-        public static final double ELEVATOR_SPEED = 0.5;
+        public static final int FRONT_ELEVATOR_ID = 8;
+        public static final int BACK_ELEVATOR_ID = 7;
+        public static final double ELEVATOR_SPEED = 0.5; //placeholder
     }
 
     public final class LedConstants
