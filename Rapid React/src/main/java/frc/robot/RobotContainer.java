@@ -16,6 +16,7 @@ import frc.robot.commands.ElevatorReverse;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeReverse;
 import frc.robot.commands.IntakeStop;
+import frc.robot.commands.LedRainbow;
 import frc.robot.commands.TurretAutoAlign;
 import frc.robot.commands.TurretNeutral;
 import frc.robot.commands.TurretTurnLeft;
@@ -26,6 +27,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.IntakeSub;
+import frc.robot.subsystems.LedSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -44,7 +46,7 @@ public class RobotContainer {
   public static XboxController helms = new XboxController(OIConstants.HELMS_ID);
   public IntakeSub intakeSub = new IntakeSub(); 
   public ElevatorSub elevatorsub = new ElevatorSub();
-
+  public LedSubsystem ledsub = new LedSubsystem();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -84,6 +86,8 @@ public class RobotContainer {
     //elevator stop
     new JoystickButton(helms, Button.kB.value).whenReleased(new ElevatorNeutral());
     new JoystickButton(helms, Button.kX.value).whenReleased(new ElevatorNeutral());
+
+    new JoystickButton(helms, Button.kY.value).whenHeld(new LedRainbow());
 
 
 

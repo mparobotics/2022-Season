@@ -41,6 +41,8 @@ public class LedSubsystem extends SubsystemBase {
   public void setRainbow() {
     rainbow();
     m_led.setData(m_ledBuffer);
+    m_led.start();
+    
   }
 
   @Override

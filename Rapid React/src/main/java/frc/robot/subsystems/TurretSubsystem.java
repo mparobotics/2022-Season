@@ -24,7 +24,7 @@ public class TurretSubsystem extends SubsystemBase {
   //setting weather its a brushed or non brushed motor
   //defines the motor
   public TurretSubsystem() {
-    
+
 }
   public void autoTurn () {
     double tx = getX();//offset on x axis
@@ -42,14 +42,14 @@ public class TurretSubsystem extends SubsystemBase {
       double steering_adjust = 0.0f;
       if (tx > 0 ) //if to the right of center, turns left; to test deadzone 
       {
-          steering_adjust = ShooterConstants.Kp * tx - ShooterConstants.min_command; //Kp is a number that sets the speed, and the min command is the minimum needed for it to react
+          steering_adjust = ShooterConstants.Turret_Kp * tx - ShooterConstants.min_command; //Kp is a number that sets the speed, and the min command is the minimum needed for it to react
           //steering_adjust = -.05; //to test speed and inversion
           turnTurret(steering_adjust);//turns the turret 
       }
     
       else if (tx < 0 ) //if to the left of center, turns right; to test deadzone
       {
-          steering_adjust = ShooterConstants.Kp * tx + ShooterConstants.min_command;
+          steering_adjust = ShooterConstants.Turret_Kp * tx + ShooterConstants.min_command;
           //steering_adjust = .05; //to test speed and inversion
           turnTurret(steering_adjust);//turns the turret
       }

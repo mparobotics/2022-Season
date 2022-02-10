@@ -41,12 +41,16 @@ public final class Constants {
     public final class ShooterConstants
     {
         public static final int NEO_TURRET_ID = 52;
-        public static final float Kp = -0.005f; //speed modifier of le turret
+        public static final float Turret_Kp = -0.005f; //speed modifier of le turret
         public static final float min_command = 0.00001f; //deadzone of le turret
         public static final double hub_height = 104 ; //inches 
         public static final double limelight_height = 9.125; //inches
         public static final double limelight_angle = 33; //degrees
         public static final int FALCON_shooter_ID = 0; //placeholder
+        public static final int kP = 0; //placeholder
+        public static final int kA = 0; //placeholder
+        public static final int kV = 0; //placeholder
+        public static final int kS = 0; //placeholder
 
     }
 
@@ -71,8 +75,8 @@ public final class Constants {
 
     public final class LedConstants
     {
-        public static final int LED_Port = 0;
-        public static final int LED_Length = 0;
+        public static final int LED_Port = 4;
+        public static final int LED_Length = 149;
     }
 
 
