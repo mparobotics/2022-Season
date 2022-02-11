@@ -14,6 +14,7 @@ import frc.robot.commands.Elevator;
 import frc.robot.commands.ElevatorNeutral;
 import frc.robot.commands.ElevatorReverse;
 import frc.robot.commands.Intake;
+import frc.robot.commands.IntakeDrop;
 import frc.robot.commands.IntakeReverse;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.LedRainbow;
@@ -79,6 +80,9 @@ public class RobotContainer {
     new JoystickButton(xbox, Button.kA.value).whenReleased(new IntakeStop());
     new JoystickButton(xbox, Button.kB.value).whenReleased(new IntakeStop());
 
+    //intake dropdown
+    new JoystickButton(helms, Button.kStart.value).whenHeld(new IntakeDrop());
+   
     
     //Elevator settings
     new JoystickButton(helms, Button.kB.value).whenHeld(new Elevator(elevatorsub));

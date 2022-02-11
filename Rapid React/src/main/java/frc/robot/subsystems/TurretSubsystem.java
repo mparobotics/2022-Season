@@ -15,9 +15,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class TurretSubsystem extends SubsystemBase {
   /** Creates a new TurretSubsystem. */
-  CANSparkMax m_motor = new CANSparkMax(ShooterConstants.NEO_TURRET_ID, MotorType.kBrushless); 
+  CANSparkMax m_motor = new CANSparkMax(ShooterConstants.NEO_TURRET_ID, MotorType.kBrushless); //instantiates neo
   private RelativeEncoder m_encoder = m_motor.getEncoder();
-  double h1 = ShooterConstants.limelight_height; //corresponds to the case study graph in limelight document
+  double h1 = ShooterConstants.limelight_height; //corresponds to height limelight is off the ground
   double h2 = ShooterConstants.hub_height; //corresponds to the case study graph in limelight document
   double a1 = ShooterConstants.limelight_angle; //degrees, corresponds to the case study graph in limelight document; angle between the camera and the ground
   public double distanceFromHub ; //corresponds to the case study graph in limelight document; horizontal distance between the camera and the target
@@ -29,13 +29,13 @@ public class TurretSubsystem extends SubsystemBase {
   public void autoTurn () {
     double tx = getX();//offset on x axis
     double tv = getTv();//is target in view?
-  
-    
     boolean tapeFound;
+
   
     if (tv != 1) {tapeFound = false;}
     else {tapeFound = true;}
-    SmartDashboard.putBoolean("limelight vision", tapeFound);
+    
+    SmartDashboard.putBoolean("limelight vision", tapeFound); //prints if target has been found to dash
     if (tapeFound == true){
   
       //Robot.driveSubsystem.teleop(0, 0);

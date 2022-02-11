@@ -15,7 +15,7 @@ import frc.robot.Constants.ShooterConstants;
 public class ShooterSubsystem extends SubsystemBase {
   
 // Creates a BangBangController
-BangBangController BangBang = new BangBangController();
+BangBangController BangBang = new BangBangController(); //instantiartes bangbang motor controller
 private final WPI_TalonFX falconShooter = new WPI_TalonFX(ShooterConstants.FALCON_shooter_ID); 
 SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(ShooterConstants.kS, ShooterConstants.kV, ShooterConstants.kA);
  
@@ -25,8 +25,8 @@ SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(ShooterConstants
   }
   
   public void ShootBangBang() {
-    falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorPosition()), setpoint) + 0.9 * feedforward.calculate(setpoint));
-
+    //./falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorPosition()), setpoint) + 0.9 * feedforward.calculate(setpoint));
+    //bang bang based on size of d from the hub
   }
 
   public void setCoast() {

@@ -47,10 +47,10 @@ public final class Constants {
         public static final double limelight_height = 9.125; //inches
         public static final double limelight_angle = 33; //degrees
         public static final int FALCON_shooter_ID = 0; //placeholder
-        public static final int kP = 0; //placeholder
-        public static final int kA = 0; //placeholder
-        public static final int kV = 0; //placeholder
-        public static final int kS = 0; //placeholder
+        public static final int kP = 0; //placeholder position constant
+        public static final int kA = 0; //placeholder acceleration constant of shooter
+        public static final int kV = 0; //placeholder describes how much voltage is needed to hold (or “cruise”) at a given constant velocity while overcoming the electromagnetic resistance in the motor and any additional friction that increases with speed (known as viscous drag). The relationship between speed and voltage (at constant acceleration) is almost entirely linear
+        public static final int kS = 0; //placeholder  voltage needed to overcome the motor’s static friction
 
     }
 
@@ -62,21 +62,23 @@ public final class Constants {
 
     public final class IntakeConstants
     {
-        public static final int INTAKE_ID = 8;
+        public static final int INTAKE_ID = 8; //placeholder
         public static final double INTAKE_SPEED = 0.5; //placeholder
+        public static final int INTAKE_DROPDOWN_ID = 0; //placeholder
+        public static final double DROPDOWN_SPEED = 0.5; //placeholder
     }
 
     public final class ElevatorConstants
     {
-        public static final int FRONT_ELEVATOR_ID = 8;
-        public static final int BACK_ELEVATOR_ID = 7;
+        public static final int FRONT_ELEVATOR_ID = 8; //placeholder
+        public static final int BACK_ELEVATOR_ID = 7; //placeholder
         public static final double ELEVATOR_SPEED = 0.5; //placeholder
     }
 
     public final class LedConstants
     {
         public static final int LED_Port = 4;
-        public static final int LED_Length = 149;
+        public static final int LED_Length = 149; //length of led -1
     }
 
 

@@ -13,9 +13,12 @@ import frc.robot.Constants.IntakeConstants;
 public class IntakeSub extends SubsystemBase {
   /** Creates a new Intake. */
   static WPI_TalonSRX intake;
+  static WPI_TalonSRX dropdown;
+  public static boolean IntakeIsDown = false;
 
   public IntakeSub() {
     intake = new WPI_TalonSRX(IntakeConstants.INTAKE_ID);
+    dropdown = new WPI_TalonSRX(IntakeConstants.INTAKE_DROPDOWN_ID);
   }
 
   @Override
@@ -32,4 +35,15 @@ public class IntakeSub extends SubsystemBase {
   {
     intake.set(0);
   }
+
+  public static void IntakeDrop()
+  {
+    dropdown.set(IntakeConstants.DROPDOWN_SPEED);
+  }
+
+  public static void IntakeUp()
+  {
+    dropdown.set(-IntakeConstants.DROPDOWN_SPEED);
+  }
+
 }

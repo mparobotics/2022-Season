@@ -36,6 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public DriveSubsystem() {
     setBrake();
+    //sets up ramp up time for talons, decreasing accelerartion curve
     falconFR.configOpenloopRamp(1.0); // 0.5 seconds from neutral to full output (during open-loop control)
     falconFR.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
 
