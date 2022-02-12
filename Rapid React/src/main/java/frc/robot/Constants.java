@@ -22,10 +22,10 @@ public final class Constants {
          * Constants.whateveryouwanttocall say DriveConstants.whateveryouwanttocall
          * IDS are the ports the motors are connected to
          */
-        public static final int FALCON_FR_ID = 0;
-        public static final int FALCON_FL_ID = 0;
-        public static final int FALCON_BR_ID = 0;
-        public static final int FALCON_BL_ID = 0;
+        public static final int FALCON_FR_ID = 47;
+        public static final int FALCON_FL_ID = 48;
+        public static final int FALCON_BR_ID = 46;
+        public static final int FALCON_BL_ID = 49;
         
 
         public static final double DRIVE_P = 4; /**not sure what these do TODO ask mikey but im pretty sure theyre the offset

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -48,6 +49,12 @@ public class DriveSubsystem extends SubsystemBase {
 
     falconBR.configOpenloopRamp(1.0); // 0.5 seconds from neutral to full output (during open-loop control)
     falconBR.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
+
+    falconFR.setInverted(true); //set to invert falconFR.. CW/CCW.. Green = forward (motor led)
+    falconBR.setInverted(InvertType.FollowMaster); //matches whatever falconFR is
+
+    falconFL.setInverted(false); //set to invert falconFR.. CW/CCW.. Green = forward (motor led)
+    falconBL.setInverted(InvertType.FollowMaster); //matches whatever falconFR is
 
     falconBR.follow(falconFR); //talonBR follows TalonFR
     falconBL.follow(falconFL); //talonBL follows TalonFR 
