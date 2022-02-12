@@ -28,7 +28,7 @@ public class DriveSubsystem extends SubsystemBase {
   /** makes speed control groups, now called motor control groups. yay changing wording
    * for no good reason wasting an hour of my time, yay! */
   private final MotorControllerGroup MCG_R = new MotorControllerGroup(falconFR, falconBR); 
-  private final MotorControllerGroup MCG_L = new MotorControllerGroup(falconFL, falconBL); 
+  private final MotorControllerGroup MCG_L = new MotorControllerGroup(falconFL, falconBL);
 
   private final DifferentialDrive drive = new DifferentialDrive(MCG_L, MCG_R); //todo check right side inversion
 
@@ -50,11 +50,15 @@ public class DriveSubsystem extends SubsystemBase {
     falconBR.configOpenloopRamp(1.0); // 0.5 seconds from neutral to full output (during open-loop control)
     falconBR.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
 
-    falconFR.setInverted(true); //set to invert falconFR.. CW/CCW.. Green = forward (motor led)
-    falconBR.setInverted(InvertType.FollowMaster); //matches whatever falconFR is
+    //falconFR.setInverted(true); //set to invert falconFR.. CW/CCW.. Green = forward (motor led)
+    //falconBR.setInverted(InvertType.FollowMaster); //matches whatever falconFR is 
 
-    falconFL.setInverted(false); //set to invert falconFR.. CW/CCW.. Green = forward (motor led)
-    falconBL.setInverted(InvertType.FollowMaster); //matches whatever falconFR is
+    //falconFL.setInverted(false); //set to invert falconFR.. CW/CCW.. Green = forward (motor led)
+    //falconBL.setInverted(InvertType.FollowMaster); //matches whatever falconFR is
+
+    // invert the right motors
+    falconBR.setInverted(true); 
+    falconFR.setInverted(true);
 
     falconBR.follow(falconFR); //talonBR follows TalonFR
     falconBL.follow(falconFL); //talonBL follows TalonFR 
@@ -88,7 +92,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
   //drives straight
   public void driveStraight(double xSpeed) {
-    drive.arcadeDrive(xSpeed, /* -? */driveTrainP());
+    drive.arcadeDrive(xSpeed, /* - (?) */  driveTrainP());
   }
   /**
    * sets the speed of the drive train with arcade controls ask Mikey what it does? If you see this remind me to ask them.

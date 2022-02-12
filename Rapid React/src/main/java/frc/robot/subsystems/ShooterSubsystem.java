@@ -25,8 +25,8 @@ SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(ShooterConstants
   }
   
   public void ShootBangBang() {
-    //./falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorPosition()), setpoint) + 0.9 * feedforward.calculate(setpoint));
-    //bang bang based on size of d from the hub
+    /*falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorPosition()), setpoint) + 0.9 * feedforward.calculate(setpoint));
+    //bang bang based on size of d from the hub */
   }
 
   public void setCoast() {
