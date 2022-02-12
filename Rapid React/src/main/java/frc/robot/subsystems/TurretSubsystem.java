@@ -17,10 +17,10 @@ public class TurretSubsystem extends SubsystemBase {
   /** Creates a new TurretSubsystem. */
   CANSparkMax m_motor = new CANSparkMax(ShooterConstants.NEO_TURRET_ID, MotorType.kBrushless); //instantiates neo
   private RelativeEncoder m_encoder = m_motor.getEncoder();
-  double h1 = ShooterConstants.limelight_height; //corresponds to height limelight is off the ground
-  double h2 = ShooterConstants.hub_height; //corresponds to the case study graph in limelight document
-  double a1 = ShooterConstants.limelight_angle; //degrees, corresponds to the case study graph in limelight document; angle between the camera and the ground
-  public double distanceFromHub ; //corresponds to the case study graph in limelight document; horizontal distance between the camera and the target
+  static double h1 = ShooterConstants.limelight_height; //corresponds to height limelight is off the ground
+  static double h2 = ShooterConstants.hub_height; //corresponds to the case study graph in limelight document
+  static double a1 = ShooterConstants.limelight_angle; //degrees, corresponds to the case study graph in limelight document; angle between the camera and the ground
+  public static double distanceFromHub ; //corresponds to the case study graph in limelight document; horizontal distance between the camera and the target
   //setting weather its a brushed or non brushed motor
   //defines the motor
   public TurretSubsystem() {
@@ -76,7 +76,7 @@ public class TurretSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Encoder Position", m_encoder.getPosition());
   }
 
-  public double getDistance () //gets the distance from the hub
+  public static double getDistance () //gets the distance from the hub
   {
     double ty = getY();
     double tx = getX();
@@ -88,21 +88,21 @@ public class TurretSubsystem extends SubsystemBase {
 
   }
 
-  public double getY () //gets Y offset of limelight
+  public static double getY () //gets Y offset of limelight
   {
     double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);//degrees, offset from target on y axis
     SmartDashboard.putNumber("LimelightY", ty);
     return ty;
   }
 
-  public double getX () //gets X offset of limelight
+  public static double getX () //gets X offset of limelight
   {
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);//degrees, offset from target on y axis
     SmartDashboard.putNumber("LimelightX", tx);
     return tx;
   }
  
-  public double getTv () //gets tv of limelight
+  public static double getTv () //gets tv of limelight
   {
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);//is target in view?
     SmartDashboard.putNumber("Target Found", tv);
