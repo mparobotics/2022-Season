@@ -6,12 +6,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.subsystems.TurretSubsystem;
 
 public class TurretTurnLeft extends CommandBase {
   /** Creates a new TurretTurnLeft. */
-  public TurretTurnLeft() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+  TurretSubsystem turretSubsystem;
+  public TurretTurnLeft(TurretSubsystem t) {
+      turretSubsystem = t;
+      addRequirements(turretSubsystem);
+    }
 
   // Called when the command is initially scheduled.
   @Override

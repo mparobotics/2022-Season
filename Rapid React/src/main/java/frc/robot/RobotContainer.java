@@ -29,6 +29,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.IntakeSub;
 import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -48,6 +49,7 @@ public class RobotContainer {
   public IntakeSub intakeSub = new IntakeSub(); 
   public ElevatorSub elevatorsub = new ElevatorSub();
   public LedSubsystem ledsub = new LedSubsystem();
+  public TurretSubsystem turretSubsystem = new TurretSubsystem();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -64,13 +66,13 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //turret stuff
-    new JoystickButton(helms, Button.kA.value).whenHeld(new TurretAutoAlign());
-    new JoystickButton(helms, Button.kLeftBumper.value).whenHeld(new TurretTurnLeft());
-    new JoystickButton(helms, Button.kRightBumper.value).whenHeld(new TurretTurnRight());
+    new JoystickButton(helms, Button.kA.value).whenHeld(new TurretAutoAlign(turretSubsystem));
+    new JoystickButton(helms, Button.kLeftBumper.value).whenHeld(new TurretTurnLeft(turretSubsystem));
+    new JoystickButton(helms, Button.kRightBumper.value).whenHeld(new TurretTurnRight(turretSubsystem));
     //neutralizes turret
-    new JoystickButton(helms, Button.kA.value).whenReleased(new TurretNeutral());
-    new JoystickButton(helms, Button.kLeftBumper.value).whenReleased(new TurretNeutral());
-    new JoystickButton(helms, Button.kRightBumper.value).whenReleased(new TurretNeutral());
+    new JoystickButton(helms, Button.kA.value).whenReleased(new TurretNeutral(turretSubsystem));
+    new JoystickButton(helms, Button.kLeftBumper.value).whenReleased(new TurretNeutral(turretSubsystem));
+    new JoystickButton(helms, Button.kRightBumper.value).whenReleased(new TurretNeutral(turretSubsystem));
 
     
     //intake settings
@@ -88,8 +90,8 @@ public class RobotContainer {
     new JoystickButton(helms, Button.kB.value).whenHeld(new Elevator(elevatorsub));
     new JoystickButton(helms, Button.kX.value).whenHeld(new ElevatorReverse(elevatorsub));
     //elevator stop
-    new JoystickButton(helms, Button.kB.value).whenReleased(new ElevatorNeutral());
-    new JoystickButton(helms, Button.kX.value).whenReleased(new ElevatorNeutral());
+    new JoystickButton(helms, Button.kB.value).whenReleased(new ElevatorNeutral(elevatorsub));
+    new JoystickButton(helms, Button.kX.value).whenReleased(new ElevatorNeutral(elevatorsub));
 
     new JoystickButton(helms, Button.kY.value).whenHeld(new LedRainbow());
 

@@ -54,12 +54,12 @@ public class TurretSubsystem extends SubsystemBase {
           turnTurret(steering_adjust);//turns the turret
       }
   
-      else{new TurretNeutral();}
+      else{turnTurret(0);}
   
   
       
     }
-    else{new TurretNeutral();}
+    else{turnTurret(0);}
   }
 
 

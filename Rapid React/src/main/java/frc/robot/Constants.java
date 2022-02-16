@@ -51,7 +51,9 @@ public final class Constants {
         public static final int kA = 0; //placeholder acceleration constant of shooter
         public static final int kV = 0; //placeholder describes how much voltage is needed to hold (or “cruise”) at a given constant velocity while overcoming the electromagnetic resistance in the motor and any additional friction that increases with speed (known as viscous drag). The relationship between speed and voltage (at constant acceleration) is almost entirely linear
         public static final int kS = 0; //placeholder  voltage needed to overcome the motor’s static friction
-
+        public static final int hood_encoder_ratio = 0; //ratio of encoder count to degree angle of turret, placeholder
+        public static final int hood_motor_ID = 0; //placeholder
+        public static final double hood_min_command = .05;
     }
 
     public final class OIConstants {

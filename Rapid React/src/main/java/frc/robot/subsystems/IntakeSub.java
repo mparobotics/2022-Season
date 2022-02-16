@@ -46,4 +46,9 @@ public class IntakeSub extends SubsystemBase {
     dropdown.set(-IntakeConstants.DROPDOWN_SPEED);
   }
 
+  public static void IntakeDropStop()
+  {
+    dropdown.set(0);
+  }
+
 }

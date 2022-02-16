@@ -9,8 +9,11 @@ import frc.robot.subsystems.ElevatorSub;
 
 public class ElevatorNeutral extends CommandBase {
   ElevatorSub elevatorSub;
-  public ElevatorNeutral() {
-   }
+  public ElevatorNeutral(ElevatorSub b) {
+    elevatorSub = b;
+    addRequirements(elevatorSub);
+  }
+
 
   // Called when the command is initially scheduled.
   @Override

@@ -5,33 +5,31 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.Robot;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class AutoCross extends CommandBase {
-  /** Creates a new AutoCross. */
-  private DriveSubsystem m_driveSub;
-  public AutoCross() {
+public class SpinFlywheel extends CommandBase {
+  /** Creates a new SpinFlywheel. */
+  public SpinFlywheel() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_driveSub.setDriveSpeed_Arcade(-.5, 0);
-
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveSub.setDriveSpeed_Arcade(-.5, 0);
-
+    Robot.shooterSubsystem.ShootBangBang();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_driveSub.setDriveSpeed_Arcade(0, 0);
+    Robot.shooterSubsystem.ShooterStop();
   }
 
   // Returns true when the command should end.

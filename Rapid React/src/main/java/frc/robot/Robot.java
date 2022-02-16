@@ -4,12 +4,21 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.AutoCross;
+import frc.robot.commands.AutoShootBall;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,7 +31,13 @@ public class Robot extends TimedRobot {
   public static DriveSubsystem driveSubsystem = new DriveSubsystem();
   public static TurretSubsystem turretSubsystem = new TurretSubsystem();
   public static LedSubsystem ledSubsytem = new LedSubsystem();
+  public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private RobotContainer m_robotContainer;
+  NetworkTable table;
+  private SendableChooser<Command> autoChooser = new SendableChooser<>();
+  
+  private AutoCross autoCross;
+  private SequentialCommandGroup oneBall;
 
   /**'/;=_'
    * This function is run when the robot is first started up and should be used for any
@@ -33,6 +48,16 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    autoCross = new AutoCross(); //TODO test 
+    oneBall = new SequentialCommandGroup(
+      new AutoShootBall(), new AutoCross() ); //TODO fix
+
+    autoChooser.addOption("dO Nøthîng", null);
+    autoChooser.addOption("Uno bOl", oneBall);
+    autoChooser.addOption("cR√os lînë", autoCross);
+    autoChooser.setDefaultOption("Uno bOl", oneBall);
+
   }
 
   /**
@@ -61,11 +86,20 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_robotContainer.driveSub.encoderReset();
 
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    switch (autoChooser.getSelected().toString()) {
+      case "Uno bOl":
+      default:
+      oneBall.schedule();
+      break;
+      case "cR√os lînë":
+      autoCross.schedule();
+      break;
+      case "dO Nøthîng":
+      break;
+
+
     }
   }
 

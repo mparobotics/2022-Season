@@ -6,11 +6,16 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.subsystems.TurretSubsystem;
 
 
 public class TurretAutoAlign extends CommandBase {
   /** Creates a new TurretAutoAlign. */
-
+  TurretSubsystem turretSubsystem;
+  public TurretAutoAlign(TurretSubsystem t) {
+    turretSubsystem = t;
+    addRequirements(turretSubsystem);
+  }
 
   // Called when the command is initially scheduled.
   @Override
