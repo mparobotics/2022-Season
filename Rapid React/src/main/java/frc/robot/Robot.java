@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.AutoCross;
 import frc.robot.commands.AutoShootBall;
+import frc.robot.commands.Shoot;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -51,7 +52,7 @@ public class Robot extends TimedRobot {
 
     autoCross = new AutoCross(); //TODO test 
     oneBall = new SequentialCommandGroup(
-      new AutoShootBall(), new AutoCross() ); //TODO fix
+       new AutoCross(), new Shoot() ); //TODO fix
 
     autoChooser.addOption("dO Nøthîng", null);
     autoChooser.addOption("Uno bOl", oneBall);
