@@ -107,6 +107,9 @@ public class DriveSubsystem extends SubsystemBase {
     drive.arcadeDrive(xSpeed, zRotation);
   }
 
+  public double getEncoder(){
+    return falconFL.getSelectedSensorPosition();
+  }
   /**
    * set the speed of the drive train with tank controls (WIP) still not sure what this does -ian
    * @param lSpeed

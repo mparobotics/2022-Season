@@ -8,6 +8,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.TurretCenter;
 import frc.robot.commands.TurretNeutral;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -15,8 +16,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class TurretSubsystem extends SubsystemBase {
   /** Creates a new TurretSubsystem. */
-  CANSparkMax m_motor = new CANSparkMax(ShooterConstants.NEO_TURRET_ID, MotorType.kBrushless); //instantiates neo
-  private RelativeEncoder m_encoder = m_motor.getEncoder();
+  static CANSparkMax m_motor = new CANSparkMax(ShooterConstants.NEO_TURRET_ID, MotorType.kBrushless); //instantiates neo
+  public static RelativeEncoder m_encoder = m_motor.getEncoder();
   static double h1 = ShooterConstants.limelight_height; //corresponds to height limelight is off the ground
   static double h2 = ShooterConstants.hub_height; //corresponds to the case study graph in limelight document
   static double a1 = ShooterConstants.limelight_angle; //degrees, corresponds to the case study graph in limelight document; angle between the camera and the ground
@@ -42,16 +43,29 @@ public class TurretSubsystem extends SubsystemBase {
       double steering_adjust = 0.0f;
       if (tx > 0 ) //if to the right of center, turns left; to test deadzone 
       {
+          
+        if (m_encoder.getPosition() < -ShooterConstants.max_turret_rotation)
+          {
+            new TurretCenter();
+          }
+        else{
           steering_adjust = ShooterConstants.Turret_Kp * tx - ShooterConstants.min_command; //Kp is a number that sets the speed, and the min command is the minimum needed for it to react
           //steering_adjust = -.05; //to test speed and inversion
-          turnTurret(steering_adjust);//turns the turret 
+          turnTurret(steering_adjust); //turns the turret
+          }
       }
     
       else if (tx < 0 ) //if to the left of center, turns right; to test deadzone
       {
-          steering_adjust = ShooterConstants.Turret_Kp * tx + ShooterConstants.min_command;
+        if (m_encoder.getPosition() > ShooterConstants.max_turret_rotation)
+        {
+          new TurretCenter();
+        }
+        else
+          {steering_adjust = ShooterConstants.Turret_Kp * tx + ShooterConstants.min_command;
           //steering_adjust = .05; //to test speed and inversion
           turnTurret(steering_adjust);//turns the turret
+          }
       }
   
       else{turnTurret(0);}

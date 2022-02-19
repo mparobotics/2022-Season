@@ -27,6 +27,8 @@ public double setpoint = 0.0;
 public double angle;
 public double velocity;
 static WPI_TalonSRX hoodMotor;
+public double ShooterSpeed = falconShooter.getSelectedSensorVelocity();
+
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
@@ -35,7 +37,9 @@ static WPI_TalonSRX hoodMotor;
   }
   
   public void ShootBangBang() {
-    falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorPosition(), (getSetpoint()) + 0.9 * feedforward.calculate(setpoint)));
+    //setpoint = getSetpoint();
+    setpoint = 1200;
+    falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorPosition(), (setpoint) + 0.9 * feedforward.calculate(setpoint)));
    //bang bang based on size of d from the hub
 
   }
@@ -45,7 +49,8 @@ static WPI_TalonSRX hoodMotor;
   }
 
   public double getSetpoint () {
-
+    double speedToGet = getV();
+    setpoint = speedToGet; //needs math here
     return setpoint;
   }
 
@@ -92,8 +97,8 @@ static WPI_TalonSRX hoodMotor;
     return speedToGet;
   }
 
-  public void alignHood(double angle) {
-    angle = getAngle();
+  public void alignHood() {
+    double angle = getAngle();
     double currentEncoder = hoodMotor.getSelectedSensorPosition();
     double encoderCountRequired = angle * ShooterConstants.hood_encoder_ratio;
     SmartDashboard.putNumber("Hood Encoder Needed", encoderCountRequired);
@@ -127,8 +132,11 @@ static WPI_TalonSRX hoodMotor;
   }
 
 
+
+
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Falcon Speed", ShooterSpeed);
     // This method will be called once per scheduler run
   }
 }
