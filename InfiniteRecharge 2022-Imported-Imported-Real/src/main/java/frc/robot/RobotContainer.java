@@ -42,7 +42,7 @@ public class RobotContainer {
   public DriveSubsystem driveSub      = new DriveSubsystem();
   public IntakeSub intakeSub = new IntakeSub(); 
   public ElevatorSub elevatorsub = new ElevatorSub();
-  public ShooterSubsystem shooterSub = new ShooterSubsystem();
+  public static ShooterSubsystem shooterSub = new ShooterSubsystem();
 
   // declaring and intializing controller(s)
   private XboxController xbox = new XboxController(OIConstants.XBOX_ID);
@@ -62,8 +62,8 @@ public class RobotContainer {
                               () -> xbox.getLeftX()));*/
   
    driveSub.setDefaultCommand(new ArcadeDriveClassic(driveSub,
-                              () -> xbox.getLeftY(),
-                              () -> xbox.getRightX()*.75));
+                              () -> xbox.getRightX(),
+                              () -> xbox.getLeftY()*.75));
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -78,12 +78,12 @@ public class RobotContainer {
 
     //Main's Commands - Winch is right stick, 
     //new JoystickButton(xbox, Button.kBumperRight.value).whenHeld(new StartWinch(climberSub)); // Disabled - Climber Taken off
-    new JoystickButton(xbox, Button.kA.value).whenHeld(new ShootBall(shooterSub));
+      new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub));
         //intake settings
-        new JoystickButton(xbox, Button.kX.value).whenHeld(new Intake(intakeSub));
+        new JoystickButton(helms, Button.kX.value).whenHeld(new Intake(intakeSub));
         new JoystickButton(xbox, Button.kY.value).whenHeld(new IntakeReverse(intakeSub));
         //intake stop
-        new JoystickButton(xbox, Button.kX.value).whenReleased(new IntakeStop());
+        new JoystickButton(helms, Button.kX.value).whenReleased(new IntakeStop());
         new JoystickButton(xbox, Button.kY.value).whenReleased(new IntakeStop());
     
         //intake dropdown
@@ -92,10 +92,10 @@ public class RobotContainer {
         
         //Elevator settings
         new JoystickButton(helms, Button.kA.value).whenHeld(new Elevator(elevatorsub));
-        new JoystickButton(helms, Button.kY.value).whenHeld(new ElevatorReverse(elevatorsub));
+        new JoystickButton(xbox, Button.kY.value).whenHeld(new ElevatorReverse(elevatorsub));
         //elevator stop
         new JoystickButton(helms, Button.kA.value).whenReleased(new ElevatorNeutral(elevatorsub));
-        new JoystickButton(helms, Button.kY.value).whenReleased(new ElevatorNeutral(elevatorsub));
+        new JoystickButton(xbox, Button.kY.value).whenReleased(new ElevatorNeutral(elevatorsub));
     
 
 

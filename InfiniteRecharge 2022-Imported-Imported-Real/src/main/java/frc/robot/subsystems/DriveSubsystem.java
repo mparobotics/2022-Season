@@ -26,19 +26,19 @@ import frc.robot.Constants.DriveConstants;
 public class DriveSubsystem extends SubsystemBase {
 
   //declaring and intializing drive motor controllers and assciated configuration objects
-  private final WPI_TalonFX falconBL = new WPI_TalonFX(DriveConstants.FALCON_BL_ID); 
-  private final WPI_TalonFX falconFL = new WPI_TalonFX(DriveConstants.FALCON_FL_ID); 
-  private final WPI_TalonFX falconBR = new WPI_TalonFX(DriveConstants.FALCON_BR_ID); 
-  private final WPI_TalonFX falconFR = new WPI_TalonFX(DriveConstants.FALCON_FR_ID); 
+  private final static WPI_TalonFX falconBL = new WPI_TalonFX(DriveConstants.FALCON_BL_ID); 
+  private final static WPI_TalonFX falconFL = new WPI_TalonFX(DriveConstants.FALCON_FL_ID); 
+  private final static WPI_TalonFX falconBR = new WPI_TalonFX(DriveConstants.FALCON_BR_ID); 
+  private final static WPI_TalonFX falconFR = new WPI_TalonFX(DriveConstants.FALCON_FR_ID); 
 
   private final TalonFXConfiguration fxConfig = new TalonFXConfiguration();
 
-  private final MotorControllerGroup SCG_R = new MotorControllerGroup(falconFR, falconBR); 
-  private final MotorControllerGroup SCG_L = new MotorControllerGroup(falconFL, falconBL); 
+  private final static MotorControllerGroup SCG_R = new MotorControllerGroup(falconFR, falconBR); 
+  private final static MotorControllerGroup SCG_L = new MotorControllerGroup(falconFL, falconBL); 
 
-  private final DifferentialDrive drive = new DifferentialDrive(SCG_L, SCG_R);
+  private final static DifferentialDrive drive = new DifferentialDrive(SCG_L, SCG_R);
 
-  private double error;
+  private static double error;
   private double integral;
 
   /**
@@ -94,14 +94,14 @@ public class DriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  private double driveTrainP() {
+  private static double driveTrainP() {
     error = falconFL.getSelectedSensorPosition() - falconFR.getSelectedSensorPosition();
     //integral += error*.02;
     return DriveConstants.DRIVE_P*error;
   }
 
-  public void driveStraight(double xSpeed) {
-    drive.arcadeDrive(xSpeed, -driveTrainP());
+  public static void driveStraight(double xSpeed) {
+    drive.arcadeDrive(xSpeed, driveTrainP());
   }
 
   /**
@@ -109,7 +109,9 @@ public class DriveSubsystem extends SubsystemBase {
    * @param xSpeed
    * @param zRotation
    */
-  public void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
+  public static void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
+    xSpeed = xSpeed;
+    zRotation = zRotation * .75;
     if (zRotation == 0 )
       driveStraight(xSpeed);
     drive.arcadeDrive(xSpeed, zRotation);
@@ -127,7 +129,7 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * stops the drive train
    */
-  public void stopRobot() {
+  public static void stopRobot() {
     falconFR.set(ControlMode.PercentOutput, 0);
     falconFL.set(ControlMode.PercentOutput, 0);
   }

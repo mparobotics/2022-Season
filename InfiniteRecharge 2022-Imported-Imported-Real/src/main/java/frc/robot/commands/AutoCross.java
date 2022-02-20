@@ -15,33 +15,31 @@ public class AutoCross extends CommandBase {
   /**
    * Creates a new AutoDriveToWall.
    */
-  public AutoCross(DriveSubsystem driveSub) {
-    m_driveSub = driveSub;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_driveSub);
+  public AutoCross() {
+    
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_driveSub.setDriveSpeed_Arcade(.5, 0);
+    DriveSubsystem.setDriveSpeed_Arcade(-.5, 0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveSub.setDriveSpeed_Arcade(.5, 0);
+    DriveSubsystem.setDriveSpeed_Arcade(-.5, 0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_driveSub.setDriveSpeed_Arcade(0, 0);
+    DriveSubsystem.setDriveSpeed_Arcade(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_driveSub.getAvgPosition() >= 5;
+    return false;
   }
 }

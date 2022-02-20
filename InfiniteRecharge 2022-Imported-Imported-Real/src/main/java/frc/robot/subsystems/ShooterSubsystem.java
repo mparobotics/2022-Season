@@ -12,8 +12,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Servo;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
@@ -23,9 +24,9 @@ import frc.robot.Constants.ShooterConstants;
 public class ShooterSubsystem extends SubsystemBase {
 
   //declaring and intializing shooter motor
-  private final WPI_TalonFX falconShooter = new WPI_TalonFX(ShooterConstants.FALCON_shooter_ID); 
-
-
+  private final static WPI_TalonFX falconShooter = new WPI_TalonFX(ShooterConstants.FALCON_shooter_ID); 
+  public double ShooterSpeed = falconShooter.getSelectedSensorVelocity();
+  public static Timer timer;
   public Servo servo;
   private double integral, setpoint = 0;
   private double error;
@@ -57,8 +58,14 @@ public class ShooterSubsystem extends SubsystemBase {
    * sets the speed of the shooter to a constant speed
    */
   public void shootBall() {
-    falconShooter.set(-ShooterConstants.HIGH_GOAL_SPEED);
+    falconShooter.set(ShooterConstants.HIGH_GOAL_SPEED);
+   
    }
+
+   public void shootBallAuto() {
+    falconShooter.set(.45);
+   
+   } 
 
    public void reverseShooter() {
      falconShooter.set(ShooterConstants.HIGH_GOAL_SPEED);
@@ -67,7 +74,7 @@ public class ShooterSubsystem extends SubsystemBase {
    /**
     * stops the shooter motor
     */
-   public void stopShooter() {
+   public static void stopShooter() {
      falconShooter.set(0);
    }
 

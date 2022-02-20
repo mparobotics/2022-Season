@@ -14,8 +14,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.ArcadeDriveClassic;
 import frc.robot.commands.AutoCross;
-
+import frc.robot.commands.AutoShootBall;
+import frc.robot.commands.ElevatorNeutral;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSub;
+import frc.robot.subsystems.IntakeSub;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.networktables.NetworkTable;
 import frc.robot.utils.Limelight;
 import frc.robot.utils.Limelight.LightMode;
@@ -34,7 +40,8 @@ public class Robot extends TimedRobot {
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
   
   private AutoCross autoCross;
-  private SequentialCommandGroup autoShoot;
+  private AutoShootBall autoShoot;
+  private ParallelRaceGroup ShootAndCross;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -45,7 +52,10 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     m_robotContainer = new RobotContainer();
 
- 
+    autoShoot = new AutoShootBall();
+    autoCross = new AutoCross();
+
+    ShootAndCross = new ParallelRaceGroup(new AutoShootBall(), new AutoCross());
 
     autoChooser.addOption("dO Nøthîng", null);
     autoChooser.addOption("Shœot lé bOl", autoShoot);
@@ -94,10 +104,11 @@ public class Robot extends TimedRobot {
   
     //set Limelight at auto start
     Limelight.setLedMode(LightMode.eOn); //TODO test
-
+    ShootAndCross.schedule();
+    
     m_robotContainer.driveSub.encoderReset();
-
-    switch (autoChooser.getSelected().toString()) {
+    //autoShoot.schedule();
+    /**switch (autoChooser.getSelected().toString()) {
       case "Shœot lé bOl":
       default:
       autoShoot.schedule();
@@ -107,7 +118,7 @@ public class Robot extends TimedRobot {
       break;
       case "dO Nøthîng":
       break;
-    }
+    } **/
   }
 
   /**
@@ -124,9 +135,11 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
+    IntakeSub.IntakeDropStop();
+    ElevatorSub.ElevatorStop();
+    ShooterSubsystem.stopShooter();  
+    DriveSubsystem.stopRobot();
+    
 
     //set Limelight leds off at start of teleop
     Limelight.setLedMode(LightMode.eOff); //TODO test
