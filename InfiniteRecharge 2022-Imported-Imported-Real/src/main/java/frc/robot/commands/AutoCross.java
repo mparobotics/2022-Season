@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class AutoCross extends CommandBase {
@@ -40,6 +41,6 @@ public class AutoCross extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return DriveSubsystem.getAvgPosition() <= (-4 / DriveConstants.TIC_FT);
   }
 }

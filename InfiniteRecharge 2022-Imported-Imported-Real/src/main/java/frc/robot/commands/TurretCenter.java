@@ -4,21 +4,15 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.ElevatorConstants;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ElevatorSub;
-import frc.robot.subsystems.IntakeSub;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.subsystems.TurretSubsystem;
 
-
-public class AutoShootBall extends CommandBase {
-  /** Creates a new AutoShootBall. */
-  public AutoShootBall() {
+public class TurretCenter extends CommandBase {
+  /** Creates a new TurretCenter. */
+  public TurretCenter() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,26 +23,31 @@ public class AutoShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IntakeSub.IntakeDrop();
-    RobotContainer.shooterSub.shootBallAuto();
-  
+    if (TurretSubsystem.m_encoder.getPosition() > 5)
+    {
+      RobotContainer.turretSubsystem.turnTurret(-ShooterConstants.centering_speed);
     
-    
+    }
+
+    else if (TurretSubsystem.m_encoder.getPosition() < -5) {
+      RobotContainer.turretSubsystem.turnTurret(ShooterConstants.centering_speed);
+    }
+
+    else {new TurretNeutral(new TurretSubsystem());}
+
+
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.shooterSub.shootBall();
-    ElevatorSub.ElevateBall(ElevatorConstants.ELEVATOR_SPEED);
+    new TurretNeutral(new TurretSubsystem());
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-   
-   if (Timer.getMatchTime() < 5.0){
-    return true;}
-    else {return false;}
+    return false;
   }
 }

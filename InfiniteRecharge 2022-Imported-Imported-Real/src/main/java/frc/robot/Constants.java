@@ -33,7 +33,7 @@ public final class Constants {
          not documented in Annie's code*/
         public static final double DRIVE_I = 1;
 
-        //public static final double TIC_FT = ((Math.PI)/2014)/10.75; (Is this accurate still?)
+        public static final double TIC_FT = ((Math.PI)/2048)/10.75; //inches?
 
 
     }

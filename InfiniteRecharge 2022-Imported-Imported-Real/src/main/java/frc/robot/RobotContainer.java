@@ -23,11 +23,17 @@ import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeReverse;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.ShootBall;
+import frc.robot.commands.TurretAutoAlign;
+import frc.robot.commands.TurretCenter;
+import frc.robot.commands.TurretNeutral;
+import frc.robot.commands.TurretTurnLeft;
+import frc.robot.commands.TurretTurnRight;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.IntakeSub;
 
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -43,7 +49,7 @@ public class RobotContainer {
   public IntakeSub intakeSub = new IntakeSub(); 
   public ElevatorSub elevatorsub = new ElevatorSub();
   public static ShooterSubsystem shooterSub = new ShooterSubsystem();
-
+  public static TurretSubsystem turretSubsystem = new TurretSubsystem();
   // declaring and intializing controller(s)
   private XboxController xbox = new XboxController(OIConstants.XBOX_ID);
   private XboxController helms = new XboxController(OIConstants.HELMS_ID);
@@ -62,8 +68,8 @@ public class RobotContainer {
                               () -> xbox.getLeftX()));*/
   
    driveSub.setDefaultCommand(new ArcadeDriveClassic(driveSub,
-                              () -> xbox.getRightX(),
-                              () -> xbox.getLeftY()*.75));
+                              () -> xbox.getLeftY(),
+                              () -> xbox.getRightX()*.75));
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -85,6 +91,17 @@ public class RobotContainer {
         //intake stop
         new JoystickButton(helms, Button.kX.value).whenReleased(new IntakeStop());
         new JoystickButton(xbox, Button.kY.value).whenReleased(new IntakeStop());
+
+         //turret stuff
+        new JoystickButton(xbox, Button.kB.value).whenHeld(new TurretAutoAlign(turretSubsystem));
+        new JoystickButton(xbox, Button.kLeftBumper.value).whenHeld(new TurretTurnLeft(turretSubsystem));
+        new JoystickButton(xbox, Button.kRightBumper.value).whenHeld(new TurretTurnRight(turretSubsystem));
+        //new JoystickButton(helms, Button.kA.value).whenHeld(new TurretCenter());
+    //neutralizes turret
+        new JoystickButton(helms, Button.kB.value).whenReleased(new TurretNeutral(turretSubsystem));
+        new JoystickButton(xbox, Button.kLeftBumper.value).whenReleased(new TurretNeutral(turretSubsystem));
+        new JoystickButton(xbox, Button.kRightBumper.value).whenReleased(new TurretNeutral(turretSubsystem));
+
     
         //intake dropdown
         //new JoystickButton(helms, Button.kX.value).whenHeld(new IntakeDrop());

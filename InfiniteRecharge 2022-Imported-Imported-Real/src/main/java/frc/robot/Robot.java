@@ -22,6 +22,8 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.IntakeSub;
 import frc.robot.subsystems.ShooterSubsystem;
+
+
 import edu.wpi.first.networktables.NetworkTable;
 import frc.robot.utils.Limelight;
 import frc.robot.utils.Limelight.LightMode;
@@ -55,7 +57,9 @@ public class Robot extends TimedRobot {
     autoShoot = new AutoShootBall();
     autoCross = new AutoCross();
 
-    ShootAndCross = new ParallelRaceGroup(new AutoShootBall(), new AutoCross());
+    ShootAndCross = new ParallelRaceGroup(new AutoCross(), new AutoShootBall() {
+      
+    });
 
     autoChooser.addOption("dO Nøthîng", null);
     autoChooser.addOption("Shœot lé bOl", autoShoot);

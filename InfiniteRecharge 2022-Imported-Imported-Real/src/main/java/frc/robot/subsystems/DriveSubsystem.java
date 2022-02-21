@@ -63,9 +63,8 @@ public class DriveSubsystem extends SubsystemBase {
     falconBR.follow(falconFR); //talonBR follows TalonFR
     falconBL.follow(falconFL); //talonBL follows TalonFR 
 
-    //falconFR.setInverted(true); //set to invert falconFR.. CW/CCW.. Green = forward (motor led)
-    falconBR.setInverted(InvertType.FollowMaster); //matches whatever falconFR is
-
+    falconFR.setInverted(true); //set to invert falconFR.. CW/CCW.. Green = forward (motor led)
+    falconBR.setInverted(true); //matches whatever falconFR is
     //falconFL.setInverted(true); //set to invert falconFL.. CW/CCW.. Green = foward (motor led)
     falconBL.setInverted(InvertType.FollowMaster); //matches whatever falcon FL is
     //Encoder Code Start
@@ -101,7 +100,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public static void driveStraight(double xSpeed) {
-    drive.arcadeDrive(xSpeed, driveTrainP());
+    drive.arcadeDrive(xSpeed, -driveTrainP());
   }
 
   /**
@@ -112,9 +111,10 @@ public class DriveSubsystem extends SubsystemBase {
   public static void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
     xSpeed = xSpeed;
     zRotation = zRotation * .75;
+    xSpeed = xSpeed * .75;
     if (zRotation == 0 )
-      driveStraight(xSpeed);
-    drive.arcadeDrive(xSpeed, zRotation);
+      driveStraight(-xSpeed);
+    drive.arcadeDrive(-xSpeed, -zRotation);
   }
 
   /**
@@ -144,7 +144,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("BL pos", falconBL.getSelectedSensorPosition());
   }
 
-  public double getAvgPosition() {
+  public static double getAvgPosition() {
     return (falconFR.getSelectedSensorPosition() + falconBR.getSelectedSensorPosition()) / 2;
   }
 
