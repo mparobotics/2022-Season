@@ -19,6 +19,8 @@ import frc.robot.commands.ArcadeDriveClassic;
 import frc.robot.commands.Elevator;
 import frc.robot.commands.ElevatorNeutral;
 import frc.robot.commands.ElevatorReverse;
+import frc.robot.commands.HoodDown;
+import frc.robot.commands.HoodUp;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeReverse;
 import frc.robot.commands.IntakeStop;
@@ -31,7 +33,6 @@ import frc.robot.commands.TurretTurnRight;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.IntakeSub;
-
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
@@ -51,8 +52,8 @@ public class RobotContainer {
   public static ShooterSubsystem shooterSub = new ShooterSubsystem();
   public static TurretSubsystem turretSubsystem = new TurretSubsystem();
   // declaring and intializing controller(s)
-  private XboxController xbox = new XboxController(OIConstants.XBOX_ID);
-  private XboxController helms = new XboxController(OIConstants.HELMS_ID);
+  public XboxController xbox = new XboxController(OIConstants.XBOX_ID);
+  public static XboxController helms = new XboxController(OIConstants.HELMS_ID);
   //private Joystick buttonBoard = new Joystick(OIConstants.buttonBoard); //TODO ButtonBoardTEST
 
   public static boolean shooting = false;
@@ -85,29 +86,32 @@ public class RobotContainer {
     //Main's Commands - Winch is right stick, 
     //new JoystickButton(xbox, Button.kBumperRight.value).whenHeld(new StartWinch(climberSub)); // Disabled - Climber Taken off
       new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub));
-        //intake settings
+    //intake settings
         new JoystickButton(helms, Button.kX.value).whenHeld(new Intake(intakeSub));
         new JoystickButton(xbox, Button.kY.value).whenHeld(new IntakeReverse(intakeSub));
-        //intake stop
+    //intake stop
         new JoystickButton(helms, Button.kX.value).whenReleased(new IntakeStop());
         new JoystickButton(xbox, Button.kY.value).whenReleased(new IntakeStop());
+       
 
-         //turret stuff
-        new JoystickButton(xbox, Button.kB.value).whenHeld(new TurretAutoAlign(turretSubsystem));
-        new JoystickButton(xbox, Button.kLeftBumper.value).whenHeld(new TurretTurnLeft(turretSubsystem));
-        new JoystickButton(xbox, Button.kRightBumper.value).whenHeld(new TurretTurnRight(turretSubsystem));
+    //turret stuff
+        new JoystickButton(helms, Button.kB.value).whenHeld(new TurretAutoAlign(turretSubsystem));
+        new JoystickButton(helms, Button.kLeftBumper.value).whenHeld(new TurretTurnLeft(turretSubsystem));
+        new JoystickButton(helms, Button.kRightBumper.value).whenHeld(new TurretTurnRight(turretSubsystem));
         //new JoystickButton(helms, Button.kA.value).whenHeld(new TurretCenter());
     //neutralizes turret
         new JoystickButton(helms, Button.kB.value).whenReleased(new TurretNeutral(turretSubsystem));
-        new JoystickButton(xbox, Button.kLeftBumper.value).whenReleased(new TurretNeutral(turretSubsystem));
-        new JoystickButton(xbox, Button.kRightBumper.value).whenReleased(new TurretNeutral(turretSubsystem));
+        new JoystickButton(helms, Button.kLeftBumper.value).whenReleased(new TurretNeutral(turretSubsystem));
+        new JoystickButton(helms, Button.kRightBumper.value).whenReleased(new TurretNeutral(turretSubsystem));
 
-    
-        //intake dropdown
+    //hood adjustment
+        new JoystickButton(helms, Button.kRightStick.value).whenHeld(new HoodDown());
+        new JoystickButton(helms, Button.kLeftStick.value).whenHeld(new HoodUp());
+    //intake dropdown
         //new JoystickButton(helms, Button.kX.value).whenHeld(new IntakeDrop());
        
         
-        //Elevator settings
+    //Elevator settings
         new JoystickButton(helms, Button.kA.value).whenHeld(new Elevator(elevatorsub));
         new JoystickButton(xbox, Button.kY.value).whenHeld(new ElevatorReverse(elevatorsub));
         //elevator stop

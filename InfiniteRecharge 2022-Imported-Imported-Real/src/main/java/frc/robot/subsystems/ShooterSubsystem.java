@@ -11,12 +11,15 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.Servo;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.ShooterConstants;
 /**
  * this subsystem sets up and directly manipulates the high goal shooter
@@ -32,7 +35,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public Servo servo;
   private double integral, setpoint = 0;
   private double error;
-  static WPI_TalonSRX hoodMotor;
+  static WPI_TalonSRX hoodMotor = new WPI_TalonSRX(ShooterConstants.hood_motor_ID);
+
 
   /**
    * Creates a new ShooterSubsystem.
@@ -40,14 +44,18 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
     servo = new Servo(ShooterConstants.LIMELIGHT_SERVO_ID);
     setServo(ShooterConstants.LIMELIGHT_ANGLE_SETPOINT);
-    
+    falconShooter.setNeutralMode(NeutralMode.Coast);
+    hoodMotor.setNeutralMode(NeutralMode.Brake);
     falconShooter.setInverted(false); //invert motor
+    SmartDashboard.putNumber("Hood Encoder Count", hoodMotor.getSelectedSensorPosition());
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    SmartDashboard.putNumber("ShooterSpeed", falconShooter.getSelectedSensorVelocity());
+    RobotContainer.helms.setRumble(RumbleType.kLeftRumble, Math.log10((falconShooter.getSelectedSensorVelocity() ) / 100) );
+    RobotContainer.helms.setRumble(RumbleType.kRightRumble, Math.log10((falconShooter.getSelectedSensorVelocity() ) / 100));
   }
 
   public void setServo(double degrees) {
@@ -63,13 +71,14 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public void shootBall() {
     falconShooter.set(ShooterConstants.HIGH_GOAL_SPEED);
+
    
    }
 
    public void ShootBangBang() {
     //setpoint = getSetpoint();
-    setpoint = 1200;
-    falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorPosition(), (setpoint) + 0.9 * feedforward.calculate(setpoint)));
+    setpoint = 10000;
+    falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (setpoint) + 0.5 * feedforward.calculate(setpoint)));
    //bang bang based on size of d from the hub
 
   }

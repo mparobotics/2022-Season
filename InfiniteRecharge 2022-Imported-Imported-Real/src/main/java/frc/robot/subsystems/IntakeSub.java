@@ -6,8 +6,10 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 //import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSub extends SubsystemBase {
@@ -29,6 +31,8 @@ public class IntakeSub extends SubsystemBase {
   public static void intakeBall(double speed)
   {
     intake.set(speed);
+    RobotContainer.helms.setRumble(RumbleType.kLeftRumble, .3 );
+    RobotContainer.helms.setRumble(RumbleType.kRightRumble, .3);
   }
 
   public static void IntakeStop()

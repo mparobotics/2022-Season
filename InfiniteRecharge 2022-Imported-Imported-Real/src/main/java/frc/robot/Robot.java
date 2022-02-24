@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
   
   private AutoCross autoCross;
   private AutoShootBall autoShoot;
-  private ParallelRaceGroup ShootAndCross;
+  private SequentialCommandGroup ShootAndCross;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -57,9 +57,9 @@ public class Robot extends TimedRobot {
     autoShoot = new AutoShootBall();
     autoCross = new AutoCross();
 
-    ShootAndCross = new ParallelRaceGroup(new AutoCross(), new AutoShootBall() {
+    ShootAndCross = new SequentialCommandGroup(autoCross, autoShoot) {
       
-    });
+    };
 
     autoChooser.addOption("dO Nøthîng", null);
     autoChooser.addOption("Shœot lé bOl", autoShoot);

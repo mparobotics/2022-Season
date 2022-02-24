@@ -36,7 +36,7 @@ public class ShootBall extends CommandBase {
   @Override
   public void execute() {
     //m_shootSub.shootPIControl();
-    m_shootSub.shootBall();
+    m_shootSub.ShootBangBang();
     //SmartDashboard.putNumber("Shooter Temp", m_shootSub.getMotorTemp());
   }
 
@@ -45,6 +45,7 @@ public class ShootBall extends CommandBase {
   public void end(boolean interrupted) {
     m_shootSub.stopShooter();
     RobotContainer.shooting = false;
+
   }
 
   // Returns true when the command should end.

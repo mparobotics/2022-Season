@@ -47,17 +47,17 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     setBrake();
     //setting ramp
-    falconFR.configOpenloopRamp(1.0); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconFR.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
+    falconFR.configOpenloopRamp(0.3); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconFR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
-    falconFL.configOpenloopRamp(1.0); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconFL.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
+    falconFL.configOpenloopRamp(0.3); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconFL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
-    falconBL.configOpenloopRamp(1.0); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconBL.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
+    falconBL.configOpenloopRamp(0.3); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconBL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
-    falconBR.configOpenloopRamp(1.0); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconBR.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
+    falconBR.configOpenloopRamp(0.3); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconBR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     //Drive Base Code
     falconBR.follow(falconFR); //talonBR follows TalonFR
@@ -109,11 +109,13 @@ public class DriveSubsystem extends SubsystemBase {
    * @param zRotation
    */
   public static void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
-    xSpeed = xSpeed;
     zRotation = zRotation * .75;
     xSpeed = xSpeed * .75;
+    if (Math.abs(xSpeed) < .01) {xSpeed = 0;}//deadzones
+    if (Math.abs(zRotation) < .01) {zRotation = 0;}//deadzones
     if (zRotation == 0 )
       driveStraight(-xSpeed);
+    
     drive.arcadeDrive(-xSpeed, -zRotation);
   }
 
@@ -122,7 +124,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param lSpeed
    * @param rSpeed
    */
-  public void setDriveSpeed_Tank(double lSpeed, double rSpeed) {
+  public static void setDriveSpeed_Tank(double lSpeed, double rSpeed) {
     drive.tankDrive(lSpeed, rSpeed);
   }
 
