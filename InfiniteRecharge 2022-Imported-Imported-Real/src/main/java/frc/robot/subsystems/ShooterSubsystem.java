@@ -78,7 +78,7 @@ public class ShooterSubsystem extends SubsystemBase {
    public void ShootBangBang() {
     //setpoint = getSetpoint();
     setpoint = 10000;
-    falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (setpoint) + 0.5 * feedforward.calculate(setpoint)));
+    falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (setpoint)) + 0.9 * feedforward.calculate(setpoint));
    //bang bang based on size of d from the hub
 
   }
