@@ -40,8 +40,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   
   NetworkTable table;
-  private SendableChooser<Command> autoChooser = new SendableChooser<>();
-  
+
   private AutoCross autoCross;
   private AutoShootBall autoShoot;
   private SequentialCommandGroup ShootAndCross;
@@ -56,13 +55,9 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     Limelight.setLedMode(LightMode.eOff);
     autoShoot = new AutoShootBall();
-    autoCross = new AutoCross();
-    //ShootAndCross = new SequentialCommandGroup(autoCross, autoShoot) {
-      
-    //};
-    
+    autoCross = new AutoCross(m_robotContainer.driveSub);
 
-   
+    ShootAndCross = new SequentialCommandGroup(autoCross, autoShoot);
 
     //table = NetworkTableInstance.getDefault().getTable("limelight"); //Gets Table instance
     //table.getEntry("ledMode").setNumber(1); //sets limelight LEDS to "off"
@@ -79,7 +74,6 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
 
     CommandScheduler.getInstance().run();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   /**
@@ -108,27 +102,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.driveSub.encoderReset();
     RobotContainer.shooterSub.encoderReset();
     Limelight.setLedMode(LightMode.eOn); //TODO test
-    
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-    // schedule the autonomous command (example)
-    //if (m_autonomousCommand != null) {
-      //m_autonomousCommand.schedule();
-    //}
-
-    autoCross.schedule();
-    //autoShoot.schedule();
-    /**switch (autoChooser.getSelected().toString()) {
-      case "Shœot lé bOl":
-      default:
-      autoShoot.schedule();
-      break;
-      case "cR√os lînë":
-      autoCross.schedule();
-      break;
-      case "dO Nøthîng":
-      break;
-    } **/
+    ShootAndCross.schedule();
   }
 
   /**

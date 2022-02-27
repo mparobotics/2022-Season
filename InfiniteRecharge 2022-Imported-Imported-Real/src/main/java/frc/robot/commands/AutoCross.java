@@ -16,20 +16,22 @@ public class AutoCross extends CommandBase {
   /**
    * Creates a new AutoDriveToWall.
    */
-  public AutoCross() {
-    
+  public AutoCross(DriveSubsystem driveSub) {
+    m_driveSub = driveSub;
+
+    addRequirements(m_driveSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    DriveSubsystem.setDriveSpeed_Tank(-1, -1);
+    DriveSubsystem.setDriveSpeed_Tank(.5, .5); //JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   // DriveSubsystem.setDriveSpeed_Tank(-.5, -.5);
+    DriveSubsystem.setDriveSpeed_Tank(.5, .5); //JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
   }
 
   // Called once the command ends or is interrupted.
@@ -41,6 +43,6 @@ public class AutoCross extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return DriveSubsystem.getAvgPosition() <= (-4 / DriveConstants.TIC_FT);
+    return DriveSubsystem.getAvgPosition() <= (-4 / DriveConstants.TIC_FT); //JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
   }
 }
