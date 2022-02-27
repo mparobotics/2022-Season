@@ -68,7 +68,7 @@ public final class Constants {
         public static final double kD = 0;
         public static final int hood_encoder_ratio = 0; //ratio of encoder count to degree angle of turret, placeholder
         public static final int hood_motor_ID = 52; 
-        public static final double hood_min_command = .05;
+        public static final double hood_min_command = 7;
         public static final double max_turret_rotation = 10000; //placeholder
         public static final double centering_speed = .3;
 
@@ -105,7 +105,7 @@ public final class Constants {
     {
         public static final int FRONT_ELEVATOR_ID = 32;
         public static final int BACK_ELEVATOR_ID = 26; 
-        public static final double ELEVATOR_SPEED = -.5; //placeholder
+        public static final double ELEVATOR_SPEED = -1; //placeholder
     }
 
     public final class LedConstants

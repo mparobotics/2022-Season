@@ -7,6 +7,9 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.wpilibj.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ShooterConstants;
@@ -15,13 +18,15 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class ShootBall extends CommandBase {
 
   private ShooterSubsystem m_shootSub;
+  private Double m_setpoint;
   /**
    * Creates a new ShootBall.
    */
-  public ShootBall(ShooterSubsystem shootSub) {
+  public ShootBall(ShooterSubsystem shootSub, Double setpoint) {
     m_shootSub = shootSub;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shootSub);
+    m_setpoint = setpoint;
   }
 
   // Called when the command is initially scheduled.
@@ -36,14 +41,15 @@ public class ShootBall extends CommandBase {
   @Override
   public void execute() {
     //m_shootSub.shootPIControl();
-    m_shootSub.ShootPid();
+    m_shootSub.ShootBangBang(m_setpoint);
     //SmartDashboard.putNumber("Shooter Temp", m_shootSub.getMotorTemp());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shootSub.stopShooter();
+    ShooterSubsystem.stopShooter();
+    ShooterSubsystem.adjustHood(0);
     RobotContainer.shooting = false;
 
   }

@@ -23,13 +23,13 @@ public class AutoCross extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    DriveSubsystem.setDriveSpeed_Tank(-.5, -.5);
+    DriveSubsystem.setDriveSpeed_Tank(-1, -1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    DriveSubsystem.setDriveSpeed_Tank(-.5, -.5);
+   // DriveSubsystem.setDriveSpeed_Tank(-.5, -.5);
   }
 
   // Called once the command ends or is interrupted.

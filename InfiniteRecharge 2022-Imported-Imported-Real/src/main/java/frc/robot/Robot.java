@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
   private AutoCross autoCross;
   private AutoShootBall autoShoot;
   private SequentialCommandGroup ShootAndCross;
-
+  
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -57,16 +57,12 @@ public class Robot extends TimedRobot {
     Limelight.setLedMode(LightMode.eOff);
     autoShoot = new AutoShootBall();
     autoCross = new AutoCross();
-
-    ShootAndCross = new SequentialCommandGroup(autoCross, autoShoot) {
+    //ShootAndCross = new SequentialCommandGroup(autoCross, autoShoot) {
       
-    };
+    //};
+    
 
-    autoChooser.addOption("dO Nøthîng", null);
-    autoChooser.addOption("Shœot lé bOl", autoShoot);
-    autoChooser.addOption("cR√os lînë", autoCross);
-    autoChooser.setDefaultOption("Shœot lé bOl", autoShoot);
-
+   
 
     //table = NetworkTableInstance.getDefault().getTable("limelight"); //Gets Table instance
     //table.getEntry("ledMode").setNumber(1); //sets limelight LEDS to "off"
@@ -112,9 +108,15 @@ public class Robot extends TimedRobot {
     m_robotContainer.driveSub.encoderReset();
     RobotContainer.shooterSub.encoderReset();
     Limelight.setLedMode(LightMode.eOn); //TODO test
-    ShootAndCross.schedule();
     
-    
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    // schedule the autonomous command (example)
+    //if (m_autonomousCommand != null) {
+      //m_autonomousCommand.schedule();
+    //}
+
+    autoCross.schedule();
     //autoShoot.schedule();
     /**switch (autoChooser.getSelected().toString()) {
       case "Shœot lé bOl":
@@ -147,6 +149,10 @@ public class Robot extends TimedRobot {
     ElevatorSub.ElevatorStop();
     ShooterSubsystem.stopShooter();  
     DriveSubsystem.stopRobot();
+    RobotContainer.shooterSub.encoderReset();
+    //if (m_autonomousCommand != null) {
+      //m_autonomousCommand.cancel();
+    //}
     
 
     //set Limelight leds off at start of teleop
@@ -158,6 +164,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+
   }
 
   @Override

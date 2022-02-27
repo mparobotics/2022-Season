@@ -7,6 +7,10 @@
 
 package frc.robot;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.util.List;
 
 import edu.wpi.first.math.controller.RamseteController;
@@ -17,9 +21,12 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.Joystick; //TODO ButtonBoardTest
 
@@ -70,6 +77,7 @@ public class RobotContainer {
   // declaring and intializing controller(s)
   public XboxController xbox = new XboxController(OIConstants.XBOX_ID);
   public static XboxController helms = new XboxController(OIConstants.HELMS_ID);
+  public static XboxController test = new XboxController(2);
   //private Joystick buttonBoard = new Joystick(OIConstants.buttonBoard); //TODO ButtonBoardTEST
 
   public static boolean shooting = false;
@@ -101,7 +109,12 @@ public class RobotContainer {
 
     //Main's Commands - Winch is right stick, 
     //new JoystickButton(xbox, Button.kBumperRight.value).whenHeld(new StartWinch(climberSub)); // Disabled - Climber Taken off
-      new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub));
+      new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub, 9000.0));
+      new JoystickButton(test, Button.kB.value).whenHeld(new ShootBall(shooterSub, 12000.0));
+      new JoystickButton(test, Button.kA.value).whenHeld(new ShootBall(shooterSub, 10000.0));
+      new JoystickButton(test, Button.kX.value).whenHeld(new ShootBall(shooterSub, 8500.0));
+      new JoystickButton(test, Button.kY.value).whenHeld(new ShootBall(shooterSub, 7000.0));
+      
     //intake settings
         new JoystickButton(helms, Button.kX.value).whenHeld(new Intake(intakeSub));
         new JoystickButton(xbox, Button.kY.value).whenHeld(new IntakeReverse(intakeSub));
@@ -167,13 +180,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    /** Create a voltage constraint to ensure we don't accelerate too fast
+    //Create a voltage constraint to ensure we don't accelerate too fast
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(
                 DriveConstants.Drive_Ks,
-                DriveConstants.kvVoltSecondsPerMeter,
-                DriveConstants.kaVoltSecondsSquaredPerMeter),
+                DriveConstants.Drive_Kv,
+                DriveConstants.Drive_Ka),
             DriveConstants.kDriveKinematics,
             10);
 
@@ -188,41 +201,56 @@ public class RobotContainer {
             .addConstraint(autoVoltageConstraint);
 
     // An example trajectory to follow.  All units in meters.
-    Trajectory exampleTrajectory =
-        TrajectoryGenerator.generateTrajectory(
-            // Start at the origin facing the +X direction
-            new Pose2d(0, 0, new Rotation2d(0)),
-            // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-            // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(3, 0, new Rotation2d(0)),
-            // Pass config
-            config);
+    Trajectory trajectory = new Trajectory();
 
-    RamseteCommand ramseteCommand =
-        new RamseteCommand(
-            exampleTrajectory,
-            drive::getPose,
-            new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
-            new SimpleMotorFeedforward(
-                DriveConstants.Drive_Ks,
-                DriveConstants.kvVoltSecondsPerMeter,
-                DriveConstants.kaVoltSecondsSquaredPerMeter),
-            DriveConstants.kDriveKinematics,
-            drive::getWheelSpeeds,
-            new PIDController(DriveConstants.kPDriveVel, 0, 0),
-            new PIDController(DriveConstants.kPDriveVel, 0, 0),
-            // RamseteCommand passes volts to the callback
-            drive::tankDriveVolts,
-            drive);
+    String myPathName = "";
+    String trajectoryfile = "";
 
+    myPathName = "Unamed";
+
+    trajectoryfile = myPathName + ".wpilib.json";
+    try {
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);
+        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    } catch (IOException ex) {
+        DriverStation.reportError("Unable to open trajectory: " + trajectoryfile, ex.getStackTrace());
+    }
+    
+    try {
+        trajectoryfile = myPathName + ".txt";
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);
+        FileWriter fileWriter = new FileWriter(trajectoryPath.toString());
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        printWriter.print(trajectory.toString());
+        printWriter.close();
+    } catch (IOException ex) {
+        DriverStation.reportError("Unable to write traj text: " + trajectoryfile, ex.getStackTrace());
+    }
+
+            RamseteCommand ramseteCommand =
+            new RamseteCommand(
+                trajectory,
+                drive::getPose,
+                new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
+                new SimpleMotorFeedforward(
+                    DriveConstants.Drive_Ks,
+                    DriveConstants.Drive_Kv,
+                    DriveConstants.Drive_Ka),
+                DriveConstants.kDriveKinematics,
+                drive::getWheelSpeeds,
+                new PIDController(DriveConstants.Drive_Kp, 0, 0),
+                new PIDController(DriveConstants.Drive_Kp, 0, 0),
+                // RamseteCommand passes volts to the callback
+                drive::tankDriveVolts,
+                drive);
+    
     // Reset odometry to the starting pose of the trajectory.
-    drive.resetOdometry(exampleTrajectory.getInitialPose());
+    drive.resetOdometry(trajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
     return ramseteCommand.andThen(() -> drive.tankDriveVolts(0, 0));
-    */
-    return null;
+    
+    
   }
   }
 

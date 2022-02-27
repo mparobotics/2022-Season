@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -86,18 +88,20 @@ public class ShooterSubsystem extends SubsystemBase {
    
    }
 
-   public void ShootBangBang() {
+   public void ShootBangBang(Double m_setpoint) {
     //setpoint = getSetpoint();
-    setpoint = 7500;
+    
     boolean canIShoot;
-    falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (setpoint)) + 0.000148 * feedforward.calculate(setpoint));
+    //alignHood();
+    m_setpoint = getV();
+    falconShooter.setVoltage(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (m_setpoint)) * 12 + .0005 * feedforward.calculate(m_setpoint));
     //.000148
-    if (Math.abs(falconShooter.getSelectedSensorVelocity() - setpoint) < 900){
-      ElevatorSub.ElevateBall(ElevatorConstants.ELEVATOR_SPEED);
+    if (Math.abs(falconShooter.getSelectedSensorVelocity() - m_setpoint) < 900){
+      
       canIShoot = true;
     }
     else{canIShoot = false;
-    ElevatorSub.ElevatorStop();
+    
     }
     SmartDashboard.putBoolean("Shooter Reved Up", canIShoot);
     //falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (setpoint)));
@@ -119,44 +123,47 @@ public class ShooterSubsystem extends SubsystemBase {
     return setpoint;
   }
 
+  public static double sensorVelocityToRPM(double sensorUnitsPer100MS) {
+    double sensorUnitsPerSecond = sensorUnitsPer100MS * 10.0;
+    double revolutionsPerSecond = sensorUnitsPerSecond / 2048.0;
+    double revolutionsPerMinute = revolutionsPerSecond * 60.0;
+    return revolutionsPerMinute;
+  }
+
   public double getV(){
     double d = TurretSubsystem.getDistance();
     double speedToGet;
-    if (d < .5) {speedToGet = 7.101;}
-    else if (d < 1) {speedToGet = 6.614;}
-    else if (d < 1.5) {speedToGet = 6.797;}
-    else if (d < 2) {speedToGet = 6.797;}
-    else if (d < 2.5) {speedToGet = 7.132;}
-    else if (d < 3) {speedToGet = 7.407;}
-    else if (d < 3.5) {speedToGet = 7.711;}
-    else if (d < 4) {speedToGet = 8.138;}
-    else if (d < 4.5) {speedToGet = 8.443;}
-    else if (d < 5) {speedToGet = 8.63;}
-    else if (d < 5.5) {speedToGet = 8.9;}
-    else if (d < 6) {speedToGet = 9.14;}
-    else if (d < 6.5) {speedToGet = 9.33;}
-    else if (d < 7) {speedToGet = 9.45;}
-    else if (d < 7.5) {speedToGet = 9.81;}
-    else if (d < 8) {speedToGet = 10.06;}
-    else if (d < 8.5) {speedToGet = 10.24;}
-    else if (d < 9) {speedToGet = 10.49;}
-    else {speedToGet = 8.5;}
+    if (d < .5) {speedToGet = 7500;}
+    else if (d < 1) {speedToGet = 7500;}
+    else if (d < 1.5) {speedToGet = 7500;}
+    else if (d < 2) {speedToGet = 8000;}
+    else if (d < 2.5) {speedToGet = 8500;}
+    else if (d < 3) {speedToGet = 9000;}
+    else if (d < 3.5) {speedToGet = 9500;}
+    else if (d < 4) {speedToGet = 10000;}
+    else if (d < 4.5) {speedToGet = 11000;}
+    else if (d < 5) {speedToGet = 12500;}
+    else if (d < 5.5) {speedToGet = 13000;}
+    else if (d < 6) {speedToGet = 12500;}
+    else if (d < 6.5) {speedToGet = 14500;}
+
+    else {speedToGet = 4500;}
     ///math
     SmartDashboard.putNumber("Flywheel Speed Needed", setpoint);
     return speedToGet;
   }
 
   public void alignHood() {
-    double angle = getAngle();
+    double angle = 0;
     double currentEncoder = m_encoder.getPosition();
     double encoderCountRequired = angle * ShooterConstants.hood_encoder_ratio;
     SmartDashboard.putNumber("Hood Encoder Needed", encoderCountRequired);
-    if (currentEncoder < (encoderCountRequired - ShooterConstants.min_command)) {
-      adjustHood(.5); //to test speed and inversion
+    if (currentEncoder < (encoderCountRequired - ShooterConstants.hood_min_command)) {
+      adjustHood(-.25); //to test speed and inversion
     }
 
-    else if (currentEncoder > (encoderCountRequired + ShooterConstants.min_command)) {
-      adjustHood(-.5); //to test speed and inversion
+    else if (currentEncoder > (encoderCountRequired + ShooterConstants.hood_min_command)) {
+      adjustHood(.25); //to test speed and inversion
     }
 
     else {
@@ -165,7 +172,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   }
 
-  public void adjustHood(double speed) {
+  public static void adjustHood(double speed) {
     hoodMotor.set(speed);
   }
 
