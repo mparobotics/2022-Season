@@ -31,7 +31,7 @@ public class HoodDown extends CommandBase {
     //}
     
     //else
-     {RobotContainer.shooterSub.adjustHood(-.25);} //todo test speed + invert
+     {RobotContainer.shooterSub.adjustHood(.5);} //todo test speed + invert
   }
 
   // Called once the command ends or is interrupted.

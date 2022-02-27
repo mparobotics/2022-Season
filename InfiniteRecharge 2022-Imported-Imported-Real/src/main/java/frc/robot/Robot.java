@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  
   NetworkTable table;
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
   
@@ -53,7 +54,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     m_robotContainer = new RobotContainer();
-
+    Limelight.setLedMode(LightMode.eOff);
     autoShoot = new AutoShootBall();
     autoCross = new AutoCross();
 
@@ -92,12 +93,13 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
 
     //set limelight off when robot is disabled
-    Limelight.setLedMode(LightMode.eOff); //TODO test
+    Limelight.setLedMode(LightMode.eOn); //TODO test
     //table.getEntry("ledMode").setNumber(1);
   }
 
   @Override
   public void disabledPeriodic() {
+  
   }
 
   /**
@@ -107,10 +109,12 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
   
     //set Limelight at auto start
+    m_robotContainer.driveSub.encoderReset();
+    RobotContainer.shooterSub.encoderReset();
     Limelight.setLedMode(LightMode.eOn); //TODO test
     ShootAndCross.schedule();
     
-    m_robotContainer.driveSub.encoderReset();
+    
     //autoShoot.schedule();
     /**switch (autoChooser.getSelected().toString()) {
       case "Shœot lé bOl":
@@ -146,7 +150,7 @@ public class Robot extends TimedRobot {
     
 
     //set Limelight leds off at start of teleop
-    Limelight.setLedMode(LightMode.eOff); //TODO test
+    Limelight.setLedMode(LightMode.eOn); //TODO test
   }
 
   /**

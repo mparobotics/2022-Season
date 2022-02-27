@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -14,7 +16,7 @@ package frc.robot;
  */
 public final class Constants {
 
-    public final class DriveConstants{
+    public final static class DriveConstants{
         /**
          * The DriveConstants class is used to define all of the constants we use for driving. 
          * These include the IDs of the motors, conversion rates from tics to feet, etc.
@@ -26,6 +28,11 @@ public final class Constants {
         public static final int FALCON_FL_ID = 48;
         public static final int FALCON_BR_ID = 46;
         public static final int FALCON_BL_ID = 49;
+        public static final double Drive_Ks = .74743;
+        public static final double Drive_Kv = 12.061;
+        public static final double Drive_Ka = .038561;
+        public static final double Drive_Kp = 1.331;
+        public static final double Drive_Kd = 0.0;
         
 
         public static final double DRIVE_P = 4; /**not sure what these do TODO ask mikey but im pretty sure theyre the offset
@@ -34,6 +41,13 @@ public final class Constants {
         public static final double DRIVE_I = 1;
 
         public static final double TIC_FT = ((Math.PI)/2048)/10.75; //inches?
+        public static final double kTrackwidthMeters = 0.705;
+        public static final DifferentialDriveKinematics kDriveKinematics =
+            new DifferentialDriveKinematics(kTrackwidthMeters);
+        public static final double kMaxSpeedMetersPerSecond = 3;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 1;
+        public static final double kRamseteB = 2;
+        public static final double kRamseteZeta = 0.7;
 
 
     }
@@ -43,16 +57,17 @@ public final class Constants {
         public static final int NEO_TURRET_ID = 51;
         public static final float Turret_Kp = -0.005f; //speed modifier of le turret
         public static final float min_command = 0.00001f; //deadzone of le turret
-        public static final double hub_height = 2.74 ; //inches 
-        public static final double limelight_height = .8001; //metres
-        public static final double limelight_angle = 33; //degrees
+        public static final double hub_height = 2.74 ; //meters 
+        public static final double limelight_height = 1.1176; //metres
+        public static final double limelight_angle = 21; //degrees
         public static final int FALCON_shooter_ID = 45; 
-        public static final double kP = 1.2959; //position constant
-        public static final double kA = 8.4029; // acceleration constant of shooter
-        public static final double kV = 7.6577; // describes how much voltage is needed to hold (or “cruise”) at a given constant velocity while overcoming the electromagnetic resistance in the motor and any additional friction that increases with speed (known as viscous drag). The relationship between speed and voltage (at constant acceleration) is almost entirely linear
-        public static final double kS = 0.75492; // voltage needed to overcome the motor’s static friction
+        public static final double kP = .019117; //proportional feedback constant 12.087
+        public static final double kA = .42682; // acceleration constant of shooter
+        public static final double kV = .39505; // describes how much voltage is needed to hold (or “cruise”) at a given constant velocity while overcoming the electromagnetic resistance in the motor and any additional friction that increases with speed (known as viscous drag). The relationship between speed and voltage (at constant acceleration) is almost entirely linear
+        public static final double kS = 0.73835; // voltage needed to overcome the motor’s static friction
+        public static final double kD = 0;
         public static final int hood_encoder_ratio = 0; //ratio of encoder count to degree angle of turret, placeholder
-        public static final int hood_motor_ID = 25; 
+        public static final int hood_motor_ID = 52; 
         public static final double hood_min_command = .05;
         public static final double max_turret_rotation = 10000; //placeholder
         public static final double centering_speed = .3;
@@ -90,7 +105,7 @@ public final class Constants {
     {
         public static final int FRONT_ELEVATOR_ID = 32;
         public static final int BACK_ELEVATOR_ID = 26; 
-        public static final double ELEVATOR_SPEED = -1; //placeholder
+        public static final double ELEVATOR_SPEED = -.5; //placeholder
     }
 
     public final class LedConstants

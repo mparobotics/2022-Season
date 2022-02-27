@@ -36,7 +36,7 @@ public class ShootBall extends CommandBase {
   @Override
   public void execute() {
     //m_shootSub.shootPIControl();
-    m_shootSub.ShootBangBang();
+    m_shootSub.ShootPid();
     //SmartDashboard.putNumber("Shooter Temp", m_shootSub.getMotorTemp());
   }
 

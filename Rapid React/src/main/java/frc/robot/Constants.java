@@ -26,6 +26,11 @@ public final class Constants {
         public static final int FALCON_FL_ID = 48;
         public static final int FALCON_BR_ID = 46;
         public static final int FALCON_BL_ID = 49;
+        public static final double Drive_Ks = .74743;
+        public static final double Drive_Kv = .18426;
+        public static final double Drive_Ka = .038561;
+        public static final double Drive_Kp = 1.331;
+        public static final double Drive_Kd = 0.0;
         
 
         public static final double DRIVE_P = 4; /**not sure what these do TODO ask mikey but im pretty sure theyre the offset

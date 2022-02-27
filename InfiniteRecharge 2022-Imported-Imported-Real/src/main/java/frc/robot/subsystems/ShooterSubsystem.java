@@ -10,17 +10,25 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.Servo;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.Elevator;
 /**
  * this subsystem sets up and directly manipulates the high goal shooter
  */
@@ -29,13 +37,15 @@ public class ShooterSubsystem extends SubsystemBase {
   //declaring and intializing shooter motor
   private final static WPI_TalonFX falconShooter = new WPI_TalonFX(ShooterConstants.FALCON_shooter_ID); 
   SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(ShooterConstants.kS, ShooterConstants.kV, ShooterConstants.kA);
+  PIDController pidController = new PIDController(ShooterConstants.kP, .001, 0);
   BangBangController BangBang = new BangBangController(); //instantiartes bangbang motor controller
   public double ShooterSpeed = falconShooter.getSelectedSensorVelocity();
   public static Timer timer;
   public Servo servo;
   private double integral, setpoint = 0;
   private double error;
-  static WPI_TalonSRX hoodMotor = new WPI_TalonSRX(ShooterConstants.hood_motor_ID);
+  static CANSparkMax hoodMotor = new CANSparkMax(ShooterConstants.hood_motor_ID, MotorType.kBrushless);
+  public static RelativeEncoder m_encoder = hoodMotor.getEncoder();
 
 
   /**
@@ -45,15 +55,16 @@ public class ShooterSubsystem extends SubsystemBase {
     servo = new Servo(ShooterConstants.LIMELIGHT_SERVO_ID);
     setServo(ShooterConstants.LIMELIGHT_ANGLE_SETPOINT);
     falconShooter.setNeutralMode(NeutralMode.Coast);
-    hoodMotor.setNeutralMode(NeutralMode.Brake);
+    hoodMotor.setIdleMode(IdleMode.kBrake);
     falconShooter.setInverted(false); //invert motor
-    SmartDashboard.putNumber("Hood Encoder Count", hoodMotor.getSelectedSensorPosition());
+    
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("ShooterSpeed", falconShooter.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Hood Angle", m_encoder.getPosition());
     RobotContainer.helms.setRumble(RumbleType.kLeftRumble, Math.log10((falconShooter.getSelectedSensorVelocity() ) / 100) );
     RobotContainer.helms.setRumble(RumbleType.kRightRumble, Math.log10((falconShooter.getSelectedSensorVelocity() ) / 100));
   }
@@ -77,9 +88,28 @@ public class ShooterSubsystem extends SubsystemBase {
 
    public void ShootBangBang() {
     //setpoint = getSetpoint();
-    setpoint = 10000;
-    falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (setpoint)) + 0.9 * feedforward.calculate(setpoint));
+    setpoint = 7500;
+    boolean canIShoot;
+    falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (setpoint)) + 0.000148 * feedforward.calculate(setpoint));
+    //.000148
+    if (Math.abs(falconShooter.getSelectedSensorVelocity() - setpoint) < 900){
+      ElevatorSub.ElevateBall(ElevatorConstants.ELEVATOR_SPEED);
+      canIShoot = true;
+    }
+    else{canIShoot = false;
+    ElevatorSub.ElevatorStop();
+    }
+    SmartDashboard.putBoolean("Shooter Reved Up", canIShoot);
+    //falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (setpoint)));
    //bang bang based on size of d from the hub
+
+  }
+
+  public void ShootPid(){
+    setpoint = 8000;
+    boolean canIShoot;
+    
+    falconShooter.setVoltage(pidController.calculate(falconShooter.getSelectedSensorVelocity(), setpoint) );
 
   }
 
@@ -118,7 +148,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void alignHood() {
     double angle = getAngle();
-    double currentEncoder = hoodMotor.getSelectedSensorPosition();
+    double currentEncoder = m_encoder.getPosition();
     double encoderCountRequired = angle * ShooterConstants.hood_encoder_ratio;
     SmartDashboard.putNumber("Hood Encoder Needed", encoderCountRequired);
     if (currentEncoder < (encoderCountRequired - ShooterConstants.min_command)) {
@@ -173,6 +203,12 @@ public class ShooterSubsystem extends SubsystemBase {
      //integral += error*.02;
      return ShooterConstants.SHOOTER_P*error;
    }
+
+   public void encoderReset() {
+    falconShooter.setSelectedSensorPosition(0);
+    m_encoder.setPosition(0);
+  }
+
 
    public void shootPIControl() {
      falconShooter.set(((shooterPI() + setpoint) / ShooterConstants.SHOOTER_MAX_VELOCITY));

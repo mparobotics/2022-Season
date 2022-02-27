@@ -13,13 +13,17 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.SPI;
 import frc.robot.Constants.DriveConstants;
+
 /**
  * this subsystem sets up and directly manipulates everything on the drive train
  */
@@ -38,6 +42,11 @@ public class DriveSubsystem extends SubsystemBase {
 
   private final static DifferentialDrive drive = new DifferentialDrive(SCG_L, SCG_R);
 
+ 
+
+  
+
+
   private static double error;
   private double integral;
 
@@ -47,16 +56,16 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     setBrake();
     //setting ramp
-    falconFR.configOpenloopRamp(0.3); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconFR.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
     falconFR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
-    falconFL.configOpenloopRamp(0.3); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconFL.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
     falconFL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
-    falconBL.configOpenloopRamp(0.3); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconBL.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
     falconBL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
-    falconBR.configOpenloopRamp(0.3); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconBR.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
     falconBR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     //Drive Base Code
@@ -111,8 +120,8 @@ public class DriveSubsystem extends SubsystemBase {
   public static void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
     zRotation = zRotation * .75;
     xSpeed = xSpeed * .75;
-    if (Math.abs(xSpeed) < .01) {xSpeed = 0;}//deadzones
-    if (Math.abs(zRotation) < .01) {zRotation = 0;}//deadzones
+    if (Math.abs(xSpeed) < .1) {xSpeed = 0;}//deadzones
+    if (Math.abs(zRotation) < .1) {zRotation = 0;}//deadzones
     if (zRotation == 0 )
       driveStraight(-xSpeed);
     
