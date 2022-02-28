@@ -88,12 +88,12 @@ public class ShooterSubsystem extends SubsystemBase {
    
    }
 
-   public void ShootBangBang(Double m_setpoint) {
+   public void ShootBangBang() {
     //setpoint = getSetpoint();
     
     boolean canIShoot;
     //alignHood();
-    m_setpoint = getV();
+    double m_setpoint = getV();
     falconShooter.setVoltage(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (m_setpoint)) * 12 + .0005 * feedforward.calculate(m_setpoint));
     //.000148
     if (Math.abs(falconShooter.getSelectedSensorVelocity() - m_setpoint) < 900){

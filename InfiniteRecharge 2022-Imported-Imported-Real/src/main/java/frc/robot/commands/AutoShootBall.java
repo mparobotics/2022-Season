@@ -29,17 +29,17 @@ public class AutoShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IntakeSub.IntakeDrop();
+    
+    if(Timer.getMatchTime() < 7.0) {
     RobotContainer.shooterSub.shootBallAuto();
   
-    
-    
   }
+ }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.shooterSub.shootBall();
+    RobotContainer.shooterSub.ShootBangBang();
     ElevatorSub.ElevateBall(ElevatorConstants.ELEVATOR_SPEED);
   }
 
@@ -47,7 +47,7 @@ public class AutoShootBall extends CommandBase {
   @Override
   public boolean isFinished() {
    
-   if (Timer.getMatchTime() < 5.0){
+   if (Timer.getMatchTime() < 3.0){
     return true;}
     else {return false;}
   }

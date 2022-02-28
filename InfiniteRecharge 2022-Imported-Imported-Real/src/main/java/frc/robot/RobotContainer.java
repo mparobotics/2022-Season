@@ -109,11 +109,11 @@ public class RobotContainer {
 
     //Main's Commands - Winch is right stick, 
     //new JoystickButton(xbox, Button.kBumperRight.value).whenHeld(new StartWinch(climberSub)); // Disabled - Climber Taken off
-      new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub, 9000.0));
-      new JoystickButton(test, Button.kB.value).whenHeld(new ShootBall(shooterSub, 12000.0));
-      new JoystickButton(test, Button.kA.value).whenHeld(new ShootBall(shooterSub, 10000.0));
-      new JoystickButton(test, Button.kX.value).whenHeld(new ShootBall(shooterSub, 8500.0));
-      new JoystickButton(test, Button.kY.value).whenHeld(new ShootBall(shooterSub, 7000.0));
+      new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub));
+      new JoystickButton(test, Button.kB.value).whenHeld(new ShootBall(shooterSub));
+      new JoystickButton(test, Button.kA.value).whenHeld(new ShootBall(shooterSub));
+      new JoystickButton(test, Button.kX.value).whenHeld(new ShootBall(shooterSub));
+      new JoystickButton(test, Button.kY.value).whenHeld(new ShootBall(shooterSub));
       
     //intake settings
         new JoystickButton(helms, Button.kX.value).whenHeld(new Intake(intakeSub));

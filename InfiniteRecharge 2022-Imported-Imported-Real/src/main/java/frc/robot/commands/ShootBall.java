@@ -22,11 +22,11 @@ public class ShootBall extends CommandBase {
   /**
    * Creates a new ShootBall.
    */
-  public ShootBall(ShooterSubsystem shootSub, Double setpoint) {
+  public ShootBall(ShooterSubsystem shootSub) {
     m_shootSub = shootSub;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shootSub);
-    m_setpoint = setpoint;
+    
   }
 
   // Called when the command is initially scheduled.
@@ -41,7 +41,7 @@ public class ShootBall extends CommandBase {
   @Override
   public void execute() {
     //m_shootSub.shootPIControl();
-    m_shootSub.ShootBangBang(m_setpoint);
+    m_shootSub.ShootBangBang();
     //SmartDashboard.putNumber("Shooter Temp", m_shootSub.getMotorTemp());
   }
 
