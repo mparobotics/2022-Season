@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
 
     //set limelight off when robot is disabled
-    Limelight.setLedMode(LightMode.eOn); //TODO test
+    Limelight.setLedMode(LightMode.eOff); //TODO test
     //table.getEntry("ledMode").setNumber(1);
   }
 

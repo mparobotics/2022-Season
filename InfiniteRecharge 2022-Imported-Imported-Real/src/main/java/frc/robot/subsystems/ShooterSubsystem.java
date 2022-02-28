@@ -109,6 +109,42 @@ public class ShooterSubsystem extends SubsystemBase {
 
   }
 
+
+  public void ShootLow() {
+    //setpoint = getSetpoint();
+    
+    boolean canIShoot;
+    //alignHood();
+    double m_setpoint = 4500;
+    falconShooter.setVoltage(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (m_setpoint)) * 12 + .0005 * feedforward.calculate(m_setpoint));
+    //.000148
+    if (Math.abs(falconShooter.getSelectedSensorVelocity() - m_setpoint) < 900){
+      
+      canIShoot = true;
+    }
+    else{canIShoot = false;
+    
+    }
+    SmartDashboard.putBoolean("Shooter Reved Up", canIShoot);
+    //falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (setpoint)));
+   //bang bang based on size of d from the hub
+
+  }
+
+  public void ShootReverse() {
+    //setpoint = getSetpoint();
+    
+    boolean canIShoot;
+    //alignHood();
+    double m_setpoint = -4500;
+    falconShooter.set(-.3);
+    //.000148
+   
+    //falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (setpoint)));
+   //bang bang based on size of d from the hub
+
+  }
+
   public void ShootPid(){
     setpoint = 8000;
     boolean canIShoot;

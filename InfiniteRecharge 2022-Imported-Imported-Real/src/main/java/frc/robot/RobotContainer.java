@@ -46,6 +46,8 @@ import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeReverse;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.ShootBall;
+import frc.robot.commands.ShootLow;
+import frc.robot.commands.ShootReverse;
 import frc.robot.commands.TurretAutoAlign;
 import frc.robot.commands.TurretCenter;
 import frc.robot.commands.TurretNeutral;
@@ -110,10 +112,10 @@ public class RobotContainer {
     //Main's Commands - Winch is right stick, 
     //new JoystickButton(xbox, Button.kBumperRight.value).whenHeld(new StartWinch(climberSub)); // Disabled - Climber Taken off
       new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub));
-      new JoystickButton(test, Button.kB.value).whenHeld(new ShootBall(shooterSub));
-      new JoystickButton(test, Button.kA.value).whenHeld(new ShootBall(shooterSub));
-      new JoystickButton(test, Button.kX.value).whenHeld(new ShootBall(shooterSub));
-      new JoystickButton(test, Button.kY.value).whenHeld(new ShootBall(shooterSub));
+      new JoystickButton(helms, Button.kY.value).whenHeld(new ShootBall(shooterSub));
+      new JoystickButton(helms, Button.kRightStick.value).whenHeld(new ShootLow(shooterSub));
+      new JoystickButton(helms, Button.kLeftStick.value).whenHeld(new ShootReverse(shooterSub));
+ 
       
     //intake settings
         new JoystickButton(helms, Button.kX.value).whenHeld(new Intake(intakeSub));
