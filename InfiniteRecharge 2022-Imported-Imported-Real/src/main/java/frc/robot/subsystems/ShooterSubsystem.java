@@ -133,7 +133,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public double getV(){
     double d = TurretSubsystem.getDistance();
     double speedToGet;
-    if (d < .5) {speedToGet = 7500;}
+    /*if (d < .5) {speedToGet = 7500;}
     else if (d < 1) {speedToGet = 7500;}
     else if (d < 1.5) {speedToGet = 7500;}
     else if (d < 2) {speedToGet = 8000;}
@@ -146,7 +146,11 @@ public class ShooterSubsystem extends SubsystemBase {
     else if (d < 5.5) {speedToGet = 13000;}
     else if (d < 6) {speedToGet = 12500;}
     else if (d < 6.5) {speedToGet = 14500;}
-
+    */
+    if (d < 7)
+    {
+      speedToGet = 1076 * d + 5970; 
+    }
     else {speedToGet = 4500;}
     ///math
     SmartDashboard.putNumber("Flywheel Speed Needed", setpoint);
