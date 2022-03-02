@@ -10,6 +10,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class ArcadeDriveClassic extends CommandBase {
@@ -24,6 +25,8 @@ public class ArcadeDriveClassic extends CommandBase {
     m_drive = drive;
     //right trigger drives fowards, left trigger drives backward
     m_xSpeed = xSpeed;
+
+  
     //needed to be inverted
     m_zRotation = zRotation;
 

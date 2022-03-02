@@ -59,13 +59,15 @@ public class ShooterSubsystem extends SubsystemBase {
     falconShooter.setNeutralMode(NeutralMode.Coast);
     hoodMotor.setIdleMode(IdleMode.kBrake);
     falconShooter.setInverted(false); //invert motor
+    falconShooter.configOpenloopRamp(1); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconShooter.configClosedloopRamp(1); // 0 disables ramping (during closed-loop control)
     
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("ShooterSpeed", falconShooter.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("ShooterSpeed", falconShooter.getSelectedSensorVelocity() / 2);
     SmartDashboard.putNumber("Hood Angle", m_encoder.getPosition());
     RobotContainer.helms.setRumble(RumbleType.kLeftRumble, Math.log10((falconShooter.getSelectedSensorVelocity() ) / 100) );
     RobotContainer.helms.setRumble(RumbleType.kRightRumble, Math.log10((falconShooter.getSelectedSensorVelocity() ) / 100));
@@ -88,17 +90,25 @@ public class ShooterSubsystem extends SubsystemBase {
    
    }
 
-   public void ShootBangBang() {
+   public void ShootBangBang(double yspeed) {
     //setpoint = getSetpoint();
-    
+    double m_setpoint;
+    if (yspeed == 2) {
+       m_setpoint = getV() * 12;
+    }
+   
+
+    else {m_setpoint = (((yspeed / .00009) * 2) + 400);}
     boolean canIShoot;
     //alignHood();
-    double m_setpoint = getV();
+    
+    
     falconShooter.setVoltage(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (m_setpoint)) * 12 + .0005 * feedforward.calculate(m_setpoint));
     //.000148
-    if (Math.abs(falconShooter.getSelectedSensorVelocity() - m_setpoint) < 900){
+    if (Math.abs(falconShooter.getSelectedSensorVelocity() - m_setpoint) < 2000){
       
       canIShoot = true;
+   
     }
     else{canIShoot = false;
     
@@ -115,14 +125,16 @@ public class ShooterSubsystem extends SubsystemBase {
     
     boolean canIShoot;
     //alignHood();
-    double m_setpoint = 4500;
+    double m_setpoint = 4500 * 12;
     falconShooter.setVoltage(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (m_setpoint)) * 12 + .0005 * feedforward.calculate(m_setpoint));
     //.000148
     if (Math.abs(falconShooter.getSelectedSensorVelocity() - m_setpoint) < 900){
       
       canIShoot = true;
+      
     }
     else{canIShoot = false;
+    
     
     }
     SmartDashboard.putBoolean("Shooter Reved Up", canIShoot);
@@ -189,6 +201,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
     else {speedToGet = 4500;}
     ///math
+
     SmartDashboard.putNumber("Flywheel Speed Needed", setpoint);
     return speedToGet;
   }

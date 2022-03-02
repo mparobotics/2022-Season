@@ -26,6 +26,7 @@ import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstrai
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.Joystick; //TODO ButtonBoardTest
@@ -79,7 +80,8 @@ public class RobotContainer {
   // declaring and intializing controller(s)
   public XboxController xbox = new XboxController(OIConstants.XBOX_ID);
   public static XboxController helms = new XboxController(OIConstants.HELMS_ID);
-  public static XboxController test = new XboxController(2);
+  public static Joystick shooterStick = new Joystick(2);
+
   //private Joystick buttonBoard = new Joystick(OIConstants.buttonBoard); //TODO ButtonBoardTEST
 
   public static boolean shooting = false;
@@ -97,7 +99,9 @@ public class RobotContainer {
    driveSub.setDefaultCommand(new ArcadeDriveClassic(driveSub,
                               () -> xbox.getLeftY(),
                               () -> xbox.getRightX()*.75));
+                        
     // Configure the button bindings
+    shooterSub.setDefaultCommand(new ShootBall(shooterSub, shooterStick.getY()));
     configureButtonBindings();
   }
 
@@ -111,8 +115,8 @@ public class RobotContainer {
 
     //Main's Commands - Winch is right stick, 
     //new JoystickButton(xbox, Button.kBumperRight.value).whenHeld(new StartWinch(climberSub)); // Disabled - Climber Taken off
-      new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub));
-      new JoystickButton(helms, Button.kY.value).whenHeld(new ShootBall(shooterSub));
+      new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub, 2));
+      new JoystickButton(helms, Button.kY.value).whenHeld(new ShootBall(shooterSub, 2));
       new JoystickButton(helms, Button.kRightStick.value).whenHeld(new ShootLow(shooterSub));
       new JoystickButton(helms, Button.kLeftStick.value).whenHeld(new ShootReverse(shooterSub));
  

@@ -96,7 +96,7 @@ public final class Constants {
     public final class IntakeConstants
     {
         public static final int INTAKE_ID = 15; 
-        public static final double INTAKE_SPEED = .4; //placeholder
+        public static final double INTAKE_SPEED = 1; //placeholder
         public static final int INTAKE_DROPDOWN_ID = 31; 
         public static final double DROPDOWN_SPEED = 0.5; //placeholder
     }

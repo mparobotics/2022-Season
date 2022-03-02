@@ -18,12 +18,14 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class ShootBall extends CommandBase {
 
   private ShooterSubsystem m_shootSub;
+  public double m_yspeed;
   private Double m_setpoint;
   /**
    * Creates a new ShootBall.
    */
-  public ShootBall(ShooterSubsystem shootSub) {
+  public ShootBall(ShooterSubsystem shootSub, double y_speed) {
     m_shootSub = shootSub;
+    m_yspeed = y_speed;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shootSub);
     
@@ -41,7 +43,9 @@ public class ShootBall extends CommandBase {
   @Override
   public void execute() {
     //m_shootSub.shootPIControl();
-    m_shootSub.ShootBangBang();
+
+   
+   m_shootSub.ShootBangBang(m_yspeed);
     //SmartDashboard.putNumber("Shooter Temp", m_shootSub.getMotorTemp());
   }
 

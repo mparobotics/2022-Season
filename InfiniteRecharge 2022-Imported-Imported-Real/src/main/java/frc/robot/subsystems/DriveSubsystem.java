@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SPI;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 
 /**
@@ -56,17 +57,17 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     setBrake();
     //setting ramp
-    falconFR.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconFR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    falconFR.configOpenloopRamp(0.5); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconFR.configClosedloopRamp(0.5); // 0 disables ramping (during closed-loop control)
 
-    falconFL.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconFL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    falconFL.configOpenloopRamp(0.5); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconFL.configClosedloopRamp(0.5); // 0 disables ramping (during closed-loop control)
 
-    falconBL.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconBL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    falconBL.configOpenloopRamp(0.5); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconBL.configClosedloopRamp(0.5); // 0 disables ramping (during closed-loop control)
 
-    falconBR.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconBR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    falconBR.configOpenloopRamp(0.5); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconBR.configClosedloopRamp(0.5); // 0 disables ramping (during closed-loop control)
 
     //Drive Base Code
     falconBR.follow(falconFR); //talonBR follows TalonFR
@@ -120,6 +121,12 @@ public class DriveSubsystem extends SubsystemBase {
   public static void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
     zRotation = zRotation * .75;
     xSpeed = xSpeed * .75;
+    if (RobotContainer.helms.getRawButton(9) == true) {
+      xSpeed = xSpeed / 2;
+    }
+    if (RobotContainer.helms.getRawButton(10) == true) {
+      zRotation = zRotation / 2;
+    }
     if (Math.abs(xSpeed) < .1) {xSpeed = 0;}//deadzones
     if (Math.abs(zRotation) < .1) {zRotation = 0;}//deadzones
     if (zRotation == 0 )

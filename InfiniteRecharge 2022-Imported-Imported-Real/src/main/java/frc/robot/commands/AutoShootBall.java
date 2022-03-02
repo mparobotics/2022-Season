@@ -39,7 +39,7 @@ public class AutoShootBall extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.shooterSub.ShootBangBang();
+    RobotContainer.shooterSub.ShootBangBang(1);
     ElevatorSub.ElevateBall(ElevatorConstants.ELEVATOR_SPEED);
   }
 
