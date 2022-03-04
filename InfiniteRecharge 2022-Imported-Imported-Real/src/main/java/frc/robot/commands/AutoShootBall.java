@@ -42,7 +42,7 @@ public class AutoShootBall extends CommandBase {
 
 
 
-    FlyWheel_Velocity.my_Flywheel_Velocity(4500);
+    FlyWheel_Velocity.my_Flywheel_Velocity(9000);
   }
  
 
@@ -57,7 +57,7 @@ public class AutoShootBall extends CommandBase {
   @Override
   public boolean isFinished() {
   
-    if (Timer.getMatchTime() < 3.0){
+    if (Timer.getMatchTime() < 1.0){
     return true;}
     else {return false;}
   }

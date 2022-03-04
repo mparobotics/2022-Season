@@ -38,6 +38,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArcadeDriveClassic;
+import frc.robot.commands.BallShoot;
 import frc.robot.commands.Elevator;
 import frc.robot.commands.ElevatorNeutral;
 import frc.robot.commands.ElevatorReverse;
@@ -120,8 +121,8 @@ public class RobotContainer {
     //Main's Commands - Winch is right stick, 
     //new JoystickButton(xbox, Button.kBumperRight.value).whenHeld(new StartWinch(climberSub)); // Disabled - Climber Taken off
       //new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub, 2));
-      new JoystickButton(helms, Button.kB.value).whenHeld(new FlyWheelVelocityRun(new FlyWheel_Velocity()));
-      new JoystickButton(helms, Button.kY.value).whenHeld(new TurretAutoAlign(turretSubsystem));
+      new JoystickButton(helms, Button.kB.value).whenHeld(new BallShoot());
+      //new JoystickButton(helms, Button.kY.value).whenHeld(new TurretAutoAlign(turretSubsystem));
       //new JoystickButton(helms, Button.kY.value).whenHeld(new ShootBall(shooterSub, 2));
       //new JoystickButton(helms, Button.kRightStick.value).whenHeld(new ShootLow(shooterSub));
       //new JoystickButton(helms, Button.kLeftStick.value).whenHeld(new ShootReverse(shooterSub));

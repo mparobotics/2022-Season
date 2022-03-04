@@ -42,7 +42,7 @@ public class FlyWheel_Velocity extends SubsystemBase {
 
 		_talon.config_kF(0, 1023.0/20660.0, 30);
 		_talon.config_kP(0, .1, 30);
-		_talon.config_kI(0, 0.001 / 75, 30);
+		_talon.config_kI(0, 0.001 / 90, 30);
 		_talon.config_kD(0, 5, 30);
     //SmartDashboard.putNumber("distance sim", 3);
   }
