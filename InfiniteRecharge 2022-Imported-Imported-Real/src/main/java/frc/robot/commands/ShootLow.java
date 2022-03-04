@@ -40,8 +40,8 @@ public class ShootLow extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
     //m_shootSub.shootPIControl();
-    m_shootSub.ShootLow();
     //SmartDashboard.putNumber("Shooter Temp", m_shootSub.getMotorTemp());
   }
 

@@ -81,7 +81,7 @@ public class RobotContainer {
   public static TurretSubsystem turretSubsystem = new TurretSubsystem();
   public static AutoDriveSubsystem drive = new AutoDriveSubsystem();
   // declaring and intializing controller(s)
-  public XboxController xbox = new XboxController(OIConstants.XBOX_ID);
+  public static XboxController xbox = new XboxController(OIConstants.XBOX_ID);
   public static XboxController helms = new XboxController(OIConstants.HELMS_ID);
   public static Joystick shooterStick = new Joystick(2);
 
@@ -99,9 +99,9 @@ public class RobotContainer {
                               () -> xbox.getRightTriggerAxis(),
                               () -> xbox.getLeftX()));*/
   
-   driveSub.setDefaultCommand(new ArcadeDriveClassic(driveSub,
-                              () -> xbox.getLeftY(),
-                              () -> xbox.getRightX()*.75));
+  //  driveSub.setDefaultCommand(new ArcadeDriveClassic(driveSub,
+  //                             () -> xbox.getLeftY(),
+  //                             () -> xbox.getRightX()*.75));
                         
     // Configure the button bindings
     //shooterSub.setDefaultCommand(new ShootBall(shooterSub, shooterStick.getY()));
@@ -121,6 +121,7 @@ public class RobotContainer {
     //new JoystickButton(xbox, Button.kBumperRight.value).whenHeld(new StartWinch(climberSub)); // Disabled - Climber Taken off
       //new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub, 2));
       new JoystickButton(helms, Button.kB.value).whenHeld(new FlyWheelVelocityRun(new FlyWheel_Velocity()));
+      new JoystickButton(helms, Button.kY.value).whenHeld(new TurretAutoAlign(turretSubsystem));
       //new JoystickButton(helms, Button.kY.value).whenHeld(new ShootBall(shooterSub, 2));
       //new JoystickButton(helms, Button.kRightStick.value).whenHeld(new ShootLow(shooterSub));
       //new JoystickButton(helms, Button.kLeftStick.value).whenHeld(new ShootReverse(shooterSub));

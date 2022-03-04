@@ -14,14 +14,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArcadeDriveClassic;
 import frc.robot.commands.AutoCross;
 import frc.robot.commands.AutoIntakeDrop;
 import frc.robot.commands.AutoShootBall;
 import frc.robot.commands.ElevatorNeutral;
+import frc.robot.commands.FlyWheelVelocityRun;
+import frc.robot.commands.FlywheelNeutral;
 import frc.robot.commands.IntakeDrop;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
+import frc.robot.subsystems.FlyWheel_Velocity;
 import frc.robot.subsystems.IntakeSub;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -44,7 +48,7 @@ public class Robot extends TimedRobot {
   NetworkTable table;
   //private AutoIntakeDrop autoIntakeDrop;
   //private AutoCross autoCross;
-  //private AutoShootBall autoShoot;
+  private AutoShootBall autoShoot;
   private SequentialCommandGroup ShootAndCross;
   
   /**
@@ -56,13 +60,14 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     m_robotContainer = new RobotContainer();
     Limelight.setLedMode(LightMode.eOff);
-    //autoShoot = new AutoShootBall();
+    autoShoot = new AutoShootBall(RobotContainer.flyWheel_Velocity);
     //autoCross = new AutoCross(m_robotContainer.driveSub);
 
     //ShootAndCross = new SequentialCommandGroup(autoIntakeDrop, autoCross, autoShoot);
     ShootAndCross = new SequentialCommandGroup(new AutoIntakeDrop().withTimeout(1), 
                                               new AutoCross(m_robotContainer.driveSub).withTimeout(2), 
-                                             new AutoShootBall(RobotContainer.flyWheel_Velocity));
+                                              new WaitCommand(4),
+                                             new AutoShootBall(RobotContainer.flyWheel_Velocity).withTimeout(4));
 
     //table = NetworkTableInstance.getDefault().getTable("limelight"); //Gets Table instance
     //table.getEntry("ledMode").setNumber(1); //sets limelight LEDS to "off"
@@ -107,7 +112,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.driveSub.encoderReset();
     //RobotContainer.shooterSub.encoderReset();
     Limelight.setLedMode(LightMode.eOn); //TODO test
-    ShootAndCross.schedule();
+    //autoShoot.schedule();
   }
 
   /**
@@ -124,9 +129,10 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    autoShoot.cancel();
     IntakeSub.IntakeDropStop();
     ElevatorSub.ElevatorStop();
-    ShooterSubsystem.stopShooter();  
+    FlyWheel_Velocity.my_Flywheel_Velocity(0);
     DriveSubsystem.stopRobot();
     //RobotContainer.ShooterSub.encoderReset();
     //if (m_autonomousCommand != null) {

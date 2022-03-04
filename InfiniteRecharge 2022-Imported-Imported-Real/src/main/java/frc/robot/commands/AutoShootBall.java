@@ -40,13 +40,9 @@ public class AutoShootBall extends CommandBase {
     double speedToGet;
    // d = SmartDashboard.getNumber("distance sim", 3);
 
-    if (d < 7)
-    {
-      speedToGet = .0626 * d + .1154; 
-    }
-    else {speedToGet = .25;}
 
-    m_flywheelsub.my_Flywheel_Velocity(speedToGet);
+
+    FlyWheel_Velocity.my_Flywheel_Velocity(4500);
   }
  
 
@@ -60,9 +56,9 @@ public class AutoShootBall extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-   return false;
-/*    if (Timer.getMatchTime() < 3.0){
+  
+    if (Timer.getMatchTime() < 3.0){
     return true;}
-    else {return false;} */
+    else {return false;}
   }
 }

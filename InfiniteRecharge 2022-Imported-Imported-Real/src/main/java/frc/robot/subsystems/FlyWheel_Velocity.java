@@ -16,7 +16,7 @@ import frc.robot.commands.TurretAutoAlign;
 
 public class FlyWheel_Velocity extends SubsystemBase {
 
-  WPI_TalonFX _talon = new WPI_TalonFX(ShooterConstants.FALCON_shooter_ID, "rio");
+  static WPI_TalonFX _talon = new WPI_TalonFX(ShooterConstants.FALCON_shooter_ID, "rio");
 
 
 
@@ -44,7 +44,7 @@ public class FlyWheel_Velocity extends SubsystemBase {
 		_talon.config_kP(0, .1, 30);
 		_talon.config_kI(0, 0.001 / 75, 30);
 		_talon.config_kD(0, 5, 30);
-    SmartDashboard.putNumber("distance sim", 3);
+    //SmartDashboard.putNumber("distance sim", 3);
   }
 
   @Override
@@ -52,8 +52,8 @@ public class FlyWheel_Velocity extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void my_Flywheel_Velocity(double setpoint){
-    new TurretAutoAlign(new TurretSubsystem());
+  public static void my_Flywheel_Velocity(double setpoint){
+    //new TurretAutoAlign(new TurretSubsystem());
     /**
 			 * Convert 6200 RPM to units / 100ms.
 			 * 2048 Units/Rev * 2000 RPM / 600 100ms/min in either direction:

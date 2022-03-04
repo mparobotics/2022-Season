@@ -49,7 +49,7 @@ public class FlyWheelVelocityRun extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_flywWheel_Velocity.myFlyWheel_PercentOut(0);
-    Limelight.setLedMode(LightMode.eOn);
+    Limelight.setLedMode(LightMode.eOff);
   }
 
   // Returns true when the command should end.

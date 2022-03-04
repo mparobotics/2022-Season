@@ -4,41 +4,52 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
+import frc.robot.subsystems.FlyWheel_Velocity;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.utils.Limelight;
 import frc.robot.utils.Limelight.LightMode;
 
 
-public class TurretAutoAlign extends CommandBase {
-  /** Creates a new TurretAutoAlign. */
-  TurretSubsystem turretSubsystem;
-  public TurretAutoAlign(TurretSubsystem t) {
-    turretSubsystem = t;
-    addRequirements(turretSubsystem);
+public class FlyWheelVelocityRunLow extends CommandBase {
+  /** Creates a new FlyWheelVelocityRun. */
+  
+  private final FlyWheel_Velocity m_flyWheel_Velocity;
+  public FlyWheelVelocityRunLow(FlyWheel_Velocity f) {
+  
+     m_flyWheel_Velocity = f;
+
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Limelight.setLedMode(LightMode.eOn);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  Limelight.setLedMode(LightMode.eOn); 
-  RobotContainer.turretSubsystem.autoTurn(); //goes to autoTurn in turret subsystem
-  
-}
+    double d;
+    double speedToGet;
+    d = 10;
+
+    if (d < 7)
+    {
+      speedToGet = 1076 * d + 5970; 
+    }
+    else {speedToGet = 4500;}
+
+    m_flyWheel_Velocity.my_Flywheel_Velocity(speedToGet);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Limelight.setLedMode(LightMode.eOff);
-    RobotContainer.turretSubsystem.turnTurret(0);
+    m_flyWheel_Velocity.myFlyWheel_PercentOut(0);
+    Limelight.setLedMode(LightMode.eOn);
   }
 
   // Returns true when the command should end.

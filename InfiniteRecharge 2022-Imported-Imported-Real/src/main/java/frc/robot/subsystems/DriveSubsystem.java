@@ -101,6 +101,8 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  setDriveSpeed_Arcade(-RobotContainer.xbox.getLeftY(), RobotContainer.xbox.getRightX()*.75);
+
   }
 
   private static double driveTrainP() {
@@ -119,8 +121,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @param zRotation
    */
   public static void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
-    xSpeed = .75 * xSpeed;
-    zRotation = .75 * zRotation;
+    xSpeed = xSpeed * .75;
+    zRotation = zRotation * .75;
   /*  if (RobotContainer.helms.getRawButton(9) == true) {
       xSpeed = xSpeed / 2;
     }
