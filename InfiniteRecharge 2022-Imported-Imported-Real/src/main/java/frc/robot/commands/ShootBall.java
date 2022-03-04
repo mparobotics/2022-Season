@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.utils.Limelight;
+import frc.robot.utils.Limelight.LightMode;
 
 public class ShootBall extends CommandBase {
 
@@ -37,6 +39,7 @@ public class ShootBall extends CommandBase {
     //m_shootSub.setSetpoint(ShooterConstants.SHOOTER_SETPOINT);
     //m_shootSub.shootPIControl();
     RobotContainer.shooting = true;
+    Limelight.setLedMode(LightMode.eOn);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -55,6 +58,7 @@ public class ShootBall extends CommandBase {
     ShooterSubsystem.stopShooter();
     ShooterSubsystem.adjustHood(0);
     RobotContainer.shooting = false;
+    Limelight.setLedMode(LightMode.eOff);
 
   }
 

@@ -12,13 +12,20 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
+import frc.robot.subsystems.FlyWheel_Velocity;
 import frc.robot.subsystems.IntakeSub;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 
 
 public class AutoShootBall extends CommandBase {
+
+  private final FlyWheel_Velocity m_flywheelsub;
   /** Creates a new AutoShootBall. */
-  public AutoShootBall() {
+  public AutoShootBall(FlyWheel_Velocity fVelocity) {
+    m_flywheelsub = fVelocity;
+    addRequirements(m_flywheelsub);
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,26 +36,33 @@ public class AutoShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    if(Timer.getMatchTime() < 7.0) {
-    RobotContainer.shooterSub.shootBallAuto();
-  
+    double d = TurretSubsystem.getDistance();
+    double speedToGet;
+   // d = SmartDashboard.getNumber("distance sim", 3);
+
+    if (d < 7)
+    {
+      speedToGet = .0626 * d + .1154; 
+    }
+    else {speedToGet = .25;}
+
+    m_flywheelsub.my_Flywheel_Velocity(speedToGet);
   }
- }
+ 
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.shooterSub.ShootBangBang(1);
+  
     ElevatorSub.ElevateBall(ElevatorConstants.ELEVATOR_SPEED);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-   
-   if (Timer.getMatchTime() < 3.0){
+   return false;
+/*    if (Timer.getMatchTime() < 3.0){
     return true;}
-    else {return false;}
+    else {return false;} */
   }
 }

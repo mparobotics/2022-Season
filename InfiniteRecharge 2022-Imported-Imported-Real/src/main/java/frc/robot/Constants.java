@@ -67,7 +67,7 @@ public final class Constants {
         public static final double kS = 0.73835; // voltage needed to overcome the motor’s static friction
         public static final double kD = 0;
         public static final int hood_encoder_ratio = 0; //ratio of encoder count to degree angle of turret, placeholder
-        public static final int hood_motor_ID = 52; 
+        //public static final int hood_motor_ID = 52; 
         public static final double hood_min_command = 7;
         public static final double max_turret_rotation = 10000; //placeholder
         public static final double centering_speed = .3;
@@ -98,7 +98,7 @@ public final class Constants {
         public static final int INTAKE_ID = 15; 
         public static final double INTAKE_SPEED = 1; //placeholder
         public static final int INTAKE_DROPDOWN_ID = 31; 
-        public static final double DROPDOWN_SPEED = 0.5; //placeholder
+        public static final double DROPDOWN_SPEED = .3; //placeholder
     }
 
     public final class ElevatorConstants

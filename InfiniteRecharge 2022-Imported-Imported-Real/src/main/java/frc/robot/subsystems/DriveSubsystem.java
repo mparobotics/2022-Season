@@ -57,17 +57,17 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     setBrake();
     //setting ramp
-    falconFR.configOpenloopRamp(0.5); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconFR.configClosedloopRamp(0.5); // 0 disables ramping (during closed-loop control)
+    falconFR.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconFR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
-    falconFL.configOpenloopRamp(0.5); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconFL.configClosedloopRamp(0.5); // 0 disables ramping (during closed-loop control)
+    falconFL.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconFL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
-    falconBL.configOpenloopRamp(0.5); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconBL.configClosedloopRamp(0.5); // 0 disables ramping (during closed-loop control)
+    falconBL.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconBL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
-    falconBR.configOpenloopRamp(0.5); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconBR.configClosedloopRamp(0.5); // 0 disables ramping (during closed-loop control)
+    falconBR.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconBR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     //Drive Base Code
     falconBR.follow(falconFR); //talonBR follows TalonFR
@@ -119,14 +119,14 @@ public class DriveSubsystem extends SubsystemBase {
    * @param zRotation
    */
   public static void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
-    zRotation = zRotation * .75;
-    xSpeed = xSpeed * .75;
-    if (RobotContainer.helms.getRawButton(9) == true) {
+    xSpeed = .75 * xSpeed;
+    zRotation = .75 * zRotation;
+  /*  if (RobotContainer.helms.getRawButton(9) == true) {
       xSpeed = xSpeed / 2;
     }
     if (RobotContainer.helms.getRawButton(10) == true) {
       zRotation = zRotation / 2;
-    }
+    }*/
     if (Math.abs(xSpeed) < .1) {xSpeed = 0;}//deadzones
     if (Math.abs(zRotation) < .1) {zRotation = 0;}//deadzones
     if (zRotation == 0 )

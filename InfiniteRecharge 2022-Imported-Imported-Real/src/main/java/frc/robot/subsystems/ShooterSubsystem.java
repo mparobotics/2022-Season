@@ -31,6 +31,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.Elevator;
+import frc.robot.commands.TurretAutoAlign;
 /**
  * this subsystem sets up and directly manipulates the high goal shooter
  */
@@ -46,8 +47,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public Servo servo;
   private double integral, setpoint = 0;
   private double error;
-  static CANSparkMax hoodMotor = new CANSparkMax(ShooterConstants.hood_motor_ID, MotorType.kBrushless);
-  public static RelativeEncoder m_encoder = hoodMotor.getEncoder();
+  //static CANSparkMax hoodMotor = new CANSparkMax(ShooterConstants.hood_motor_ID, MotorType.kBrushless);
+  //public static RelativeEncoder m_encoder = hoodMotor.getEncoder();
 
 
   /**
@@ -57,18 +58,18 @@ public class ShooterSubsystem extends SubsystemBase {
     servo = new Servo(ShooterConstants.LIMELIGHT_SERVO_ID);
     setServo(ShooterConstants.LIMELIGHT_ANGLE_SETPOINT);
     falconShooter.setNeutralMode(NeutralMode.Coast);
-    hoodMotor.setIdleMode(IdleMode.kBrake);
+    //hoodMotor.setIdleMode(IdleMode.kBrake);
     falconShooter.setInverted(false); //invert motor
-    falconShooter.configOpenloopRamp(1); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconShooter.configClosedloopRamp(1); // 0 disables ramping (during closed-loop control)
+    falconShooter.configOpenloopRamp(2); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconShooter.configClosedloopRamp(2); // 0 disables ramping (during closed-loop control)
     
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("ShooterSpeed", falconShooter.getSelectedSensorVelocity() / 2);
-    SmartDashboard.putNumber("Hood Angle", m_encoder.getPosition());
+    SmartDashboard.putNumber("ShooterSpeed", falconShooter.getSelectedSensorVelocity());
+    //SmartDashboard.putNumber("Hood Angle", m_encoder.getPosition());
     RobotContainer.helms.setRumble(RumbleType.kLeftRumble, Math.log10((falconShooter.getSelectedSensorVelocity() ) / 100) );
     RobotContainer.helms.setRumble(RumbleType.kRightRumble, Math.log10((falconShooter.getSelectedSensorVelocity() ) / 100));
   }
@@ -92,19 +93,30 @@ public class ShooterSubsystem extends SubsystemBase {
 
    public void ShootBangBang(double yspeed) {
     //setpoint = getSetpoint();
+
     double m_setpoint;
     if (yspeed == 2) {
+      new TurretAutoAlign(new TurretSubsystem());
        m_setpoint = getV() * 12;
     }
    
 
-    else {m_setpoint = (((yspeed / .00009) * 2) + 400);}
+    else {m_setpoint = (((yspeed / .00009) + 400));
+      if (m_setpoint == 400){
+        falconShooter.set(.05);
+
+      }
+     }
     boolean canIShoot;
     //alignHood();
     
     
-    falconShooter.setVoltage(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (m_setpoint)) * 12 + .0005 * feedforward.calculate(m_setpoint));
-    //.000148
+    if (m_setpoint != 400){
+      
+    falconShooter.setVoltage(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), 
+                                                (m_setpoint)) * 12 + .000148 * feedforward.calculate(m_setpoint)
+                            );
+    //.000148, .0005
     if (Math.abs(falconShooter.getSelectedSensorVelocity() - m_setpoint) < 2000){
       
       canIShoot = true;
@@ -113,7 +125,8 @@ public class ShooterSubsystem extends SubsystemBase {
     else{canIShoot = false;
     
     }
-    SmartDashboard.putBoolean("Shooter Reved Up", canIShoot);
+  
+    SmartDashboard.putBoolean("Shooter Reved Up", canIShoot);}
     //falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (setpoint)));
    //bang bang based on size of d from the hub
 
@@ -125,7 +138,7 @@ public class ShooterSubsystem extends SubsystemBase {
     
     boolean canIShoot;
     //alignHood();
-    double m_setpoint = 4500 * 12;
+    double m_setpoint = 4500;
     falconShooter.setVoltage(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (m_setpoint)) * 12 + .0005 * feedforward.calculate(m_setpoint));
     //.000148
     if (Math.abs(falconShooter.getSelectedSensorVelocity() - m_setpoint) < 900){
@@ -208,10 +221,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void alignHood() {
     double angle = 0;
-    double currentEncoder = m_encoder.getPosition();
+    //double currentEncoder = m_encoder.getPosition();
     double encoderCountRequired = angle * ShooterConstants.hood_encoder_ratio;
     SmartDashboard.putNumber("Hood Encoder Needed", encoderCountRequired);
-    if (currentEncoder < (encoderCountRequired - ShooterConstants.hood_min_command)) {
+    /*if (currentEncoder < (encoderCountRequired - ShooterConstants.hood_min_command)) {
       adjustHood(-.25); //to test speed and inversion
     }
 
@@ -221,17 +234,17 @@ public class ShooterSubsystem extends SubsystemBase {
 
     else {
       adjustHood(0);
-    }
+    }*/
 
   }
 
   public static void adjustHood(double speed) {
-    hoodMotor.set(speed);
+    //hoodMotor.set(speed);
   }
 
   public double getAngle(){
     double d = TurretSubsystem.getDistance();
-    double v = getV(); //m/s
+    double v = getV(); 
     double beta = Math.atan(Math.abs((ShooterConstants.hub_height-ShooterConstants.limelight_height)/(d)));
     double dist = Math.sqrt(Math.pow(ShooterConstants.hub_height-ShooterConstants.limelight_height, 2) + Math.pow(d, 2));
     double angleTopPart = dist * 9.81 * Math.pow(Math.cos(beta), 2);
@@ -266,7 +279,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
    public void encoderReset() {
     falconShooter.setSelectedSensorPosition(0);
-    m_encoder.setPosition(0);
+    //m_encoder.setPosition(0);
   }
 
 

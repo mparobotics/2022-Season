@@ -6,7 +6,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -21,6 +23,8 @@ public class IntakeSub extends SubsystemBase {
   public IntakeSub() {
     intake = new WPI_TalonSRX(IntakeConstants.INTAKE_ID);
     dropdown = new WPI_TalonSRX(IntakeConstants.INTAKE_DROPDOWN_ID);
+    intake.configOpenloopRamp(2); // 0.5 seconds from neutral to full output (during open-loop control)
+    intake.configClosedloopRamp(2);
   }
 
   @Override
@@ -31,9 +35,10 @@ public class IntakeSub extends SubsystemBase {
   public static void intakeBall(double speed)
   {
     intake.set(speed);
-    RobotContainer.helms.setRumble(RumbleType.kLeftRumble, .3 );
-    RobotContainer.helms.setRumble(RumbleType.kRightRumble, .3);
+
   }
+
+
 
   public static void IntakeStop()
   {
@@ -42,11 +47,13 @@ public class IntakeSub extends SubsystemBase {
 
   public static void IntakeDrop()
   {
+    DriverStation.reportError("Intake Drop", false);
     dropdown.set(IntakeConstants.DROPDOWN_SPEED);
   }
 
   public static void IntakeUp()
   {
+    DriverStation.reportError("Intake Drop", false);
     dropdown.set(-IntakeConstants.DROPDOWN_SPEED);
   }
 

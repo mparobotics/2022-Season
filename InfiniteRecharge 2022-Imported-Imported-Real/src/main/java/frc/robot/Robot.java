@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ArcadeDriveClassic;
 import frc.robot.commands.AutoCross;
+import frc.robot.commands.AutoIntakeDrop;
 import frc.robot.commands.AutoShootBall;
 import frc.robot.commands.ElevatorNeutral;
+import frc.robot.commands.IntakeDrop;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.IntakeSub;
@@ -40,9 +42,9 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   
   NetworkTable table;
-
-  private AutoCross autoCross;
-  private AutoShootBall autoShoot;
+  //private AutoIntakeDrop autoIntakeDrop;
+  //private AutoCross autoCross;
+  //private AutoShootBall autoShoot;
   private SequentialCommandGroup ShootAndCross;
   
   /**
@@ -54,10 +56,13 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     m_robotContainer = new RobotContainer();
     Limelight.setLedMode(LightMode.eOff);
-    autoShoot = new AutoShootBall();
-    autoCross = new AutoCross(m_robotContainer.driveSub);
+    //autoShoot = new AutoShootBall();
+    //autoCross = new AutoCross(m_robotContainer.driveSub);
 
-    ShootAndCross = new SequentialCommandGroup(autoCross, autoShoot);
+    //ShootAndCross = new SequentialCommandGroup(autoIntakeDrop, autoCross, autoShoot);
+    ShootAndCross = new SequentialCommandGroup(new AutoIntakeDrop().withTimeout(1), 
+                                              new AutoCross(m_robotContainer.driveSub).withTimeout(2), 
+                                             new AutoShootBall(RobotContainer.flyWheel_Velocity));
 
     //table = NetworkTableInstance.getDefault().getTable("limelight"); //Gets Table instance
     //table.getEntry("ledMode").setNumber(1); //sets limelight LEDS to "off"
@@ -83,7 +88,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
 
     //set limelight off when robot is disabled
-    Limelight.setLedMode(LightMode.eOff); //TODO test
+    Limelight.setLedMode(LightMode.eOn); //TODO test
     //table.getEntry("ledMode").setNumber(1);
   }
 
@@ -100,7 +105,7 @@ public class Robot extends TimedRobot {
   
     //set Limelight at auto start
     m_robotContainer.driveSub.encoderReset();
-    RobotContainer.shooterSub.encoderReset();
+    //RobotContainer.shooterSub.encoderReset();
     Limelight.setLedMode(LightMode.eOn); //TODO test
     ShootAndCross.schedule();
   }
@@ -123,14 +128,14 @@ public class Robot extends TimedRobot {
     ElevatorSub.ElevatorStop();
     ShooterSubsystem.stopShooter();  
     DriveSubsystem.stopRobot();
-    RobotContainer.shooterSub.encoderReset();
+    //RobotContainer.ShooterSub.encoderReset();
     //if (m_autonomousCommand != null) {
       //m_autonomousCommand.cancel();
     //}
     
 
     //set Limelight leds off at start of teleop
-    Limelight.setLedMode(LightMode.eOn); //TODO test
+    Limelight.setLedMode(LightMode.eOff); //TODO test
   }
 
   /**

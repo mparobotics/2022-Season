@@ -41,9 +41,10 @@ import frc.robot.commands.ArcadeDriveClassic;
 import frc.robot.commands.Elevator;
 import frc.robot.commands.ElevatorNeutral;
 import frc.robot.commands.ElevatorReverse;
-import frc.robot.commands.HoodDown;
-import frc.robot.commands.HoodUp;
+import frc.robot.commands.FlyWheelVelocityRun;
 import frc.robot.commands.Intake;
+import frc.robot.commands.IntakeDrop;
+import frc.robot.commands.IntakeIdle;
 import frc.robot.commands.IntakeReverse;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.ShootBall;
@@ -57,6 +58,7 @@ import frc.robot.commands.TurretTurnRight;
 import frc.robot.subsystems.AutoDriveSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
+import frc.robot.subsystems.FlyWheel_Velocity;
 import frc.robot.subsystems.IntakeSub;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
@@ -74,7 +76,8 @@ public class RobotContainer {
   public DriveSubsystem driveSub      = new DriveSubsystem();
   public IntakeSub intakeSub = new IntakeSub(); 
   public ElevatorSub elevatorsub = new ElevatorSub();
-  public static ShooterSubsystem shooterSub = new ShooterSubsystem();
+  //public static ShooterSubsystem shooterSub = new ShooterSubsystem();
+  public static FlyWheel_Velocity flyWheel_Velocity = new FlyWheel_Velocity();
   public static TurretSubsystem turretSubsystem = new TurretSubsystem();
   public static AutoDriveSubsystem drive = new AutoDriveSubsystem();
   // declaring and intializing controller(s)
@@ -101,7 +104,8 @@ public class RobotContainer {
                               () -> xbox.getRightX()*.75));
                         
     // Configure the button bindings
-    shooterSub.setDefaultCommand(new ShootBall(shooterSub, shooterStick.getY()));
+    //shooterSub.setDefaultCommand(new ShootBall(shooterSub, shooterStick.getY()));
+    intakeSub.setDefaultCommand(new IntakeIdle(intakeSub));
     configureButtonBindings();
   }
 
@@ -115,10 +119,11 @@ public class RobotContainer {
 
     //Main's Commands - Winch is right stick, 
     //new JoystickButton(xbox, Button.kBumperRight.value).whenHeld(new StartWinch(climberSub)); // Disabled - Climber Taken off
-      new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub, 2));
-      new JoystickButton(helms, Button.kY.value).whenHeld(new ShootBall(shooterSub, 2));
-      new JoystickButton(helms, Button.kRightStick.value).whenHeld(new ShootLow(shooterSub));
-      new JoystickButton(helms, Button.kLeftStick.value).whenHeld(new ShootReverse(shooterSub));
+      //new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub, 2));
+      new JoystickButton(helms, Button.kB.value).whenHeld(new FlyWheelVelocityRun(new FlyWheel_Velocity()));
+      //new JoystickButton(helms, Button.kY.value).whenHeld(new ShootBall(shooterSub, 2));
+      //new JoystickButton(helms, Button.kRightStick.value).whenHeld(new ShootLow(shooterSub));
+      //new JoystickButton(helms, Button.kLeftStick.value).whenHeld(new ShootReverse(shooterSub));
  
       
     //intake settings
@@ -130,7 +135,7 @@ public class RobotContainer {
        
 
     //turret stuff
-        new JoystickButton(helms, Button.kB.value).whenHeld(new TurretAutoAlign(turretSubsystem));
+        //new JoystickButton(helms, Button.kB.value).whenHeld(new TurretAutoAlign(turretSubsystem));
         new JoystickButton(helms, Button.kLeftBumper.value).whenHeld(new TurretTurnLeft(turretSubsystem));
         new JoystickButton(helms, Button.kRightBumper.value).whenHeld(new TurretTurnRight(turretSubsystem));
         //new JoystickButton(helms, Button.kA.value).whenHeld(new TurretCenter());
@@ -140,8 +145,8 @@ public class RobotContainer {
         new JoystickButton(helms, Button.kRightBumper.value).whenReleased(new TurretNeutral(turretSubsystem));
 
     //hood adjustment
-        new JoystickButton(helms, Button.kRightStick.value).whenHeld(new HoodDown());
-        new JoystickButton(helms, Button.kLeftStick.value).whenHeld(new HoodUp());
+        new JoystickButton(helms, Button.kRightStick.value).whenHeld(new IntakeDrop());
+       
     //intake dropdown
         //new JoystickButton(helms, Button.kX.value).whenHeld(new IntakeDrop());
        
