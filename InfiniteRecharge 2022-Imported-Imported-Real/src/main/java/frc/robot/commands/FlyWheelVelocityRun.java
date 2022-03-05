@@ -48,7 +48,7 @@ public class FlyWheelVelocityRun extends CommandBase {
     else if (d < 5.5) {speedToGet = 13000;}
     else if (d < 6) {speedToGet = 12500;}
     else if (d < 6.5) {speedToGet = 14500;}
-    else {speedToGet = 4500;}
+    else {speedToGet = 4000;}
 
     FlyWheel_Velocity.my_Flywheel_Velocity(speedToGet);
   }

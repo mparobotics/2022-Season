@@ -40,6 +40,7 @@ public class AutoCross extends CommandBase {
 
     IntakeSub.intakeBall(IntakeConstants.INTAKE_SPEED);
     DriveSubsystem.setDriveSpeed_Tank(-.5, -.5); //JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
+
   }
 
   // Called once the command ends or is interrupted.
@@ -54,9 +55,9 @@ public class AutoCross extends CommandBase {
   @Override
   public boolean isFinished() {
     //return DriveSubsystem.getAvgPosition() <= (-4 / DriveConstants.TIC_FT); //JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
-    return false;
-    /* if (Timer.getMatchTime() < 13.0){
+    
+    if (Timer.getMatchTime() < 10.0){
       return true;}
-      else {return false;} */
+      else {return false;}
   }
 }

@@ -41,9 +41,9 @@ public class FlyWheel_Velocity extends SubsystemBase {
 		/* Config the Velocity closed loop gains in slot0 */
 
 		_talon.config_kF(0, 1023.0/20660.0, 30);
-		_talon.config_kP(0, .1, 30);
-		_talon.config_kI(0, 0.001 / 90, 30);
-		_talon.config_kD(0, 5, 30);
+		_talon.config_kP(0, .2, 30); //0, .1, 30
+		_talon.config_kI(0, 0.001 / 100, 30);
+		_talon.config_kD(0, 6, 30); //0, 5, 30
     //SmartDashboard.putNumber("distance sim", 3);
   }
 

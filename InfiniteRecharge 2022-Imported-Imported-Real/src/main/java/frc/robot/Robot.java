@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
   
   NetworkTable table;
   //private AutoIntakeDrop autoIntakeDrop;
-  //private AutoCross autoCross;
+  private AutoCross autoCross;
   private AutoShootBall autoShoot;
   private SequentialCommandGroup ShootAndCross;
   
@@ -61,13 +61,13 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     Limelight.setLedMode(LightMode.eOff);
     autoShoot = new AutoShootBall(RobotContainer.flyWheel_Velocity);
-    //autoCross = new AutoCross(m_robotContainer.driveSub);
+    autoCross = new AutoCross(m_robotContainer.driveSub);
 
     //ShootAndCross = new SequentialCommandGroup(autoIntakeDrop, autoCross, autoShoot);
-    ShootAndCross = new SequentialCommandGroup(new AutoIntakeDrop().withTimeout(1), 
-                                              new AutoCross(m_robotContainer.driveSub).withTimeout(2), 
-                                              new WaitCommand(4),
-                                             new AutoShootBall(RobotContainer.flyWheel_Velocity).withTimeout(4));
+    ShootAndCross = new SequentialCommandGroup(new AutoIntakeDrop().withTimeout(2), 
+                                              new AutoCross(m_robotContainer.driveSub).withTimeout(3), 
+                                              new WaitCommand(1),
+                                             new AutoShootBall(RobotContainer.flyWheel_Velocity).withTimeout(6));
 
     //table = NetworkTableInstance.getDefault().getTable("limelight"); //Gets Table instance
     //table.getEntry("ledMode").setNumber(1); //sets limelight LEDS to "off"
@@ -112,7 +112,8 @@ public class Robot extends TimedRobot {
     m_robotContainer.driveSub.encoderReset();
     //RobotContainer.shooterSub.encoderReset();
     Limelight.setLedMode(LightMode.eOn); //TODO test
-    ShootAndCross.schedule();
+    //ShootAndCross.schedule();
+    autoCross.schedule();
   }
 
   /**

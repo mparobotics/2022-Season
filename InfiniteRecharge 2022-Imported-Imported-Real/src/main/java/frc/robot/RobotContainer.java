@@ -43,6 +43,7 @@ import frc.robot.commands.Elevator;
 import frc.robot.commands.ElevatorNeutral;
 import frc.robot.commands.ElevatorReverse;
 import frc.robot.commands.FlyWheelVelocityRun;
+import frc.robot.commands.FlyWheelVelocityRunLow;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeDrop;
 import frc.robot.commands.IntakeIdle;
@@ -122,6 +123,7 @@ public class RobotContainer {
     //new JoystickButton(xbox, Button.kBumperRight.value).whenHeld(new StartWinch(climberSub)); // Disabled - Climber Taken off
       //new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub, 2));
       new JoystickButton(helms, Button.kB.value).whenHeld(new BallShoot());
+      new JoystickButton(helms, Button.kY.value).whenHeld(new FlyWheelVelocityRunLow(flyWheel_Velocity));
       //new JoystickButton(helms, Button.kY.value).whenHeld(new TurretAutoAlign(turretSubsystem));
       //new JoystickButton(helms, Button.kY.value).whenHeld(new ShootBall(shooterSub, 2));
       //new JoystickButton(helms, Button.kRightStick.value).whenHeld(new ShootLow(shooterSub));
@@ -134,6 +136,7 @@ public class RobotContainer {
     //intake stop
         new JoystickButton(helms, Button.kX.value).whenReleased(new IntakeStop());
         new JoystickButton(xbox, Button.kY.value).whenReleased(new IntakeStop());
+        
        
 
     //turret stuff
@@ -148,6 +151,7 @@ public class RobotContainer {
 
     //hood adjustment
         new JoystickButton(helms, Button.kRightStick.value).whenHeld(new IntakeDrop());
+        new JoystickButton(helms, Button.kLeftStick.value).whenHeld(new IntakeReverse(intakeSub));
        
     //intake dropdown
         //new JoystickButton(helms, Button.kX.value).whenHeld(new IntakeDrop());
