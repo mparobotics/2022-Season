@@ -4,8 +4,10 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.FlyWheel_Velocity;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.utils.Limelight;
@@ -34,12 +36,16 @@ public class FlyWheelVelocityRun extends CommandBase {
   public void execute() {
     double d = TurretSubsystem.getDistance();
     double speedToGet;
+
     //d = SmartDashboard.getNumber("distance sim", 3);
-    if (d < .5) {speedToGet = 4500;}
-    else if (d < 1) {speedToGet = 4500;}
-    else if (d < 1.5) {speedToGet = 4500;}
+    SmartDashboard.putBoolean("Lined Up To Shoot", false);
+    if (d < .5) {speedToGet = 4000;}
+    else if (d < 1) {speedToGet = 4000;}
+    else if (d < 1.5) {speedToGet = 4000;}
     else if (d < 2) {speedToGet = 7650;}
-    else if (d < 2.5) {speedToGet = 8000;}
+    else if (d < 2.35) {speedToGet = 7800; SmartDashboard.putBoolean("Lined Up To Shoot", false);} //to test on practice field
+    else if (d < 2.5) {speedToGet = 8000; SmartDashboard.putBoolean("Lined Up To Shoot", true);}
+    else if (d < 2.75) {speedToGet = 8250; SmartDashboard.putBoolean("Lined Up To Shoot", false);} //to test on practice field
     else if (d < 3) {speedToGet = 8500;}
     else if (d < 3.5) {speedToGet = 9200;}
     else if (d < 4) {speedToGet = 9700;}

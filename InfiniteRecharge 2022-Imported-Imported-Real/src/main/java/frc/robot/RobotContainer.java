@@ -49,6 +49,7 @@ import frc.robot.commands.IntakeDrop;
 import frc.robot.commands.IntakeIdle;
 import frc.robot.commands.IntakeReverse;
 import frc.robot.commands.IntakeStop;
+import frc.robot.commands.IntakeUp;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.ShootLow;
 import frc.robot.commands.ShootReverse;
@@ -149,9 +150,9 @@ public class RobotContainer {
         new JoystickButton(helms, Button.kLeftBumper.value).whenReleased(new TurretNeutral(turretSubsystem));
         new JoystickButton(helms, Button.kRightBumper.value).whenReleased(new TurretNeutral(turretSubsystem));
 
-    //hood adjustment
+ 
         new JoystickButton(helms, Button.kRightStick.value).whenHeld(new IntakeDrop());
-        new JoystickButton(helms, Button.kLeftStick.value).whenHeld(new IntakeReverse(intakeSub));
+        new JoystickButton(helms, Button.kLeftStick.value).whenHeld(new IntakeUp());
        
     //intake dropdown
         //new JoystickButton(helms, Button.kX.value).whenHeld(new IntakeDrop());

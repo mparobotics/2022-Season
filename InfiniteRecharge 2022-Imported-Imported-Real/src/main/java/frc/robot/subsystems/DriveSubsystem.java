@@ -121,7 +121,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param zRotation
    */
   public static void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
-    xSpeed = xSpeed * .85;
+    xSpeed = xSpeed * .95;
     zRotation = zRotation * .85;
   /*  if (RobotContainer.helms.getRawButton(9) == true) {
       xSpeed = xSpeed / 2;

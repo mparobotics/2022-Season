@@ -97,8 +97,8 @@ public final class Constants {
     {
         public static final int INTAKE_ID = 15; 
         public static final double INTAKE_SPEED = 1; //placeholder
-        public static final int INTAKE_DROPDOWN_ID = 31; 
-        public static final double DROPDOWN_SPEED = .3; //placeholder
+        public static final int INTAKE_DROPDOWN_ID = 52; 
+        public static final double DROPDOWN_SPEED = -.3; //placeholder
     }
 
     public final class ElevatorConstants

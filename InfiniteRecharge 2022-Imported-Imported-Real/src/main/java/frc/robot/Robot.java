@@ -65,9 +65,8 @@ public class Robot extends TimedRobot {
 
     //ShootAndCross = new SequentialCommandGroup(autoIntakeDrop, autoCross, autoShoot);
     ShootAndCross = new SequentialCommandGroup(new AutoIntakeDrop().withTimeout(2), 
-                                              new AutoCross(m_robotContainer.driveSub).withTimeout(3), 
-                                              new WaitCommand(1),
-                                             new AutoShootBall(RobotContainer.flyWheel_Velocity).withTimeout(6));
+                      new AutoShootBall(RobotContainer.flyWheel_Velocity).withTimeout(6),
+                        new AutoCross(m_robotContainer.driveSub).withTimeout(3) );
 
     //table = NetworkTableInstance.getDefault().getTable("limelight"); //Gets Table instance
     //table.getEntry("ledMode").setNumber(1); //sets limelight LEDS to "off"
@@ -112,8 +111,8 @@ public class Robot extends TimedRobot {
     m_robotContainer.driveSub.encoderReset();
     //RobotContainer.shooterSub.encoderReset();
     Limelight.setLedMode(LightMode.eOn); //TODO test
-    //ShootAndCross.schedule();
-    autoCross.schedule();
+    ShootAndCross.schedule();
+    //autoCross.schedule();
   }
 
   /**
