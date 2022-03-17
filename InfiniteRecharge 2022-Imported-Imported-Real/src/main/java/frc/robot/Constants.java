@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -28,10 +29,10 @@ public final class Constants {
         public static final int FALCON_FL_ID = 48;
         public static final int FALCON_BR_ID = 46;
         public static final int FALCON_BL_ID = 49;
-        public static final double Drive_Ks = .74743;
-        public static final double Drive_Kv = 12.061;
-        public static final double Drive_Ka = .038561;
-        public static final double Drive_Kp = 1.331;
+        public static final double Drive_Ks = .60713;
+        public static final double Drive_Kv = .18424;
+        public static final double Drive_Ka = .036145;
+        public static final double Drive_Kp = 1.4948;
         public static final double Drive_Kd = 0.0;
         
 
@@ -48,6 +49,16 @@ public final class Constants {
         public static final double kMaxAccelerationMetersPerSecondSquared = 1;
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;
+
+        public static final double GearRatio = 10.91;
+        public static final int EncoderTPR = 2048;
+        public static final double WheelDiameterMeters = Units.inchesToMeters(6.0);
+        public static final double EncoderDistancePerPulse =
+            // Uses the integrated Falcon 500 Encoders
+            (WheelDiameterMeters * Math.PI)/ GearRatio / (double) EncoderTPR;
+        public static final double WheelCircumferenceMeters = WheelDiameterMeters*Math.PI;
+        public static final double Conversion = WheelCircumferenceMeters/(GearRatio*EncoderTPR);
+        
 
 
     }

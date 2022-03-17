@@ -13,10 +13,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import edu.wpi.first.wpilibj.SerialPort;
 
 public class AutoDriveSubsystem extends SubsystemBase {
   /** Creates a new AutoDriveSubsystem. */
@@ -32,10 +35,12 @@ public class AutoDriveSubsystem extends SubsystemBase {
 
   private final static DifferentialDrive drive = new DifferentialDrive(SCG_L, SCG_R);
 
+  
+
   static final byte navx_rate = 127;
   AHRS navx = new AHRS(SPI.Port.kMXP, navx_rate);
 
-  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(DriveConstants.kTrackwidthMeters);
+  //DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(DriveConstants.kTrackwidthMeters);
 
   
   DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(getHeading());
@@ -43,21 +48,33 @@ public class AutoDriveSubsystem extends SubsystemBase {
   
 
 
-  public AutoDriveSubsystem() {}
+  public AutoDriveSubsystem() {
+
+  }
 
   @Override
   public void periodic() {
      // Update the odometry in the periodic block
-     //m_odometry.update(
-      //navx.getRotation2d(), falconFL.getSelectedSensorPosition(), falconFR.getSelectedSensorPosition());
-  }
+     m_odometry.update(
+      navx.getRotation2d(), falconFL.getSelectedSensorPosition() / 10.91 * 2 * Math.PI * Units.inchesToMeters(3.0) / 60,
+      falconFR.getSelectedSensorPosition() / 10.91 * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
+      
+      SmartDashboard.putNumber("angle", navx.getAngle());
+      SmartDashboard.putNumber("rate", navx.getRate());
+      SmartDashboard.putString("heading", getHeading().toString());
+      SmartDashboard.putNumber("Left Encoder", falconFL.getSelectedSensorPosition());
+      SmartDashboard.putNumber("Right Encoder", falconFR.getSelectedSensorPosition());
+
+
+ 
+    }
 
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(falconFL.getSelectedSensorPosition(), falconFR.getSelectedSensorPosition());
+    return new DifferentialDriveWheelSpeeds(falconFL.getSelectedSensorPosition() * DriveConstants.Conversion, falconFR.getSelectedSensorPosition() * DriveConstants.Conversion);
   }
 
   public void resetOdometry(Pose2d pose) {

@@ -223,7 +223,7 @@ public class RobotContainer {
     Trajectory trajectory = new Trajectory();
 
     //String myPathName = "";
-    String trajectoryfile = "pathplanner/Testing.path";
+    String trajectoryfile = "paths/Testing.wpilib.json";
 
     //myPathName = "Unamed";
 

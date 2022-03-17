@@ -77,6 +77,10 @@ public class DriveSubsystem extends SubsystemBase {
     falconBR.setInverted(true); //matches whatever falconFR is
     //falconFL.setInverted(true); //set to invert falconFL.. CW/CCW.. Green = foward (motor led)
     falconBL.setInverted(InvertType.FollowMaster); //matches whatever falcon FL is
+
+
+
+    
     //Encoder Code Start
     fxConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor; //Selecting Feedback Sensor
    
@@ -168,7 +172,7 @@ public class DriveSubsystem extends SubsystemBase {
     return (falconFR.getSelectedSensorPosition() + falconBR.getSelectedSensorPosition()) / 2;
   }
 
-  public void encoderReset() {
+  public static void encoderReset() {
     falconFR.setSelectedSensorPosition(0);
     falconFL.setSelectedSensorPosition(0);
     falconBR.setSelectedSensorPosition(0);

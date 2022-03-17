@@ -23,6 +23,7 @@ import frc.robot.commands.ElevatorNeutral;
 import frc.robot.commands.FlyWheelVelocityRun;
 import frc.robot.commands.FlywheelNeutral;
 import frc.robot.commands.IntakeDrop;
+import frc.robot.subsystems.AutoDriveSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.FlyWheel_Velocity;
@@ -44,7 +45,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  
+  private AutoDriveSubsystem m_AutoDriveSubsystem;
   NetworkTable table;
   //private AutoIntakeDrop autoIntakeDrop;
   private AutoCross autoCross;
@@ -59,6 +60,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     m_robotContainer = new RobotContainer();
+    m_AutoDriveSubsystem = new AutoDriveSubsystem();
     Limelight.setLedMode(LightMode.eOff);
     autoShoot = new AutoShootBall(RobotContainer.flyWheel_Velocity);
     autoCross = new AutoCross(m_robotContainer.driveSub);
@@ -113,6 +115,7 @@ public class Robot extends TimedRobot {
     Limelight.setLedMode(LightMode.eOn); //TODO test
     //ShootAndCross.schedule();
     //autoCross.schedule();
+    m_AutoDriveSubsystem.zeroHeading();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -141,6 +144,7 @@ public class Robot extends TimedRobot {
     ElevatorSub.ElevatorStop();
     FlyWheel_Velocity.my_Flywheel_Velocity(0);
     DriveSubsystem.stopRobot();
+    DriveSubsystem.encoderReset();
     //RobotContainer.ShooterSub.encoderReset();
     //if (m_autonomousCommand != null) {
       //m_autonomousCommand.cancel();
