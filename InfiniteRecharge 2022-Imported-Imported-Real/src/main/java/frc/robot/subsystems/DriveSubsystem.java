@@ -77,8 +77,11 @@ public class DriveSubsystem extends SubsystemBase {
     falconBR.setInverted(true); //matches whatever falconFR is
     //falconFL.setInverted(true); //set to invert falconFL.. CW/CCW.. Green = foward (motor led)
     falconBL.setInverted(InvertType.FollowMaster); //matches whatever falcon FL is
-
-
+    
+    falconBL.setSensorPhase(false);
+    falconBR.setSensorPhase(false);
+    falconFL.setSensorPhase(false);
+    falconFR.setSensorPhase(false);
 
     
     //Encoder Code Start

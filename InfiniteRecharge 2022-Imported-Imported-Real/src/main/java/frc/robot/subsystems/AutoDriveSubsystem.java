@@ -50,6 +50,11 @@ public class AutoDriveSubsystem extends SubsystemBase {
 
   public AutoDriveSubsystem() {
 
+    falconBL.setSensorPhase(false);
+    falconBR.setSensorPhase(false);
+    falconFL.setSensorPhase(false);
+    falconFR.setSensorPhase(false);
+
   }
 
   @Override
