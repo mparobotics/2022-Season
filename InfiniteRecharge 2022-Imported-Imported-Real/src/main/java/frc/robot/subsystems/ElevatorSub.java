@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 //import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -17,13 +19,15 @@ public class ElevatorSub extends SubsystemBase {
   /** Creates a new Intake. */
   static WPI_TalonSRX frontElev;
   static WPI_TalonSRX backElev;
+  static CANSparkMax topElev;
   MotorControllerGroup elevatorMotors;
 
   public ElevatorSub() {
     frontElev = new WPI_TalonSRX(ElevatorConstants.FRONT_ELEVATOR_ID);
     frontElev.setInverted(false);
     backElev = new WPI_TalonSRX(ElevatorConstants.BACK_ELEVATOR_ID);
-    backElev.setInverted(true);
+    backElev.setInverted(false);
+    topElev = new CANSparkMax(ElevatorConstants.TOP_ELEVATOR_ID, MotorType.kBrushless);
 
     //elevatorMotors = new MotorControllerGroup(frontElev, backElev);
   }
@@ -37,11 +41,13 @@ public class ElevatorSub extends SubsystemBase {
   {
     frontElev.set(speed);
     backElev.set(speed);
+    topElev.set(speed);
   }
 
   public static void ElevatorStop()
   {
     frontElev.set(0);
     backElev.set(0);
+    topElev.set(0);
   }
 }

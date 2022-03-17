@@ -58,7 +58,7 @@ public final class Constants {
         public static final float Turret_Kp = -0.005f; //speed modifier of le turret
         public static final float min_command = 0.00001f; //deadzone of le turret
         public static final double hub_height = 2.74 ; //meters 
-        public static final double limelight_height = 1.1176; //metres
+        public static final double limelight_height = 1.21; //metres
         public static final double limelight_angle = 21; //degrees
         public static final int FALCON_shooter_ID = 45; 
         public static final double kP = .019117; //proportional feedback constant 12.087
@@ -105,7 +105,9 @@ public final class Constants {
     {
         public static final int FRONT_ELEVATOR_ID = 32;
         public static final int BACK_ELEVATOR_ID = 26; 
-        public static final double ELEVATOR_SPEED = -1; //placeholder
+        public static final int TOP_ELEVATOR_ID = 55;
+        public static final double ELEVATOR_SPEED = 1; //placeholder
+
     }
 
     public final class LedConstants

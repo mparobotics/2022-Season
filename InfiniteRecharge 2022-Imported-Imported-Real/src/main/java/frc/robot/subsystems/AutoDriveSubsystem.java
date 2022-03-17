@@ -9,6 +9,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -32,7 +34,11 @@ public class AutoDriveSubsystem extends SubsystemBase {
 
   static final byte navx_rate = 127;
   AHRS navx = new AHRS(SPI.Port.kMXP, navx_rate);
-  DifferentialDriveOdometry m_odometry;
+
+  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(DriveConstants.kTrackwidthMeters);
+
+  
+  DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(getHeading());
 
   
 
@@ -43,7 +49,7 @@ public class AutoDriveSubsystem extends SubsystemBase {
   public void periodic() {
      // Update the odometry in the periodic block
      //m_odometry.update(
-     // navx.getRotation2d(), falconFL.getSelectedSensorPosition(), falconFR.getSelectedSensorPosition());
+      //navx.getRotation2d(), falconFL.getSelectedSensorPosition(), falconFR.getSelectedSensorPosition());
   }
 
   public Pose2d getPose() {
@@ -99,8 +105,8 @@ public class AutoDriveSubsystem extends SubsystemBase {
    *
    * @return the robot's heading in degrees, from -180 to 180
    */
-  public double getHeading() {
-    return navx.getRotation2d().getDegrees();
+  public Rotation2d getHeading() {
+    return Rotation2d.fromDegrees(-navx.getAngle());
   }
 
   public double getTurnRate() {

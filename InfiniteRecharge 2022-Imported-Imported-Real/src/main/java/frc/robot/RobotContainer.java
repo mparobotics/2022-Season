@@ -138,6 +138,7 @@ public class RobotContainer {
         new JoystickButton(helms, Button.kX.value).whenReleased(new IntakeStop());
         new JoystickButton(xbox, Button.kY.value).whenReleased(new IntakeStop());
         
+        
        
 
     //turret stuff
@@ -221,12 +222,12 @@ public class RobotContainer {
     // An example trajectory to follow.  All units in meters.
     Trajectory trajectory = new Trajectory();
 
-    String myPathName = "";
-    String trajectoryfile = "";
+    //String myPathName = "";
+    String trajectoryfile = "pathplanner/Testing.path";
 
-    myPathName = "Unamed";
+    //myPathName = "Unamed";
 
-    trajectoryfile = myPathName + ".wpilib.json";
+    //trajectoryfile = myPathName + ".wpilib.json";
     try {
         Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);
         trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
@@ -234,16 +235,6 @@ public class RobotContainer {
         DriverStation.reportError("Unable to open trajectory: " + trajectoryfile, ex.getStackTrace());
     }
     
-    try {
-        trajectoryfile = myPathName + ".txt";
-        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);
-        FileWriter fileWriter = new FileWriter(trajectoryPath.toString());
-        PrintWriter printWriter = new PrintWriter(fileWriter);
-        printWriter.print(trajectory.toString());
-        printWriter.close();
-    } catch (IOException ex) {
-        DriverStation.reportError("Unable to write traj text: " + trajectoryfile, ex.getStackTrace());
-    }
 
             RamseteCommand ramseteCommand =
             new RamseteCommand(

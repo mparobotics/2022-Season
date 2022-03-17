@@ -28,10 +28,11 @@ public class FlyWheel_Velocity extends SubsystemBase {
 		/* Config neutral deadband to be the smallest possible */
 		_talon.configNeutralDeadband(0.001);
 
+
 		/* Config sensor used for Primary PID [Velocity] */
         _talon.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,0, 30);
 											
-
+    _talon.setInverted(true);  
 		/* Config the peak and nominal outputs */
 		_talon.configNominalOutputForward(0, 30);
 		_talon.configNominalOutputReverse(0, 30);
@@ -41,9 +42,9 @@ public class FlyWheel_Velocity extends SubsystemBase {
 		/* Config the Velocity closed loop gains in slot0 */
 
 		_talon.config_kF(0, 1023.0/20660.0, 30);
-		_talon.config_kP(0, .2, 30); //0, .1, 30
-		_talon.config_kI(0, 0.001 / 100, 30);
-		_talon.config_kD(0, 6, 30); //0, 5, 30
+		_talon.config_kP(0, .3, 30); //0, 2, 30
+		_talon.config_kI(0, 0.001 / 95, 30);
+		_talon.config_kD(0,  10, 30); //0, 6, 30
     //SmartDashboard.putNumber("distance sim", 3);
   }
 

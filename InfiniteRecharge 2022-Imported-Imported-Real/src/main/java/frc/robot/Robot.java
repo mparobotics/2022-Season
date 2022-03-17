@@ -111,8 +111,15 @@ public class Robot extends TimedRobot {
     m_robotContainer.driveSub.encoderReset();
     //RobotContainer.shooterSub.encoderReset();
     Limelight.setLedMode(LightMode.eOn); //TODO test
-    ShootAndCross.schedule();
+    //ShootAndCross.schedule();
     //autoCross.schedule();
+
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    // schedule the autonomous command (example)
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
+    }
   }
 
   /**
