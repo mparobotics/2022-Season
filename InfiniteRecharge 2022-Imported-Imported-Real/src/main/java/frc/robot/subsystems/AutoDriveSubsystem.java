@@ -38,7 +38,7 @@ public class AutoDriveSubsystem extends SubsystemBase {
   
 
   static final byte navx_rate = 127;
-  AHRS navx = new AHRS(SPI.Port.kMXP, navx_rate);
+  public AHRS navx = new AHRS(SPI.Port.kMXP, navx_rate);
 
   //DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(DriveConstants.kTrackwidthMeters);
 
@@ -50,10 +50,7 @@ public class AutoDriveSubsystem extends SubsystemBase {
 
   public AutoDriveSubsystem() {
 
-    falconBL.setSensorPhase(false);
-    falconBR.setSensorPhase(false);
-    falconFL.setSensorPhase(false);
-    falconFR.setSensorPhase(false);
+
 
   }
 
@@ -64,11 +61,6 @@ public class AutoDriveSubsystem extends SubsystemBase {
       navx.getRotation2d(), falconFL.getSelectedSensorPosition() / 10.91 * 2 * Math.PI * Units.inchesToMeters(3.0) / 60,
       falconFR.getSelectedSensorPosition() / 10.91 * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
       
-      SmartDashboard.putNumber("angle", navx.getAngle());
-      SmartDashboard.putNumber("rate", navx.getRate());
-      SmartDashboard.putString("heading", getHeading().toString());
-      SmartDashboard.putNumber("Left Encoder", falconFL.getSelectedSensorPosition());
-      SmartDashboard.putNumber("Right Encoder", falconFR.getSelectedSensorPosition());
 
 
  

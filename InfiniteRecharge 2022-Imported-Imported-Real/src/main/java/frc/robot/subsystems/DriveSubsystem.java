@@ -73,15 +73,16 @@ public class DriveSubsystem extends SubsystemBase {
     falconBR.follow(falconFR); //talonBR follows TalonFR
     falconBL.follow(falconFL); //talonBL follows TalonFR 
 
-    falconFR.setInverted(true); //set to invert falconFR.. CW/CCW.. Green = forward (motor led)
-    falconBR.setInverted(true); //matches whatever falconFR is
-    //falconFL.setInverted(true); //set to invert falconFL.. CW/CCW.. Green = foward (motor led)
-    falconBL.setInverted(InvertType.FollowMaster); //matches whatever falcon FL is
+    falconFR.setInverted(false); //set to invert falconFR.. CW/CCW.. Green = forward (motor led)
+    falconBR.setInverted(false);
+    falconFL.setInverted(true);
+    falconBL.setInverted(true);
     
-    falconBL.setSensorPhase(false);
-    falconBR.setSensorPhase(false);
-    falconFL.setSensorPhase(false);
-    falconFR.setSensorPhase(false);
+    //matches whatever falconFR is
+    //falconFL.setInverted(true); //set to invert falconFL.. CW/CCW.. Green = foward (motor led)
+    
+    
+
 
     
     //Encoder Code Start
@@ -109,7 +110,8 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   setDriveSpeed_Arcade(-RobotContainer.xbox.getLeftY(), RobotContainer.xbox.getRightX()*.75);
-
+  //SmartDashboard.putNumber("Left Encoder", falconFL.getSelectedSensorPosition());
+  //SmartDashboard.putNumber("Right Encoder", falconFR.getSelectedSensorPosition());
   }
 
   private static double driveTrainP() {
@@ -139,9 +141,9 @@ public class DriveSubsystem extends SubsystemBase {
     if (Math.abs(xSpeed) < .1) {xSpeed = 0;}//deadzones
     if (Math.abs(zRotation) < .1) {zRotation = 0;}//deadzones
     if (zRotation == 0 )
-      driveStraight(-xSpeed);
+      driveStraight(xSpeed);
     
-    drive.arcadeDrive(-xSpeed, -zRotation);
+    drive.arcadeDrive(xSpeed, zRotation);
   }
 
   /**

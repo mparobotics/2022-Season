@@ -41,7 +41,7 @@ public final class Constants {
          not documented in Annie's code*/
         public static final double DRIVE_I = 1;
 
-        public static final double TIC_FT = ((Math.PI)/2048)/10.75; //inches?
+        public static final double TIC_FT = ((Math.PI)/2048)/10.91; //inches?
         public static final double kTrackwidthMeters = 0.705;
         public static final DifferentialDriveKinematics kDriveKinematics =
             new DifferentialDriveKinematics(kTrackwidthMeters);
