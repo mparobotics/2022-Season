@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArcadeDriveClassic;
@@ -22,14 +22,15 @@ import frc.robot.commands.AutoShootBall;
 import frc.robot.commands.ElevatorNeutral;
 import frc.robot.commands.FlyWheelVelocityRun;
 import frc.robot.commands.FlywheelNeutral;
+import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeDrop;
+import frc.robot.commands.TurretAutoAlign;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.FlyWheel_Velocity;
 import frc.robot.subsystems.IntakeSub;
 import frc.robot.subsystems.ShooterSubsystem;
-
-
+import frc.robot.subsystems.TurretSubsystem;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -52,7 +53,10 @@ public class Robot extends TimedRobot {
   private AutoCross autoCross;
   private AutoShootBall autoShoot;
   private SequentialCommandGroup ShootAndCross;
+  private Intake intake = new Intake(new IntakeSub());
   private SequentialCommandGroup TrajTest;
+  private FlyWheelVelocityRun spinFlywheel = new FlyWheelVelocityRun(new FlyWheel_Velocity()); 
+  
   
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -124,11 +128,14 @@ public class Robot extends TimedRobot {
     m_DriveSubsystem.zeroHeading();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    TrajTest.schedule();
+    spinFlywheel.schedule();
+    
+    intake.schedule();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
   }
 
   /**
@@ -141,6 +148,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("heading", m_DriveSubsystem.getHeading().toString());
 
 
+
+
   }
 
   @Override
@@ -150,7 +159,7 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
     autoShoot.cancel();
-    IntakeSub.IntakeDropStop();
+    //IntakeSub.IntakeDropStop();
     ElevatorSub.ElevatorStop();
     FlyWheel_Velocity.my_Flywheel_Velocity(0);
     DriveSubsystem.stopRobot();

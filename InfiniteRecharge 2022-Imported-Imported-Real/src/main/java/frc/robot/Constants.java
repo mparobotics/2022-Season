@@ -84,7 +84,7 @@ public final class Constants {
         public static final double max_turret_rotation = 10000; //placeholder
         public static final double centering_speed = .3;
 
-        public static final int SHOOTER_SPARK_ID = 53; 
+        
         public static final int LIMELIGHT_SERVO_ID = 3;
 
         public static final double HIGH_GOAL_SPEED = .6; //Changed
@@ -109,7 +109,7 @@ public final class Constants {
     {
         public static final int INTAKE_ID = 15; 
         public static final double INTAKE_SPEED = 1; //placeholder
-        public static final int INTAKE_DROPDOWN_ID = 52; 
+        public static final int INTAKE_DROPDOWN_ID = 53; 
         public static final double DROPDOWN_SPEED = -.3; //placeholder
     }
 
@@ -117,7 +117,7 @@ public final class Constants {
     {
         public static final int FRONT_ELEVATOR_ID = 32;
         public static final int BACK_ELEVATOR_ID = 26; 
-        public static final int TOP_ELEVATOR_ID = 55;
+        
         public static final double ELEVATOR_SPEED = 1; //placeholder
 
     }

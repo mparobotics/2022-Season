@@ -36,13 +36,12 @@ public class AutoShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double d = TurretSubsystem.getDistance();
-    double speedToGet;
+  
    // d = SmartDashboard.getNumber("distance sim", 3);
 
+   ElevatorSub.ElevateBall(ElevatorConstants.ELEVATOR_SPEED);
 
-
-    FlyWheel_Velocity.my_Flywheel_Velocity(4000);
+    
   }
  
 
@@ -50,15 +49,12 @@ public class AutoShootBall extends CommandBase {
   @Override
   public void end(boolean interrupted) {
   
-    ElevatorSub.ElevateBall(ElevatorConstants.ELEVATOR_SPEED);
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-  
-    if (Timer.getMatchTime() < 6.0){
-    return true;}
-    else {return false;}
+      return false;
   }
 }

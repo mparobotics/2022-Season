@@ -21,7 +21,7 @@ public class IntakeSub extends SubsystemBase {
 
   public IntakeSub() {
     intake = new WPI_TalonSRX(IntakeConstants.INTAKE_ID);
-    dropdown = new CANSparkMax(IntakeConstants.INTAKE_DROPDOWN_ID, MotorType.kBrushless);
+    //dropdown = new CANSparkMax(IntakeConstants.INTAKE_DROPDOWN_ID, MotorType.kBrushless);
     intake.configOpenloopRamp(2); // 2 seconds from neutral to full output (during open-loop control)
     intake.configClosedloopRamp(2);
   }
@@ -44,9 +44,9 @@ public class IntakeSub extends SubsystemBase {
     intake.set(0);
   }
 
-  public static void IntakeDrop()
+ /*  public static void IntakeDrop()
   {
-    DriverStation.reportError("Intake Drop", false);
+  
     dropdown.set(IntakeConstants.DROPDOWN_SPEED);
   }
 
@@ -54,11 +54,11 @@ public class IntakeSub extends SubsystemBase {
   {
     DriverStation.reportError("Intake Drop", false);
     dropdown.set(-IntakeConstants.DROPDOWN_SPEED);
-  }
+  
 
   public static void IntakeDropStop()
   {
     dropdown.set(0);
   }
-
+*/
 }

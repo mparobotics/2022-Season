@@ -21,13 +21,13 @@ public class AutoIntakeDrop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IntakeSub.IntakeDrop();
+    //IntakeSub.IntakeDrop();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    IntakeSub.IntakeDropStop();
+    //IntakeSub.IntakeDropStop();
   }
 
   // Returns true when the command should end.

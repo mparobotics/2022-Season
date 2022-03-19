@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -40,6 +41,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArcadeDriveClassic;
 import frc.robot.commands.AutoShootBall;
+import frc.robot.commands.AutoStop;
 import frc.robot.commands.BallShoot;
 import frc.robot.commands.Elevator;
 import frc.robot.commands.ElevatorNeutral;
@@ -84,6 +86,11 @@ public class RobotContainer {
   public static FlyWheel_Velocity flyWheel_Velocity = new FlyWheel_Velocity();
   public static TurretSubsystem turretSubsystem = new TurretSubsystem();
   private AutoShootBall autoShoot = new AutoShootBall(RobotContainer.flyWheel_Velocity);
+  private AutoShootBall autoShoot1 = new AutoShootBall(RobotContainer.flyWheel_Velocity);
+  private AutoStop autoStop = new AutoStop(new DriveSubsystem());
+  private AutoStop autoStop1 = new AutoStop(new DriveSubsystem());
+  //private IntakeDrop autoDrop = new IntakeDrop(intakeSub);
+ 
   // declaring and intializing controller(s)
   public static XboxController xbox = new XboxController(OIConstants.XBOX_ID);
   public static XboxController helms = new XboxController(OIConstants.HELMS_ID);
@@ -153,7 +160,7 @@ public class RobotContainer {
         new JoystickButton(helms, Button.kRightBumper.value).whenReleased(new TurretNeutral(turretSubsystem));
 
  
-        new JoystickButton(helms, Button.kRightStick.value).whenHeld(new IntakeDrop());
+        new JoystickButton(helms, Button.kRightStick.value).whenHeld(new IntakeDrop(new IntakeSub()));
         new JoystickButton(helms, Button.kLeftStick.value).whenHeld(new IntakeUp());
        
     //intake dropdown
@@ -301,7 +308,9 @@ public class RobotContainer {
     driveSub.resetOdometry(trajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return new SequentialCommandGroup(ramseteCommand, autoShoot, ramseteCommand1, autoShoot);
+    return new SequentialCommandGroup(
+      autoShoot.withTimeout(2),ramseteCommand, autoStop, autoShoot.withTimeout(2), 
+      ramseteCommand1, autoStop1, autoShoot1);
     
     }
   }

@@ -10,10 +10,11 @@ import frc.robot.subsystems.IntakeSub;
 
 public class IntakeDrop extends CommandBase {
   /** Creates a new IntakeDrop. */
-  public IntakeDrop() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  IntakeSub intakeSub;
+  public IntakeDrop(IntakeSub i) {
+    intakeSub = i;
+    addRequirements(intakeSub);
   }
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -27,7 +28,7 @@ public class IntakeDrop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IntakeSub.IntakeDrop();
+    //IntakeSub.IntakeDrop();
 
     SmartDashboard.putBoolean("Is intake down?", IntakeSub.IntakeIsDown);
 }
@@ -35,7 +36,7 @@ public class IntakeDrop extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    IntakeSub.IntakeDropStop();
+    //IntakeSub.IntakeDropStop();
   }
 
   // Returns true when the command should end.

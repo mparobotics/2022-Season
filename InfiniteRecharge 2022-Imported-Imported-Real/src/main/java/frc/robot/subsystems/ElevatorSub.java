@@ -27,7 +27,7 @@ public class ElevatorSub extends SubsystemBase {
     frontElev.setInverted(false);
     backElev = new WPI_TalonSRX(ElevatorConstants.BACK_ELEVATOR_ID);
     backElev.setInverted(false);
-    topElev = new CANSparkMax(ElevatorConstants.TOP_ELEVATOR_ID, MotorType.kBrushless);
+    //topElev = new CANSparkMax(ElevatorConstants.TOP_ELEVATOR_ID, MotorType.kBrushless);
 
     //elevatorMotors = new MotorControllerGroup(frontElev, backElev);
   }
@@ -41,13 +41,13 @@ public class ElevatorSub extends SubsystemBase {
   {
     frontElev.set(speed);
     backElev.set(speed);
-    topElev.set(speed);
+    //topElev.set(speed);
   }
 
   public static void ElevatorStop()
   {
     frontElev.set(0);
     backElev.set(0);
-    topElev.set(0);
+    //topElev.set(0);
   }
 }
