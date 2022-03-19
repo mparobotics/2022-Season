@@ -15,7 +15,13 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -43,8 +49,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   private final static DifferentialDrive drive = new DifferentialDrive(SCG_L, SCG_R);
 
- 
+  static final byte navx_rate = 127;
+  public AHRS navx = new AHRS(SPI.Port.kMXP, navx_rate);
 
+  DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(getHeading());
   
 
 
@@ -109,10 +117,27 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
   setDriveSpeed_Arcade(-RobotContainer.xbox.getLeftY(), RobotContainer.xbox.getRightX()*.75);
   //SmartDashboard.putNumber("Left Encoder", falconFL.getSelectedSensorPosition());
   //SmartDashboard.putNumber("Right Encoder", falconFR.getSelectedSensorPosition());
-  }
+  NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
+  NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
+  m_odometry.update(
+    navx.getRotation2d(), 
+    (falconFL.getSelectedSensorPosition() / 10.91 * 2 * Math.PI * Units.inchesToMeters(3.0) / 60) / DriveConstants.MPArunitsToMeters,
+    (falconFR.getSelectedSensorPosition() / 10.91 * 2 * Math.PI * Units.inchesToMeters(3.0) / 60) / DriveConstants.MPArunitsToMeters); 
+    //10.91 is the gear ratio, 2piRadius is circumfrence of the wheel, divide by 60 to get from min to sec 
+    //divide by MPArunits ratio (mpu) to convert from MPAror Units to Meters
+    
+
+  var translation = m_odometry.getPoseMeters().getTranslation();
+  m_xEntry.setNumber(translation.getX());
+  m_yEntry.setNumber(translation.getY());  
+
+  
+
+}
 
   private static double driveTrainP() {
     error = falconFL.getSelectedSensorPosition() - falconFR.getSelectedSensorPosition();
@@ -183,4 +208,64 @@ public class DriveSubsystem extends SubsystemBase {
     falconBR.setSelectedSensorPosition(0);
     falconBL.setSelectedSensorPosition(0);
   }
+
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(falconFL.getSelectedSensorPosition() * DriveConstants.Conversion, falconFR.getSelectedSensorPosition() * DriveConstants.Conversion);
+  }
+
+  public void resetOdometry(Pose2d pose) {
+    encoderReset();
+    m_odometry.resetPosition(pose, navx.getRotation2d());
+  }
+
+  
+
+  public void arcadeDrive(double fwd, double rot) {
+    drive.arcadeDrive(fwd, rot);
+  }
+
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    SCG_L.setVoltage(leftVolts);
+    SCG_R.setVoltage(rightVolts);
+    drive.feed();
+  }
+
+  public double getAverageEncoderDistance() {
+    return (falconFL.getSelectedSensorPosition() + falconFR.getSelectedSensorPosition()) / 2.0;
+  }
+
+    /**
+   * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.
+   *
+   * @param maxOutput the maximum output to which the drive will be constrained
+   */
+  public void setMaxOutput(double maxOutput) {
+    drive.setMaxOutput(maxOutput);
+  }
+
+  /** Zeroes the heading of the robot. */
+  public void zeroHeading() {
+    navx.reset();
+  }
+
+    /**
+   * Returns the heading of the robot.
+   *
+   * @return the robot's heading in degrees, from -180 to 180
+   */
+  public Rotation2d getHeading() {
+    return Rotation2d.fromDegrees(-navx.getAngle());
+  }
+
+  public double getTurnRate() {
+    return -navx.getRate();
+  }
 }
+
+
+
+

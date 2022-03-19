@@ -42,22 +42,22 @@ public class FlyWheelVelocityRun extends CommandBase {
     if (d < .5) {speedToGet = 4000;}
     else if (d < 1) {speedToGet = 4000;}
     else if (d < 1.5) {speedToGet = 4000;}
-    else if (d < 2) {speedToGet = 7650;}
+    else if (d < 2) {speedToGet = 7050;}
     //else if (d < 2.35) {speedToGet = 7800; SmartDashboard.putBoolean("Lined Up To Shoot", false);} //to test on practice field
-    else if (d < 2.5) {speedToGet = 8600; SmartDashboard.putBoolean("Lined Up To Shoot", true);}
+    else if (d < 2.5) {speedToGet = 7550; SmartDashboard.putBoolean("Lined Up To Shoot", true);}
     //else if (d < 2.75) {speedToGet = 9000; SmartDashboard.putBoolean("Lined Up To Shoot", false);} //to test on practice field
-    else if (d < 3) {speedToGet = 9400;}
-    else if (d < 3.5) {speedToGet = 9700;} //9200
-    else if (d < 4) {speedToGet = 11000;}
-    else if (d < 4.5) {speedToGet = 12500;}
-    else if (d < 5) {speedToGet = 13000;}
-    else if (d < 5.5) {speedToGet = 13000;}
-    else if (d < 6) {speedToGet = 12500;}
-    else if (d < 6.5) {speedToGet = 14500;}
+    else if (d < 3) {speedToGet = 8075;}
+    else if (d < 3.5) {speedToGet = 8300;} //9200
+    else if (d < 4) {speedToGet = 9250;}
+    else if (d < 4.5) {speedToGet = 9400;}
+    else if (d < 5) {speedToGet = 9600;}
+    else if (d < 5.5) {speedToGet = 10000;}
+    else if (d < 6) {speedToGet = 10650;}
+    else if (d < 6.5) {speedToGet = 11000;}
     else {speedToGet = 4000;} 
     
-   /* d = Math.round(d * 10) / 10;
-    speedToGet = (1500 * d) + 5600; //4560 1620
+   /*d = Math.round(d * 10) / 10;
+    speedToGet = (1404 * d) + 5232; //4560 1620
     if (d > 6.5) {speedToGet = 4000;}*/
 
     FlyWheel_Velocity.my_Flywheel_Velocity(speedToGet);

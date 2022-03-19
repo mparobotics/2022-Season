@@ -23,7 +23,6 @@ import frc.robot.commands.ElevatorNeutral;
 import frc.robot.commands.FlyWheelVelocityRun;
 import frc.robot.commands.FlywheelNeutral;
 import frc.robot.commands.IntakeDrop;
-import frc.robot.subsystems.AutoDriveSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.FlyWheel_Velocity;
@@ -32,6 +31,8 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.utils.Limelight;
 import frc.robot.utils.Limelight.LightMode;
 
@@ -45,12 +46,13 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  private AutoDriveSubsystem m_AutoDriveSubsystem;
+  private DriveSubsystem m_DriveSubsystem;
   NetworkTable table;
   //private AutoIntakeDrop autoIntakeDrop;
   private AutoCross autoCross;
   private AutoShootBall autoShoot;
   private SequentialCommandGroup ShootAndCross;
+  private SequentialCommandGroup TrajTest;
   
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -60,7 +62,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     m_robotContainer = new RobotContainer();
-    m_AutoDriveSubsystem = new AutoDriveSubsystem();
+    m_DriveSubsystem = new DriveSubsystem();
     Limelight.setLedMode(LightMode.eOff);
     autoShoot = new AutoShootBall(RobotContainer.flyWheel_Velocity);
     autoCross = new AutoCross(m_robotContainer.driveSub);
@@ -69,6 +71,10 @@ public class Robot extends TimedRobot {
     ShootAndCross = new SequentialCommandGroup(new AutoIntakeDrop().withTimeout(2), 
                       new AutoShootBall(RobotContainer.flyWheel_Velocity).withTimeout(6),
                         new AutoCross(m_robotContainer.driveSub).withTimeout(3) );
+
+    TrajTest = new SequentialCommandGroup(new AutoIntakeDrop().withTimeout(2), 
+                                            new AutoShootBall(RobotContainer.flyWheel_Velocity).withTimeout(6));
+
 
     //table = NetworkTableInstance.getDefault().getTable("limelight"); //Gets Table instance
     //table.getEntry("ledMode").setNumber(1); //sets limelight LEDS to "off"
@@ -115,10 +121,10 @@ public class Robot extends TimedRobot {
     Limelight.setLedMode(LightMode.eOn); //TODO test
     //ShootAndCross.schedule();
     //autoCross.schedule();
-    m_AutoDriveSubsystem.zeroHeading();
+    m_DriveSubsystem.zeroHeading();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    TrajTest.schedule();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -130,9 +136,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    SmartDashboard.putNumber("angle", m_AutoDriveSubsystem.navx.getAngle());
-    SmartDashboard.putNumber("rate", m_AutoDriveSubsystem.navx.getRate());
-    SmartDashboard.putString("heading", m_AutoDriveSubsystem.getHeading().toString());
+    SmartDashboard.putNumber("angle", m_DriveSubsystem.navx.getAngle());
+    SmartDashboard.putNumber("rate", m_DriveSubsystem.navx.getRate());
+    SmartDashboard.putString("heading", m_DriveSubsystem.getHeading().toString());
 
 
   }

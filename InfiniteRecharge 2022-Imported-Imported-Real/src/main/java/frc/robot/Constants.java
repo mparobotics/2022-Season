@@ -33,6 +33,7 @@ public final class Constants {
         public static final double Drive_Kv = .18424;
         public static final double Drive_Ka = .036145;
         public static final double Drive_Kp = 1.4948;
+        public static final double Drive_KpTest = 0;
         public static final double Drive_Kd = 0.0;
         
 
@@ -42,7 +43,7 @@ public final class Constants {
         public static final double DRIVE_I = 1;
 
         public static final double TIC_FT = ((Math.PI)/2048)/10.91; //inches?
-        public static final double kTrackwidthMeters = 0.705;
+        public static final double kTrackwidthMeters = 0.73253;
         public static final DifferentialDriveKinematics kDriveKinematics =
             new DifferentialDriveKinematics(kTrackwidthMeters);
         public static final double kMaxSpeedMetersPerSecond = 3;
@@ -59,7 +60,7 @@ public final class Constants {
         public static final double WheelCircumferenceMeters = WheelDiameterMeters*Math.PI;
         public static final double Conversion = WheelCircumferenceMeters/(GearRatio*EncoderTPR);
         
-
+        public static final double MPArunitsToMeters = 30.30303;
 
     }
 
