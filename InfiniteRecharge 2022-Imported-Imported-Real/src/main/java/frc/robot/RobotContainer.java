@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.Joystick; //TODO ButtonBoardTest
 
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -40,6 +41,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArcadeDriveClassic;
+
 import frc.robot.commands.AutoShootBall;
 import frc.robot.commands.AutoStop;
 import frc.robot.commands.BallShoot;
@@ -85,11 +87,14 @@ public class RobotContainer {
   //public static ShooterSubsystem shooterSub = new ShooterSubsystem();
   public static FlyWheel_Velocity flyWheel_Velocity = new FlyWheel_Velocity();
   public static TurretSubsystem turretSubsystem = new TurretSubsystem();
-  private AutoShootBall autoShoot = new AutoShootBall(RobotContainer.flyWheel_Velocity);
-  private AutoShootBall autoShoot1 = new AutoShootBall(RobotContainer.flyWheel_Velocity);
+  private Elevator autoShoot = new Elevator(elevatorsub);
+  private Elevator autoShoot1 = new Elevator(elevatorsub);
+  private Elevator autoShoot2 = new Elevator(elevatorsub);
   private AutoStop autoStop = new AutoStop(new DriveSubsystem());
   private AutoStop autoStop1 = new AutoStop(new DriveSubsystem());
-  //private IntakeDrop autoDrop = new IntakeDrop(intakeSub);
+  private AutoStop autoStop2 = new AutoStop(new DriveSubsystem());
+  private WaitCommand waitCommand = new WaitCommand(2);
+  private IntakeDrop autoDrop = new IntakeDrop(intakeSub);
  
   // declaring and intializing controller(s)
   public static XboxController xbox = new XboxController(OIConstants.XBOX_ID);
@@ -256,7 +261,7 @@ public class RobotContainer {
       new Pose2d(3, 3, new Rotation2d(0)), config);
 
   //String myPathName = "";
-  String trajectoryfile1 = "paths/5 carg.wpilib.json";
+  String trajectoryfile1 = "paths/Testing.wpilib.json";
 
   //myPathName = "Unamed";
 
@@ -267,6 +272,16 @@ public class RobotContainer {
   } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryfile, ex.getStackTrace());
   }
+
+  trajectory1 = TrajectoryGenerator.generateTrajectory(
+    // Start at the origin facing the +X direction
+    new Pose2d(0, 0, new Rotation2d(0)),
+    // Pass through these two interior waypoints, making an 's' curve path
+    List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+    // End 3 meters straight ahead of where we started, facing forward
+    new Pose2d(3, 0, new Rotation2d(0)),
+    // Pass config
+    config);
   
 
 
@@ -305,12 +320,13 @@ public class RobotContainer {
                     driveSub);
     
     // Reset odometry to the starting pose of the trajectory.
-    driveSub.resetOdometry(trajectory.getInitialPose());
+    driveSub.resetOdometry(trajectory1.getInitialPose());
 
     // Run path following command, then stop at the end.
     return new SequentialCommandGroup(
-      autoShoot.withTimeout(2),ramseteCommand, autoStop, autoShoot.withTimeout(2), 
-      ramseteCommand1, autoStop1, autoShoot1);
+      /*autoDrop.withTimeout(3), autoShoot.withTimeout(2),ramseteCommand, autoStop, autoShoot1.withTimeout(2),
+      ramseteCommand1, autoStop1, autoShoot2);*/
+      ramseteCommand1);
     
     }
   }

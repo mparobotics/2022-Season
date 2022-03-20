@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArcadeDriveClassic;
 import frc.robot.commands.AutoCross;
-import frc.robot.commands.AutoIntakeDrop;
+
 import frc.robot.commands.AutoShootBall;
 import frc.robot.commands.ElevatorNeutral;
 import frc.robot.commands.FlyWheelVelocityRun;
@@ -48,12 +48,15 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private DriveSubsystem m_DriveSubsystem;
+  private TurretSubsystem turretSub = new TurretSubsystem();
+  private IntakeSub intakeSub = new IntakeSub();
   NetworkTable table;
   //private AutoIntakeDrop autoIntakeDrop;
   private AutoCross autoCross;
   private AutoShootBall autoShoot;
   private SequentialCommandGroup ShootAndCross;
-  private Intake intake = new Intake(new IntakeSub());
+  private Intake intake = new Intake(intakeSub);
+  private TurretAutoAlign turretAutoAlign = new TurretAutoAlign(turretSub);
   private SequentialCommandGroup TrajTest;
   private FlyWheelVelocityRun spinFlywheel = new FlyWheelVelocityRun(new FlyWheel_Velocity()); 
   
@@ -72,11 +75,11 @@ public class Robot extends TimedRobot {
     autoCross = new AutoCross(m_robotContainer.driveSub);
 
     //ShootAndCross = new SequentialCommandGroup(autoIntakeDrop, autoCross, autoShoot);
-    ShootAndCross = new SequentialCommandGroup(new AutoIntakeDrop().withTimeout(2), 
+    ShootAndCross = new SequentialCommandGroup(new IntakeDrop(intakeSub).withTimeout(2), 
                       new AutoShootBall(RobotContainer.flyWheel_Velocity).withTimeout(6),
                         new AutoCross(m_robotContainer.driveSub).withTimeout(3) );
 
-    TrajTest = new SequentialCommandGroup(new AutoIntakeDrop().withTimeout(2), 
+    TrajTest = new SequentialCommandGroup(new IntakeDrop(intakeSub).withTimeout(2), 
                                             new AutoShootBall(RobotContainer.flyWheel_Velocity).withTimeout(6));
 
 
@@ -126,10 +129,10 @@ public class Robot extends TimedRobot {
     //ShootAndCross.schedule();
     //autoCross.schedule();
     m_DriveSubsystem.zeroHeading();
-
+    
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     spinFlywheel.schedule();
-    
+    turretAutoAlign.schedule();
     intake.schedule();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

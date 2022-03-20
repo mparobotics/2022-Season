@@ -44,7 +44,7 @@ public class IntakeSub extends SubsystemBase {
     intake.set(0);
   }
 
- /*  public static void IntakeDrop()
+ /*   public static void IntakeDrop()
   {
   
     dropdown.set(IntakeConstants.DROPDOWN_SPEED);
@@ -55,10 +55,10 @@ public class IntakeSub extends SubsystemBase {
     DriverStation.reportError("Intake Drop", false);
     dropdown.set(-IntakeConstants.DROPDOWN_SPEED);
   
-
+  }
   public static void IntakeDropStop()
   {
     dropdown.set(0);
-  }
-*/
+  } */
+
 }
