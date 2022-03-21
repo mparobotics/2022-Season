@@ -38,11 +38,13 @@ public double ShooterSpeed = falconShooter.getSelectedSensorVelocity();
   //git
   public void ShootBangBang() {
     //setpoint = getSetpoint();
-    setpoint = 1200;
+    setpoint = 1000;
     falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorPosition(), (setpoint) + 0.9 * feedforward.calculate(setpoint)));
    //bang bang based on size of d from the hub
 
   }
+
+
 
   public void ShooterStop() {
     falconShooter.set(0);
@@ -131,12 +133,16 @@ public double ShooterSpeed = falconShooter.getSelectedSensorVelocity();
     falconShooter.setNeutralMode(NeutralMode.Brake);
   }
 
-
+  public void encoderReset() {
+    falconShooter.setSelectedSensorPosition(0);
+    hoodMotor.setSelectedSensorPosition(0);
+  }
 
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Falcon Speed", ShooterSpeed);
+    SmartDashboard.putNumber("HoodLocation", hoodMotor.getSelectedSensorPosition());
     // This method will be called once per scheduler run
   }
 }

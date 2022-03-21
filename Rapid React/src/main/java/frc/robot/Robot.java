@@ -47,9 +47,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-   // autoCross = new AutoCross(); //TODO test 
-    //oneBall = new SequentialCommandGroup(
-      // new AutoCross(), new Shoot() ); //TODO fix
+    autoCross = new AutoCross(); //TODO test 
+    oneBall = new SequentialCommandGroup(
+       new AutoCross(), new Shoot() ); //TODO fix
 
     autoChooser.addOption("dO Nøthîng", null);
     autoChooser.addOption("Uno bOl", oneBall);
@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_robotContainer.driveSub.encoderReset();
-
+    
     switch (autoChooser.getSelected().toString()) {
       case "Uno bOl":
       default:
