@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public class Shoot extends CommandBase {
   /** Creates a new Shoot. */
@@ -21,14 +22,14 @@ public class Shoot extends CommandBase {
   @Override
   public void execute() {
     //Robot.shooterSubsystem.alignHood();
-    Robot.shooterSubsystem.ShootBangBang();
+    RobotContainer.shooterSubsystem.ShootBangBang();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.shooterSubsystem.ShooterStop();
-    Robot.shooterSubsystem.adjustHood(0);
+    RobotContainer.shooterSubsystem.ShooterStop();
+    RobotContainer.shooterSubsystem.adjustHood(0);
   }
 
   // Returns true when the command should end.
