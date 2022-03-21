@@ -23,9 +23,11 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SPI;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 
@@ -46,6 +48,8 @@ public class DriveSubsystem extends SubsystemBase {
   private final static MotorControllerGroup SCG_L = new MotorControllerGroup(falconFL, falconBL); 
 
   private final static DifferentialDrive drive = new DifferentialDrive(SCG_L, SCG_R);
+
+  private final Field2d m_field = new Field2d();
 
   static final byte navx_rate = 127;
   public AHRS navx = new AHRS(SPI.Port.kMXP, navx_rate);
@@ -94,7 +98,7 @@ public class DriveSubsystem extends SubsystemBase {
     //Encoder Code Start
     fxConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor; //Selecting Feedback Sensor
    
-   encoderReset();
+   encoderReset(); //TODO I wonder if this is the problem 
   }
 
   public void setCoast() {
@@ -121,10 +125,13 @@ public class DriveSubsystem extends SubsystemBase {
   //SmartDashboard.putNumber("Right Encoder", falconFR.getSelectedSensorPosition());
   NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
   NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
+  SmartDashboard.putData("Field", m_field);
+
   m_odometry.update(
     navx.getRotation2d(), 
-    (falconFL.getSelectedSensorPosition() / 10.91 * 2 * Math.PI * Units.inchesToMeters(3.0) / 60) / DriveConstants.MPArunitsToMeters,
-    (falconFR.getSelectedSensorPosition() / 10.91 * 2 * Math.PI * Units.inchesToMeters(3.0) / 60) / DriveConstants.MPArunitsToMeters); 
+    (((falconFL.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters),
+    (((falconFR.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters)); 
+
     //10.91 is the gear ratio, 2piRadius is circumfrence of the wheel, divide by 60 to get from min to sec 
     //divide by MPArunits ratio (mpu) to convert from MPAror Units to Meters
     
@@ -132,8 +139,8 @@ public class DriveSubsystem extends SubsystemBase {
   var translation = m_odometry.getPoseMeters().getTranslation();
   m_xEntry.setNumber(translation.getX());
   m_yEntry.setNumber(translation.getY());  
-
   
+  m_field.setRobotPose(m_odometry.getPoseMeters());
 
 }
 
