@@ -4,19 +4,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
 import frc.robot.Constants.ElevatorConstants;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.FlyWheel_Velocity;
-import frc.robot.subsystems.IntakeSub;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.TurretSubsystem;
-
 
 public class AutoShootBall extends CommandBase {
 

@@ -7,9 +7,7 @@
 
 package frc.robot;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -18,7 +16,6 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
@@ -29,26 +26,21 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
-//import edu.wpi.first.wpilibj.Joystick; //TODO ButtonBoardTest
 
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.ArcadeDriveClassic;
 
-import frc.robot.commands.AutoShootBall;
 import frc.robot.commands.AutoStop;
 import frc.robot.commands.BallShoot;
 import frc.robot.commands.Elevator;
 import frc.robot.commands.ElevatorNeutral;
 import frc.robot.commands.ElevatorReverse;
-import frc.robot.commands.FlyWheelVelocityRun;
 import frc.robot.commands.FlyWheelVelocityRunLow;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeDrop;
@@ -56,11 +48,6 @@ import frc.robot.commands.IntakeIdle;
 import frc.robot.commands.IntakeReverse;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.IntakeUp;
-import frc.robot.commands.ShootBall;
-import frc.robot.commands.ShootLow;
-import frc.robot.commands.ShootReverse;
-import frc.robot.commands.TurretAutoAlign;
-import frc.robot.commands.TurretCenter;
 import frc.robot.commands.TurretNeutral;
 import frc.robot.commands.TurretTurnLeft;
 import frc.robot.commands.TurretTurnRight;
@@ -68,7 +55,6 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.FlyWheel_Velocity;
 import frc.robot.subsystems.IntakeSub;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
 /**
@@ -183,12 +169,6 @@ public class RobotContainer {
 
     //Helm's Commands
     //new JoystickButton(helms, Button.kBack.value).whenHeld(new ClimberUp(climberSub)); // Disabled - Climber Taken off
-  
-
-    
-
-    //Button Board
-    //new JoystickButton(buttonBoard, Button).whenHeld(command); //TODO FIGURE THIS OUT (BUTTONBOARDTEST)
   }
 
   public XboxController getController() {
@@ -198,10 +178,6 @@ public class RobotContainer {
   public XboxController getHelms() {
     return helms;
   }
-
-  //public Joystick getbuttonBoard() { //TODO BUTTONBOARDTEST
-    //return buttonBoard;
-  //}
 
 
   /**
