@@ -58,10 +58,9 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("ShooterSpeed", falconShooter.getSelectedSensorVelocity());
+    
     //SmartDashboard.putNumber("Hood Angle", m_encoder.getPosition());
-    RobotContainer.helms.setRumble(RumbleType.kLeftRumble, Math.log10((falconShooter.getSelectedSensorVelocity() ) / 100) );
-    RobotContainer.helms.setRumble(RumbleType.kRightRumble, Math.log10((falconShooter.getSelectedSensorVelocity() ) / 100));
+
   }
 
   public void setServo(double degrees) {

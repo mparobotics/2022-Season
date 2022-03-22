@@ -15,7 +15,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoCross;
 
-import frc.robot.commands.AutoShootBall;
+
+import frc.robot.commands.Elevator;
 import frc.robot.commands.FlyWheelVelocityRun;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeDrop;
@@ -37,18 +38,19 @@ import frc.robot.utils.Limelight.LightMode;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
+  private ElevatorSub m_ElevatorSub;
   private RobotContainer m_robotContainer;
   private DriveSubsystem m_DriveSubsystem;
-  private TurretSubsystem turretSub = new TurretSubsystem();
+  private TurretSubsystem m_turretSub;
+  private FlyWheel_Velocity m_flywheelVelocity;
   private IntakeSub intakeSub = new IntakeSub();
   NetworkTable table;
   //private AutoIntakeDrop autoIntakeDrop;
   private AutoCross autoCross;
-  private AutoShootBall autoShoot;
+  private Elevator autoElevator;
   private SequentialCommandGroup ShootAndCross;
   private Intake intake = new Intake(intakeSub);
-  private TurretAutoAlign turretAutoAlign = new TurretAutoAlign(turretSub);
+  private TurretAutoAlign turretAutoAlign = new TurretAutoAlign(m_turretSub);
   private SequentialCommandGroup TrajTest;
   private FlyWheelVelocityRun spinFlywheel = new FlyWheelVelocityRun(new FlyWheel_Velocity()); 
   
@@ -62,17 +64,18 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     m_robotContainer = new RobotContainer();
     m_DriveSubsystem = new DriveSubsystem();
+    m_flywheelVelocity = new FlyWheel_Velocity();
+    m_turretSub = new TurretSubsystem();
+    m_ElevatorSub = new ElevatorSub();
     Limelight.setLedMode(LightMode.eOff);
-    autoShoot = new AutoShootBall(RobotContainer.flyWheel_Velocity);
+    autoElevator = new Elevator(m_ElevatorSub);
     autoCross = new AutoCross(m_robotContainer.driveSub);
 
     //ShootAndCross = new SequentialCommandGroup(autoIntakeDrop, autoCross, autoShoot);
     ShootAndCross = new SequentialCommandGroup(new IntakeDrop(intakeSub).withTimeout(2), 
-                      new AutoShootBall(RobotContainer.flyWheel_Velocity).withTimeout(6),
-                        new AutoCross(m_robotContainer.driveSub).withTimeout(3) );
+                      autoElevator.withTimeout(6),
+                        autoCross.withTimeout(3) );
 
-    TrajTest = new SequentialCommandGroup(new IntakeDrop(intakeSub).withTimeout(2), 
-                                            new AutoShootBall(RobotContainer.flyWheel_Velocity).withTimeout(6));
 
 
     //table = NetworkTableInstance.getDefault().getTable("limelight"); //Gets Table instance
@@ -153,10 +156,10 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    autoShoot.cancel();
+    
     //IntakeSub.IntakeDropStop();
-    ElevatorSub.ElevatorStop();
-    FlyWheel_Velocity.my_Flywheel_Velocity(0);
+    m_ElevatorSub.ElevatorStop();
+    m_flywheelVelocity.my_Flywheel_Velocity(0);
     DriveSubsystem.stopRobot();
     DriveSubsystem.encoderReset();
     //RobotContainer.ShooterSub.encoderReset();

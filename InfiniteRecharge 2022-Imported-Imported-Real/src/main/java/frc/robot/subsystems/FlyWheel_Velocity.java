@@ -16,7 +16,8 @@ import frc.robot.Constants.ShooterConstants;
 public class FlyWheel_Velocity extends SubsystemBase {
 
   static WPI_TalonFX _talon = new WPI_TalonFX(ShooterConstants.FALCON_shooter_ID, "rio");
-
+ 
+  public double speedINeed = 4000;
 
 
   /** Creates a new FlyWheel_Velocity. */
@@ -45,14 +46,15 @@ public class FlyWheel_Velocity extends SubsystemBase {
 		_talon.config_kI(0, 0.001 / 95, 30);
 		_talon.config_kD(0,  5, 30); //0, 6, 30
     //SmartDashboard.putNumber("distance sim", 3);
+    
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("ShooterSpeed", _talon.getSelectedSensorVelocity());
   }
 
-  public static void my_Flywheel_Velocity(double setpoint){
+  public  void my_Flywheel_Velocity(double setpoint){
     //new TurretAutoAlign(new TurretSubsystem());
     /**
 			 * Convert 6200 RPM to units / 100ms.
@@ -60,6 +62,7 @@ public class FlyWheel_Velocity extends SubsystemBase {
 			 * velocity setpoint is in units/100ms
 			 */
     //double targetVelocity_UnitsPer100ms = setpoint * 6200.0 * 2048.0 / 600.0;
+    speedINeed = setpoint;
     double targetVelocity_UnitsPer100ms = setpoint; //2000 * 2048 / 600
 			/* 2000 RPM in either direction */
 			_talon.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
@@ -68,9 +71,20 @@ public class FlyWheel_Velocity extends SubsystemBase {
       
   }
 
+
+
   public void myFlyWheel_PercentOut(double setpoint){
     _talon.set(TalonFXControlMode.PercentOutput, setpoint);
   }
+
+  public boolean canIShoot(){
+    
+    if (_talon.getSelectedSensorVelocity() > (speedINeed - 50)){
+    return true;}
+
+    else {return false;}
+    
+  }  
 }
 
 

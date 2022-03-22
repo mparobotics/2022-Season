@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ElevatorSub;
 
 public class ElevatorNeutral extends CommandBase {
-  ElevatorSub elevatorSub;
+  ElevatorSub m_elevatorSub;
   public ElevatorNeutral(ElevatorSub b) {
-    elevatorSub = b;
-    addRequirements(elevatorSub);
+    m_elevatorSub = b;
+    addRequirements(m_elevatorSub);
   }
 
 
@@ -22,7 +22,7 @@ public class ElevatorNeutral extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ElevatorSub.ElevatorStop(); //stops the elevator
+    m_elevatorSub.ElevatorStop(); //stops the elevator
   }
 
   // Called once the command ends or is interrupted.

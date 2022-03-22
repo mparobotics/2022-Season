@@ -7,28 +7,37 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.ElevatorSub;
+import frc.robot.subsystems.FlyWheel_Velocity;
 
 public class Elevator extends CommandBase {
-  ElevatorSub elevatorSub;
+  ElevatorSub m_elevatorSub;
+  FlyWheel_Velocity m_FlyWheelVelocity = new FlyWheel_Velocity();
   public Elevator(ElevatorSub b) {
-    elevatorSub = b;
-    addRequirements(elevatorSub);
+    m_elevatorSub = b;
+    addRequirements(m_elevatorSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ElevatorSub.ElevateBall(ElevatorConstants.ELEVATOR_SPEED);
+    if (m_elevatorSub.lineBreakBroken() == false)
+      {m_elevatorSub.FrontElevatorUp(ElevatorConstants.ELEVATOR_SPEED);}
+    else if (m_FlyWheelVelocity.canIShoot()) {
+      m_elevatorSub.BackElevatorUp(ElevatorConstants.ELEVATOR_SPEED);
+    }
+
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    ElevatorSub.ElevatorStop();
+    m_elevatorSub.ElevatorStop();
   }
 
   // Returns true when the command should end.

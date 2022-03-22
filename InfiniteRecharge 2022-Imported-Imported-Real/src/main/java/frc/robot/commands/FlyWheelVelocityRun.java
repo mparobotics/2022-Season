@@ -58,7 +58,7 @@ public class FlyWheelVelocityRun extends CommandBase {
     speedToGet = (1404 * d) + 5232; //4560 1620
     if (d > 6.5) {speedToGet = 4000;}*/
 
-    FlyWheel_Velocity.my_Flywheel_Velocity(speedToGet);
+    m_flywWheel_Velocity.my_Flywheel_Velocity(speedToGet);
   }
 
   // Called once the command ends or is interrupted.
