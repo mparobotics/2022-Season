@@ -67,7 +67,6 @@ public class FlyWheel_Velocity extends SubsystemBase {
 			/* 2000 RPM in either direction */
 			_talon.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
       SmartDashboard.putNumber("Flywheel Speed Needed", setpoint);
-      SmartDashboard.putNumber("flywheel speed", _talon.getSelectedSensorVelocity());
       
   }
 

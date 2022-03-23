@@ -17,7 +17,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.Servo;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ShooterConstants;
@@ -85,7 +84,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     double m_setpoint;
     if (yspeed == 2) {
-      new TurretAutoAlign(new TurretSubsystem());
+      new TurretAutoAlign();
        m_setpoint = getV() * 12;
     }
    
@@ -111,11 +110,11 @@ public class ShooterSubsystem extends SubsystemBase {
       canIShoot = true;
    
     }
-    else{canIShoot = false;
+    else{canIShoot = false;}}
     
-    }
+    
   
-    SmartDashboard.putBoolean("Shooter Reved Up", canIShoot);}
+   // SmartDashboard.putBoolean("Shooter Reved Up", canIShoot);}
     //falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (setpoint)));
    //bang bang based on size of d from the hub
 
@@ -139,7 +138,7 @@ public class ShooterSubsystem extends SubsystemBase {
     
     
     }
-    SmartDashboard.putBoolean("Shooter Reved Up", canIShoot);
+    //SmartDashboard.putBoolean("Shooter Reved Up", canIShoot);
     //falconShooter.set(BangBang.calculate(falconShooter.getSelectedSensorVelocity(), (setpoint)));
    //bang bang based on size of d from the hub
 
@@ -181,7 +180,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getV(){
-    double d = TurretSubsystem.getDistance();
+    double d = 0;//TurretSubsystem.getDistance();
     double speedToGet;
     /*if (d < .5) {speedToGet = 7500;}
     else if (d < 1) {speedToGet = 7500;}
@@ -204,7 +203,7 @@ public class ShooterSubsystem extends SubsystemBase {
     else {speedToGet = 4500;}
     ///math
 
-    SmartDashboard.putNumber("Flywheel Speed Needed", setpoint);
+    //SmartDashboard.putNumber("Flywheel Speed Needed", setpoint);
     return speedToGet;
   }
 
@@ -212,7 +211,7 @@ public class ShooterSubsystem extends SubsystemBase {
     double angle = 0;
     //double currentEncoder = m_encoder.getPosition();
     double encoderCountRequired = angle * ShooterConstants.hood_encoder_ratio;
-    SmartDashboard.putNumber("Hood Encoder Needed", encoderCountRequired);
+    //SmartDashboard.putNumber("Hood Encoder Needed", encoderCountRequired);
     /*if (currentEncoder < (encoderCountRequired - ShooterConstants.hood_min_command)) {
       adjustHood(-.25); //to test speed and inversion
     }
@@ -232,7 +231,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getAngle(){
-    double d = TurretSubsystem.getDistance();
+    double d = 0; //TurretSubsystem.getDistance();
     double v = getV(); 
     double beta = Math.atan(Math.abs((ShooterConstants.hub_height-ShooterConstants.limelight_height)/(d)));
     double dist = Math.sqrt(Math.pow(ShooterConstants.hub_height-ShooterConstants.limelight_height, 2) + Math.pow(d, 2));
@@ -274,8 +273,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
    public void shootPIControl() {
      falconShooter.set(((shooterPI() + setpoint) / ShooterConstants.SHOOTER_MAX_VELOCITY));
-     SmartDashboard.putNumber("Shooter PI", shooterPI()+ setpoint);
-     SmartDashboard.putNumber("Shooter Power", (shooterPI() + setpoint) / ShooterConstants.SHOOTER_MAX_VELOCITY);
+     //SmartDashboard.putNumber("Shooter PI", shooterPI()+ setpoint);
+    // SmartDashboard.putNumber("Shooter Power", (shooterPI() + setpoint) / ShooterConstants.SHOOTER_MAX_VELOCITY);
    }
 
 

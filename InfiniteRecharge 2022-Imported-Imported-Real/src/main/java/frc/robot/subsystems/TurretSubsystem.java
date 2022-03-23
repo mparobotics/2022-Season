@@ -91,7 +91,7 @@ public class TurretSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Encoder Position", m_encoder.getPosition());
   }
 
-  public static double getDistance () //gets the distance from the hub
+  public double getDistance () //gets the distance from the hub
   {
     double ty = getY();
     double tx = getX();

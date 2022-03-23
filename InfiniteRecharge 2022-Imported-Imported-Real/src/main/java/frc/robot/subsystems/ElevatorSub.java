@@ -28,7 +28,8 @@ public class ElevatorSub extends SubsystemBase {
     frontElev.setInverted(false);
     backElev = new WPI_TalonSRX(ElevatorConstants.BACK_ELEVATOR_ID);
     backElev.setInverted(false);
-    linebreak = new DigitalInput(ElevatorConstants.LINEBREAK_RECIVER_ID);
+    //linebreak = new DigitalInput(ElevatorConstants.LINEBREAK_RECIVER_ID);
+
     //topElev = new CANSparkMax(ElevatorConstants.TOP_ELEVATOR_ID, MotorType.kBrushless);
 
     //elevatorMotors = new MotorControllerGroup(frontElev, backElev);
@@ -48,6 +49,13 @@ public class ElevatorSub extends SubsystemBase {
   {
     frontElev.set(speed);
   }
+
+  public void ElevateBall(double speed)
+  {
+    frontElev.set(speed);
+    backElev.set(speed);
+  }
+  
   
 
     //topElev.set(speed);
@@ -62,6 +70,7 @@ public class ElevatorSub extends SubsystemBase {
 
 
   public boolean lineBreakBroken() {
-    return linebreak.get(); 
+    //return linebreak.get(); 
+    return true;
   } 
 }

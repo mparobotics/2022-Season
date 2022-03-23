@@ -25,9 +25,9 @@ public class Elevator extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_elevatorSub.lineBreakBroken() == false)
-      {m_elevatorSub.FrontElevatorUp(ElevatorConstants.ELEVATOR_SPEED);}
-    else if (m_FlyWheelVelocity.canIShoot()) {
+
+      m_elevatorSub.FrontElevatorUp(ElevatorConstants.ELEVATOR_SPEED);
+    if (m_FlyWheelVelocity.canIShoot()) {
       m_elevatorSub.BackElevatorUp(ElevatorConstants.ELEVATOR_SPEED);
     }
 

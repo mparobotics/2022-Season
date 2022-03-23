@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
   private Elevator autoElevator;
   private SequentialCommandGroup ShootAndCross;
   private Intake intake = new Intake(intakeSub);
-  private TurretAutoAlign turretAutoAlign = new TurretAutoAlign(m_turretSub);
+  private TurretAutoAlign turretAutoAlign = new TurretAutoAlign();
   private SequentialCommandGroup TrajTest;
   private FlyWheelVelocityRun spinFlywheel = new FlyWheelVelocityRun(new FlyWheel_Velocity()); 
   
@@ -158,6 +158,9 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     
     //IntakeSub.IntakeDropStop();
+    spinFlywheel.cancel();
+    turretAutoAlign.cancel();
+    intake.cancel();
     m_ElevatorSub.ElevatorStop();
     m_flywheelVelocity.my_Flywheel_Velocity(0);
     DriveSubsystem.stopRobot();
