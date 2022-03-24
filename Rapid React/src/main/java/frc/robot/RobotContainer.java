@@ -31,6 +31,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.IntakeSub;
 import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
 /**
@@ -51,7 +52,10 @@ public class RobotContainer {
   public IntakeSub intakeSub = new IntakeSub(); 
   public ElevatorSub elevatorsub = new ElevatorSub();
   public LedSubsystem ledsub = new LedSubsystem();
-  public TurretSubsystem turretSubsystem = new TurretSubsystem();
+  public static TurretSubsystem turretSubsystem = new TurretSubsystem();
+  public static DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public static LedSubsystem ledSubsytem = new LedSubsystem();
+  public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings

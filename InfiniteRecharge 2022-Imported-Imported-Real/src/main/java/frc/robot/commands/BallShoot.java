@@ -16,6 +16,6 @@ public class BallShoot extends ParallelCommandGroup {
   public BallShoot() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new FlyWheelVelocityRun(new FlyWheel_Velocity()),new TurretAutoAlign(new TurretSubsystem()));
+    addCommands(new FlyWheelVelocityRun(new FlyWheel_Velocity()),new TurretAutoAlign());
   }
 }

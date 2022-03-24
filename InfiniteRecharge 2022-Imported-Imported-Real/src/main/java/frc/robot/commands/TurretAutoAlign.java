@@ -14,9 +14,8 @@ import frc.robot.utils.Limelight.LightMode;
 public class TurretAutoAlign extends CommandBase {
   /** Creates a new TurretAutoAlign. */
   TurretSubsystem turretSubsystem;
-  public TurretAutoAlign(TurretSubsystem t) {
-    turretSubsystem = t;
-    addRequirements(turretSubsystem);
+  public TurretAutoAlign() {
+ 
   }
 
   // Called when the command is initially scheduled.

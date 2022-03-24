@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.AutoCross;
-import frc.robot.commands.AutoShootBall;
+//import frc.robot.commands.AutoCross;
+//import frc.robot.commands.AutoShootBall;
 import frc.robot.commands.Shoot;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LedSubsystem;
@@ -29,15 +29,12 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  public static DriveSubsystem driveSubsystem = new DriveSubsystem();
-  public static TurretSubsystem turretSubsystem = new TurretSubsystem();
-  public static LedSubsystem ledSubsytem = new LedSubsystem();
-  public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+
   private RobotContainer m_robotContainer;
   NetworkTable table;
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
   
-  private AutoCross autoCross;
+  //private AutoCross autoCross;
   private SequentialCommandGroup oneBall;
 
   /**'/;=_'
@@ -50,14 +47,13 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-
     autoCross = new AutoCross(); //TODO test 
     oneBall = new SequentialCommandGroup(
        new AutoCross(), new Shoot() ); //TODO fix
 
     autoChooser.addOption("dO Nøthîng", null);
     autoChooser.addOption("Uno bOl", oneBall);
-    autoChooser.addOption("cR√os lînë", autoCross);
+   // autoChooser.addOption("cR√os lînë", autoCross);
     autoChooser.setDefaultOption("Uno bOl", oneBall);
 
   }
@@ -95,9 +91,9 @@ public class Robot extends TimedRobot {
       default:
       oneBall.schedule();
       break;
-      case "cR√os lînë":
-      autoCross.schedule();
-      break;
+      //case "cR√os lînë":
+      //autoCross.schedule();
+      //break;
       case "dO Nøthîng":
       break;
 

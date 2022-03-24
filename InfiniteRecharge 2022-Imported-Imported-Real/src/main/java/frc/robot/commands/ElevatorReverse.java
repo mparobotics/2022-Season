@@ -9,10 +9,10 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.ElevatorSub;
 
 public class ElevatorReverse extends CommandBase {
-  ElevatorSub elevatorSub;
+  ElevatorSub m_elevatorSub;
   public ElevatorReverse(ElevatorSub b) {
-    elevatorSub = b;
-    addRequirements(elevatorSub);
+    m_elevatorSub = b;
+    addRequirements(m_elevatorSub);
   }
 
   // Called when the command is initially scheduled.
@@ -22,7 +22,7 @@ public class ElevatorReverse extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ElevatorSub.ElevateBall(-ElevatorConstants.ELEVATOR_SPEED); //invert? - woogy
+    m_elevatorSub.ElevateBall(-ElevatorConstants.ELEVATOR_SPEED); //invert? - woogy
   }
 
   // Called once the command ends or is interrupted.

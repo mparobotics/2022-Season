@@ -14,7 +14,7 @@ import frc.robot.utils.Limelight.LightMode;
 
 public class FlyWheelVelocityRun extends CommandBase {
   /** Creates a new FlyWheelVelocityRun. */
-  
+  TurretSubsystem m_turretSubsystem = new TurretSubsystem();
   private final FlyWheel_Velocity m_flywWheel_Velocity;
   public FlyWheelVelocityRun(FlyWheel_Velocity f) {
   
@@ -32,33 +32,33 @@ public class FlyWheelVelocityRun extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double d = TurretSubsystem.getDistance();
+    double d = m_turretSubsystem.getDistance();
     double speedToGet;
 
     //d = SmartDashboard.getNumber("distance sim", 3);
     SmartDashboard.putBoolean("Lined Up To Shoot", false);
-    if (d < .5) {speedToGet = 4000;}
+   /* if (d < .5) {speedToGet = 4000;}
     else if (d < 1) {speedToGet = 4000;}
     else if (d < 1.5) {speedToGet = 4000;}
-    else if (d < 2) {speedToGet = 7050;}
+    else if (d < 2) {speedToGet = 5050;}
     //else if (d < 2.35) {speedToGet = 7800; SmartDashboard.putBoolean("Lined Up To Shoot", false);} //to test on practice field
-    else if (d < 2.5) {speedToGet = 7550; SmartDashboard.putBoolean("Lined Up To Shoot", true);}
+    else if (d < 2.5) {speedToGet = 5550; SmartDashboard.putBoolean("Lined Up To Shoot", true);}
     //else if (d < 2.75) {speedToGet = 9000; SmartDashboard.putBoolean("Lined Up To Shoot", false);} //to test on practice field
-    else if (d < 3) {speedToGet = 8075;}
-    else if (d < 3.5) {speedToGet = 8300;} //9200
-    else if (d < 4) {speedToGet = 9250;}
-    else if (d < 4.5) {speedToGet = 9400;}
-    else if (d < 5) {speedToGet = 9600;}
+    else if (d < 3) {speedToGet = 6075;}
+    else if (d < 3.5) {speedToGet = 6300;} //9200
+    else if (d < 4) {speedToGet = 7250;}
+    else if (d < 4.5) {speedToGet = 7400;}
+    else if (d < 5) {speedToGet = 7600;}
     else if (d < 5.5) {speedToGet = 10000;}
     else if (d < 6) {speedToGet = 10650;}
     else if (d < 6.5) {speedToGet = 11000;}
-    else {speedToGet = 4000;} 
+    else {speedToGet = 4000;} */
     
-   /*d = Math.round(d * 10) / 10;
-    speedToGet = (1404 * d) + 5232; //4560 1620
-    if (d > 6.5) {speedToGet = 4000;}*/
+   //d = Math.round(d * 100) / 100;
+    speedToGet = (1204 * d) + 4032; //4560 1620  1404 5232
+    if (d > 6.5) {speedToGet = 4000;}
 
-    FlyWheel_Velocity.my_Flywheel_Velocity(speedToGet);
+    m_flywWheel_Velocity.my_Flywheel_Velocity(speedToGet);
   }
 
   // Called once the command ends or is interrupted.

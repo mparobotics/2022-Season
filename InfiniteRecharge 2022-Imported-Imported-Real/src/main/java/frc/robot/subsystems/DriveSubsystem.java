@@ -127,10 +127,12 @@ public class DriveSubsystem extends SubsystemBase {
   SmartDashboard.putData("Field", m_field);
 
   m_odometry.update(
+ 
     navx.getRotation2d(), 
     (((falconFL.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters),
     (((falconFR.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters)); 
-
+    SmartDashboard.putNumber("left troubleshooting", (((falconFL.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters));
+    SmartDashboard.putNumber("right troubleshooting", (((falconFR.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters));
     //10.91 is the gear ratio, 2piRadius is circumfrence of the wheel, divide by 60 to get from min to sec 
     //divide by MPArunits ratio (mpu) to convert from MPAror Units to Meters
     
@@ -140,6 +142,8 @@ public class DriveSubsystem extends SubsystemBase {
   m_yEntry.setNumber(translation.getY());  
   
   m_field.setRobotPose(m_odometry.getPoseMeters());
+  SmartDashboard.putNumber("right encoder", falconFR.getSelectedSensorPosition());
+  SmartDashboard.putNumber("left encoder", falconFL.getSelectedSensorPosition());
 
 }
 

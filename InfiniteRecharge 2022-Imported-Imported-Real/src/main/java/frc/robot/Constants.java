@@ -123,7 +123,9 @@ public final class Constants {
         public static final int BACK_ELEVATOR_ID = 26; 
         
         public static final double ELEVATOR_SPEED = 1; //placeholder
-
+       
+    
+        public static final int LINEBREAK_RECIVER_ID = 10;
     }
 
     public final class LedConstants

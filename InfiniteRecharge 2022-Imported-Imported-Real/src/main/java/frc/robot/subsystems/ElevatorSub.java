@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 //import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -19,6 +20,7 @@ public class ElevatorSub extends SubsystemBase {
   static WPI_TalonSRX frontElev;
   static WPI_TalonSRX backElev;
   static CANSparkMax topElev;
+  DigitalInput linebreak;
   MotorControllerGroup elevatorMotors;
 
   public ElevatorSub() {
@@ -26,6 +28,8 @@ public class ElevatorSub extends SubsystemBase {
     frontElev.setInverted(false);
     backElev = new WPI_TalonSRX(ElevatorConstants.BACK_ELEVATOR_ID);
     backElev.setInverted(false);
+    //linebreak = new DigitalInput(ElevatorConstants.LINEBREAK_RECIVER_ID);
+
     //topElev = new CANSparkMax(ElevatorConstants.TOP_ELEVATOR_ID, MotorType.kBrushless);
 
     //elevatorMotors = new MotorControllerGroup(frontElev, backElev);
@@ -36,17 +40,37 @@ public class ElevatorSub extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public static void ElevateBall(double speed)
+  public void BackElevatorUp(double speed)
+  {
+    backElev.set(speed);
+  }
+
+  public void FrontElevatorUp(double speed)
+  {
+    frontElev.set(speed);
+  }
+
+  public void ElevateBall(double speed)
   {
     frontElev.set(speed);
     backElev.set(speed);
-    //topElev.set(speed);
   }
+  
+  
 
-  public static void ElevatorStop()
+    //topElev.set(speed);
+  
+
+  public void ElevatorStop()
   {
     frontElev.set(0);
     backElev.set(0);
     //topElev.set(0);
   }
+
+
+  public boolean lineBreakBroken() {
+    //return linebreak.get(); 
+    return true;
+  } 
 }

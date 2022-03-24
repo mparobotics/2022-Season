@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.TurretSubsystem;
 
@@ -36,7 +37,7 @@ public class AutoShootBall extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Robot.shooterSubsystem.ShooterSpeed < Robot.shooterSubsystem.getSetpoint()){
+    if (RobotContainer.shooterSubsystem.ShooterSpeed < RobotContainer.shooterSubsystem.getSetpoint()){
     return true;}
     else {return false;}
   }

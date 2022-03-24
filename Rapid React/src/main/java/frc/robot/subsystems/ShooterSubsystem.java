@@ -35,7 +35,7 @@ public double ShooterSpeed = falconShooter.getSelectedSensorVelocity();
     setCoast();
     hoodMotor = new WPI_TalonSRX(ShooterConstants.hood_motor_ID);
   }
-  
+  //git
   public void ShootBangBang() {
     //setpoint = getSetpoint();
     setpoint = 1000;

@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class AutoCross extends CommandBase {
@@ -42,7 +43,7 @@ public class AutoCross extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Robot.driveSubsystem.getEncoder() < 5000){return false;}
+    if(RobotContainer.driveSubsystem.getEncoder() < 5000){return false;}
     else {return true;}
   }
 }

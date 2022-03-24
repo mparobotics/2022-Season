@@ -61,7 +61,7 @@ public final class Constants {
         public static final double hood_min_command = .05;
         public static final double max_turret_rotation = 10000; //placeholder
         public static final double centering_speed = .3;
-    }
+    } //ha
 
     public final class OIConstants {
         public static final int XBOX_ID = 0;
