@@ -27,8 +27,11 @@ import frc.robot.subsystems.FlyWheel_Velocity;
 import frc.robot.subsystems.IntakeSub;
 import frc.robot.subsystems.TurretSubsystem;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.util.datalog.DataLog;
 import frc.robot.utils.Limelight;
 import frc.robot.utils.Limelight.LightMode;
+import edu.wpi.first.wpilibj.DataLogManager;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -117,13 +120,15 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
   
+    DataLogManager.start();
     //set Limelight at auto start
-    m_robotContainer.driveSub.encoderReset();
+    //m_robotContainer.driveSub.encoderReset();
+    DriveSubsystem.encoderReset();
+    m_DriveSubsystem.zeroHeading();
     //RobotContainer.shooterSub.encoderReset();
     Limelight.setLedMode(LightMode.eOn); //TODO test
     //ShootAndCross.schedule();
     //autoCross.schedule();
-    m_DriveSubsystem.zeroHeading();
     
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     spinFlywheel.schedule();

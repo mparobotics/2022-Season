@@ -30,6 +30,12 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 
+/**Datalogging */
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
+
 /**
  * this subsystem sets up and directly manipulates everything on the drive train
  */
@@ -55,6 +61,19 @@ public class DriveSubsystem extends SubsystemBase {
 
   DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(getHeading());
   
+  /**data Logging define logs */
+  DoubleLogEntry encoderLogRawR;
+  DoubleLogEntry encoderLogRawL;
+  DoubleLogEntry encoderLogMetersR;
+  DoubleLogEntry encoderLogMetersL;
+  DoubleLogEntry poseLog; //this
+  DoubleLogEntry odomentryLog;
+  DoubleLogEntry headingLogR2d; //this
+  DoubleLogEntry angleLog;
+  StringLogEntry rotation2dlog; //this
+  //FLoatLogEntry myFloatLog;
+  //IntegerLogEntry myIntegerLogEntry;
+  //StringLogEntry myStringLog;
 
 
   private static double error;
@@ -97,9 +116,26 @@ public class DriveSubsystem extends SubsystemBase {
     //Encoder Code Start
     fxConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor; //Selecting Feedback Sensor
    
-   encoderReset(); //TODO I wonder if this is the problem 
+   //encoderReset(); //TODO I wonder if this is the problem 
+
+   DataLog log = DataLogManager.getLog();
+   encoderLogRawR = new DoubleLogEntry(log, "/auto/encodeRawR");
+   encoderLogRawL = new DoubleLogEntry(log, "/auto/encodeRawL");
+   encoderLogMetersR = new DoubleLogEntry(log, "/auto/encodeMR");
+   encoderLogMetersL = new DoubleLogEntry(log, "/auto/encodeML");
+   headingLogR2d = new DoubleLogEntry(log, "/auto/heading"); 
+   angleLog = new DoubleLogEntry(log, "/auto/angle");
+
+  //FLoatLogEntry myFloatLog;
+  //IntegerLogEntry myIntegerLogEntry;
+  //StringLogEntry myStringLog;
+
   }
 
+  /**
+   * setCoat sets Falcon500 motors to Coast Mode.
+   * Usually used for Drivebase Falcon Config
+   */
   public void setCoast() {
     //setting coast or brake mode, can also be done in Phoenix tuner
     falconFR.setNeutralMode(NeutralMode.Coast);
@@ -107,6 +143,10 @@ public class DriveSubsystem extends SubsystemBase {
     falconBR.setNeutralMode(NeutralMode.Coast);
     falconBL.setNeutralMode(NeutralMode.Coast);
   }
+  /**
+   * setBrake sets falcon500 motors to brake mode
+   * Usualy used for Drivebase Falcon Config
+   */
   public void setBrake() {
     //setting coast or brake mode, can also be done in Phoenix tuner
     falconFR.setNeutralMode(NeutralMode.Brake);
@@ -122,8 +162,8 @@ public class DriveSubsystem extends SubsystemBase {
   setDriveSpeed_Arcade(-RobotContainer.xbox.getLeftY(), RobotContainer.xbox.getRightX()*.75);
   //SmartDashboard.putNumber("Left Encoder", falconFL.getSelectedSensorPosition());
   //SmartDashboard.putNumber("Right Encoder", falconFR.getSelectedSensorPosition());
-  NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
-  NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
+  //NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
+  //NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
   SmartDashboard.putData("Field", m_field);
 
   m_odometry.update(
@@ -131,19 +171,19 @@ public class DriveSubsystem extends SubsystemBase {
     navx.getRotation2d(), 
     (((falconFL.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters),
     (((falconFR.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters)); 
-    SmartDashboard.putNumber("left troubleshooting", (((falconFL.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters));
-    SmartDashboard.putNumber("right troubleshooting", (((falconFR.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters));
+    SmartDashboard.putNumber("left encoder (meters)", (((falconFL.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters));
+    SmartDashboard.putNumber("right encoder (meters)", (((falconFR.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters));
     //10.91 is the gear ratio, 2piRadius is circumfrence of the wheel, divide by 60 to get from min to sec 
     //divide by MPArunits ratio (mpu) to convert from MPAror Units to Meters
     
 
-  var translation = m_odometry.getPoseMeters().getTranslation();
-  m_xEntry.setNumber(translation.getX());
-  m_yEntry.setNumber(translation.getY());  
+  //var translation = m_odometry.getPoseMeters().getTranslation();
+  //m_xEntry.setNumber(translation.getX());
+  //m_yEntry.setNumber(translation.getY());  
   
   m_field.setRobotPose(m_odometry.getPoseMeters());
-  SmartDashboard.putNumber("right encoder", falconFR.getSelectedSensorPosition());
-  SmartDashboard.putNumber("left encoder", falconFL.getSelectedSensorPosition());
+  SmartDashboard.putNumber("right encoder raw", falconFR.getSelectedSensorPosition());
+  SmartDashboard.putNumber("left encoder raw", falconFL.getSelectedSensorPosition());
 
 }
 
@@ -196,6 +236,14 @@ public class DriveSubsystem extends SubsystemBase {
     falconFL.set(ControlMode.PercentOutput, 0);
   }
 
+  public void dataLogTrajectory() {
+    encoderLogRawR.append(falconFR.getSelectedSensorPosition());
+    encoderLogRawL.append(falconFL.getSelectedSensorPosition());
+    encoderLogMetersR.append((((falconFR.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters));
+    encoderLogMetersL.append((((falconFL.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters));
+    headingLogR2d.append(-navx.getAngle());
+    angleLog.append(navx.getAngle());
+  }
   /**
    * prints encoder values to the smart dashboard
    */
@@ -210,6 +258,9 @@ public class DriveSubsystem extends SubsystemBase {
     return (falconFR.getSelectedSensorPosition() + falconBR.getSelectedSensorPosition()) / 2;
   }
 
+  /**
+   * encoderReset Sets SelectedSensor to 0 (zeros)
+   */
   public static void encoderReset() {
     falconFR.setSelectedSensorPosition(0);
     falconFL.setSelectedSensorPosition(0);
@@ -217,6 +268,11 @@ public class DriveSubsystem extends SubsystemBase {
     falconBL.setSelectedSensorPosition(0);
   }
 
+  /**
+   * Returns the position of the robot on the field.
+   *
+   * @return The pose of the robot (x and y are in meters).
+   */
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
@@ -236,6 +292,14 @@ public class DriveSubsystem extends SubsystemBase {
     drive.arcadeDrive(fwd, rot);
   }
 
+  /**
+   * Sets the Left and Right Voltage for the Drive Speed Controll Groups
+   *
+   * @param leftVolts Left half of the Drive Train Volts
+   * @param rightVolts Right half of the drive Train Volts.
+   * @param drive.feed.
+   * @return TankDriveVolts.
+   */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     SCG_L.setVoltage(leftVolts);
     SCG_R.setVoltage(rightVolts);
@@ -255,12 +319,15 @@ public class DriveSubsystem extends SubsystemBase {
     drive.setMaxOutput(maxOutput);
   }
 
-  /** Zeroes the heading of the robot. */
+  /**
+   * Zeros NavX Heading
+   *
+   */
   public void zeroHeading() {
     navx.reset();
   }
 
-    /**
+  /**
    * Returns the heading of the robot.
    *
    * @return the robot's heading in degrees, from -180 to 180
@@ -269,6 +336,11 @@ public class DriveSubsystem extends SubsystemBase {
     return Rotation2d.fromDegrees(-navx.getAngle());
   }
 
+  /**
+   * Returns TurnRate from NavX
+   *
+   * @return The Robot's Turn Rate from x to x
+   */
   public double getTurnRate() {
     return -navx.getRate();
   }
