@@ -150,9 +150,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("rate", m_DriveSubsystem.navx.getRate());
     SmartDashboard.putString("heading", m_DriveSubsystem.getHeading().toString());
 
-
-
-
   }
 
   @Override
