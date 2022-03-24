@@ -41,7 +41,7 @@ public class ArcadeDriveClassic extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    DriveSubsystem.setDriveSpeed_Arcade(m_xSpeed.getAsDouble(), -m_zRotation.getAsDouble());
+    m_drive.setDriveSpeed_Arcade(m_xSpeed.getAsDouble(), -m_zRotation.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

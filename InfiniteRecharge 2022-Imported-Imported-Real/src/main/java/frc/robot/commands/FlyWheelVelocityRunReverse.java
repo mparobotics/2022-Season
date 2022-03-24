@@ -10,11 +10,11 @@ import frc.robot.utils.Limelight;
 import frc.robot.utils.Limelight.LightMode;
 
 
-public class FlyWheelVelocityRunLow extends CommandBase {
+public class FlyWheelVelocityRunReverse extends CommandBase {
   /** Creates a new FlyWheelVelocityRun. */
   
   private final FlyWheel_Velocity m_flyWheel_Velocity;
-  public FlyWheelVelocityRunLow(FlyWheel_Velocity f) {
+  public FlyWheelVelocityRunReverse(FlyWheel_Velocity f) {
   
      m_flyWheel_Velocity = f;
 
@@ -32,7 +32,7 @@ public class FlyWheelVelocityRunLow extends CommandBase {
   public void execute() {
 
 
-double speedToGet = 3000;
+double speedToGet = -1000;
 
     m_flyWheel_Velocity.my_Flywheel_Velocity(speedToGet);
   }

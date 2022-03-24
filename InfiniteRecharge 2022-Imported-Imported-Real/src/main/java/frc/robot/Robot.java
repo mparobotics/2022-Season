@@ -25,7 +25,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.FlyWheel_Velocity;
 import frc.robot.subsystems.IntakeSub;
-import frc.robot.subsystems.TurretSubsystem;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.util.datalog.DataLog;
 import frc.robot.utils.Limelight;
@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
   private ElevatorSub m_ElevatorSub;
   private RobotContainer m_robotContainer;
   private DriveSubsystem m_DriveSubsystem;
-  private TurretSubsystem m_turretSub;
+
   private FlyWheel_Velocity m_flywheelVelocity;
   private IntakeSub intakeSub = new IntakeSub();
   NetworkTable table;
@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     m_DriveSubsystem = new DriveSubsystem();
     m_flywheelVelocity = new FlyWheel_Velocity();
-    m_turretSub = new TurretSubsystem();
+ 
     m_ElevatorSub = new ElevatorSub();
     Limelight.setLedMode(LightMode.eOff);
     autoElevator = new Elevator(m_ElevatorSub);
@@ -166,7 +166,7 @@ public class Robot extends TimedRobot {
     m_ElevatorSub.ElevatorStop();
     m_flywheelVelocity.my_Flywheel_Velocity(0);
     DriveSubsystem.stopRobot();
-    DriveSubsystem.encoderReset();
+    m_DriveSubsystem.encoderReset();
     //RobotContainer.ShooterSub.encoderReset();
     //if (m_autonomousCommand != null) {
       //m_autonomousCommand.cancel();
