@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
@@ -13,12 +14,12 @@ import frc.robot.Constants.IntakeConstants;
 public class IntakeSub extends SubsystemBase {
   /** Creates a new Intake. */
   static WPI_TalonSRX intake;
-  static CANSparkMax dropdown;
+  static CANSparkMax dropdown = new CANSparkMax(53, MotorType.kBrushless);
   public static boolean IntakeIsDown = false;
 
   public IntakeSub() {
     intake = new WPI_TalonSRX(IntakeConstants.INTAKE_ID);
-    //dropdown = new CANSparkMax(IntakeConstants.INTAKE_DROPDOWN_ID, MotorType.kBrushless);
+   
     intake.configOpenloopRamp(2); // 2 seconds from neutral to full output (during open-loop control)
     intake.configClosedloopRamp(2);
   }
@@ -41,21 +42,21 @@ public class IntakeSub extends SubsystemBase {
     intake.set(0);
   }
 
- /*   public static void IntakeDrop()
+    public static void IntakeDrop()
   {
   
-    dropdown.set(IntakeConstants.DROPDOWN_SPEED);
+    dropdown.set(-IntakeConstants.DROPDOWN_SPEED);
   }
 
   public static void IntakeUp()
   {
-    DriverStation.reportError("Intake Drop", false);
-    dropdown.set(-IntakeConstants.DROPDOWN_SPEED);
+    
+    dropdown.set(IntakeConstants.DROPDOWN_SPEED);
   
   }
   public static void IntakeDropStop()
   {
     dropdown.set(0);
-  } */
+  } 
 
 }

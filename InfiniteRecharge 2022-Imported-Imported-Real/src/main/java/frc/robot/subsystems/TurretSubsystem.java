@@ -94,14 +94,13 @@ public class TurretSubsystem extends SubsystemBase {
   public double getDistance () //gets the distance from the hub
   {
     double ty = getY();
-    double tx = getX();
-    double tv = getTv();
+    //double tx = getX();
+    //double tv = getTv();
     double angleRad = Math.PI*(ty+a1)/180; // converting ty+a1 from degrees to radians
     distanceFromHub = (h2-h1) / Math.tan(angleRad); // caculate the distance with M A T H and T R I G O N O M E T R Y 
     SmartDashboard.putNumber("DistanceFromHub", distanceFromHub); 
-    if (tv == 1)
-    {return distanceFromHub; }
-    else {return 5000;}
+    return distanceFromHub;
+
 
   }
 

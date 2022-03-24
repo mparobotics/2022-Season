@@ -58,7 +58,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   private static double error;
-  private double integral;
+ 
 
   /**
    * Creates a new DriveSubsystem.
@@ -162,7 +162,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param xSpeed
    * @param zRotation
    */
-  public static void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
+  public void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
     xSpeed = xSpeed * .95;
     zRotation = zRotation * .85;
   /*  if (RobotContainer.helms.getRawButton(9) == true) {
@@ -210,7 +210,7 @@ public class DriveSubsystem extends SubsystemBase {
     return (falconFR.getSelectedSensorPosition() + falconBR.getSelectedSensorPosition()) / 2;
   }
 
-  public static void encoderReset() {
+  public void encoderReset() {
     falconFR.setSelectedSensorPosition(0);
     falconFL.setSelectedSensorPosition(0);
     falconBR.setSelectedSensorPosition(0);
