@@ -87,8 +87,6 @@ public class RobotContainer {
   public static XboxController helms = new XboxController(OIConstants.HELMS_ID);
   public static Joystick shooterStick = new Joystick(2);
 
-  //private Joystick buttonBoard = new Joystick(OIConstants.buttonBoard); //TODO ButtonBoardTEST
-
   public static boolean shooting = false;
    
   /**
@@ -236,28 +234,28 @@ public class RobotContainer {
       List.of(new Translation2d(1,3), new Translation2d(2, 3)),
       new Pose2d(3, 3, new Rotation2d(0)), config);
 
-  //String myPathName = "";
-  String trajectoryfile1 = "paths/Testing.wpilib.json";
+    //String myPathName = "";
+    String trajectoryfile1 = "paths/Testing.wpilib.json";
 
-  //myPathName = "Unamed";
+    //myPathName = "Unamed";
 
-  //trajectoryfile = myPathName + ".wpilib.json";
-  try {
-      Path trajectoryPath1 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile1);
-      trajectory1 = TrajectoryUtil.fromPathweaverJson(trajectoryPath1);
-  } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryfile, ex.getStackTrace());
-  }
+    //trajectoryfile = myPathName + ".wpilib.json";
+    try {
+        Path trajectoryPath1 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile1);
+        trajectory1 = TrajectoryUtil.fromPathweaverJson(trajectoryPath1);
+    } catch (IOException ex) {
+        DriverStation.reportError("Unable to open trajectory: " + trajectoryfile, ex.getStackTrace());
+    }
 
-  trajectory1 = TrajectoryGenerator.generateTrajectory(
-    // Start at the origin facing the +X direction
-    new Pose2d(0, 0, new Rotation2d(0)),
-    // Pass through these two interior waypoints, making an 's' curve path
-    List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-    // End 3 meters straight ahead of where we started, facing forward
-    new Pose2d(3, 0, new Rotation2d(0)),
-    // Pass config
-    config);
+    trajectory1 = TrajectoryGenerator.generateTrajectory(
+      // Start at the origin facing the +X direction
+      new Pose2d(0, 0, new Rotation2d(0)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+      // End 3 meters straight ahead of where we started, facing forward
+      new Pose2d(3, 0, new Rotation2d(0)),
+      // Pass config
+      config);
   
 
 
@@ -306,5 +304,4 @@ public class RobotContainer {
     
     }
   }
-
 
