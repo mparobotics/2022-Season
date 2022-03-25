@@ -161,14 +161,14 @@ public class RobotContainer {
        
         
     //Elevator settings
-        new JoystickButton(helms, Button.kA.value).whenHeld(new Queue(elevatorsub));
-        new JoystickButton(helms, Button.kY.value).whenHeld(new Elevator(elevatorsub));
-        new JoystickButton(xbox, Button.kY.value).whenHeld(new ElevatorReverse(elevatorsub));
+        //new JoystickButton(helms, Button.kA.value).whenHeld(new Queue(elevatorsub));
+        new JoystickButton(helms, Button.kA.value).whenHeld(new Elevator(elevatorsub));
+        new JoystickButton(helms, Button.kY.value).whenHeld(new ElevatorReverse(elevatorsub));
         
-        new JoystickButton(xbox, Button.kY.value).whenHeld(new FlyWheelVelocityRunReverse(flyWheel_Velocity));
+        new JoystickButton(helms, Button.kY.value).whenHeld(new FlyWheelVelocityRunReverse(flyWheel_Velocity));
         //elevator stop
         new JoystickButton(helms, Button.kB.value).whenReleased(new ElevatorNeutral(elevatorsub));
-        new JoystickButton(xbox, Button.kY.value).whenReleased(new ElevatorNeutral(elevatorsub));
+        new JoystickButton(helms, Button.kY.value).whenReleased(new ElevatorNeutral(elevatorsub));
     
 
 
