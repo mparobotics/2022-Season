@@ -258,14 +258,10 @@ public class DriveSubsystem extends SubsystemBase {
     return (falconFR.getSelectedSensorPosition() + falconBR.getSelectedSensorPosition()) / 2;
   }
 
-<<<<<<< HEAD
   /**
    * encoderReset Sets SelectedSensor to 0 (zeros)
    */
   public static void encoderReset() {
-=======
-  public void encoderReset() {
->>>>>>> origin/main
     falconFR.setSelectedSensorPosition(0);
     falconFL.setSelectedSensorPosition(0);
     falconBR.setSelectedSensorPosition(0);

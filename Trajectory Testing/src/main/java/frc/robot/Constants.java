@@ -61,4 +61,8 @@ public final class Constants {
         
         public static final double MPArunitsToMeters = 30.30303;
     }
+    public final class OIConstants {
+        public static final int XBOX_ID = 0;
+        public static final int HELMS_ID = 1;
+    }
 }
