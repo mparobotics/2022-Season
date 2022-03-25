@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.TurretSubsystem;
 
 public class TurretTurnLeft extends CommandBase {
@@ -27,7 +28,7 @@ public class TurretTurnLeft extends CommandBase {
     //{
      // new TurretCenter();
     //}
-    RobotContainer.turretSubsystem.turnTurret(.1); //to test speed plus invert
+    RobotContainer.turretSubsystem.turnTurret(ShooterConstants.TURRET_SPEED); //to test speed plus invert
   }
 
   // Called once the command ends or is interrupted.
