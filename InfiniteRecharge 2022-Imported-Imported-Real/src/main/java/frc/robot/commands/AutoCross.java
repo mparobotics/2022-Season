@@ -20,6 +20,7 @@ import frc.robot.utils.Limelight.LightMode;
 public class AutoCross extends CommandBase {
   private DriveSubsystem m_driveSub;
   private TurretSubsystem m_turretSubsystem;
+  double leftEncoderStart;
   /**
    * Creates a new AutoDriveToWall.
    */
@@ -32,9 +33,10 @@ public class AutoCross extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-    DriveSubsystem.setDriveSpeed_Tank(1, 1); 
+    leftEncoderStart = m_driveSub.getLeftEncoder();
+
     Limelight.setLedMode(LightMode.eOn);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,7 +45,9 @@ public class AutoCross extends CommandBase {
     
 
     IntakeSub.intakeBall(IntakeConstants.INTAKE_SPEED);
-    DriveSubsystem.setDriveSpeed_Tank(1, 1); 
+    
+    m_driveSub.tankDriveVolts(12, 12);
+  
 
   }
 
@@ -58,9 +62,9 @@ public class AutoCross extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-   return false;//JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
+  return m_driveSub.getLeftEncoder() > 80000 + leftEncoderStart;//JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
     
-   
+
   }
       
 

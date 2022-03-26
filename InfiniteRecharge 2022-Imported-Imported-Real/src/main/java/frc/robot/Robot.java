@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
   private AutoCross autoCross;
   private AutoReturn autoReturn;
   private Elevator autoElevator;
-  private SequentialCommandGroup ShootAndCross;
+  private Command ShootAndCross;
   private ParallelCommandGroup ParallelTwoBall;
   private Intake intake = new Intake(intakeSub);
   private TurretAutoAlign turretAutoAlign = new TurretAutoAlign();
@@ -69,7 +69,7 @@ public class Robot extends TimedRobot {
     m_flywheelVelocity = new FlyWheel_Velocity();
  
     m_ElevatorSub = new ElevatorSub();
-    Limelight.setLedMode(LightMode.eOff);
+    //Limelight.setLedMode(LightMode.eOff);
     autoElevator = new Elevator(m_ElevatorSub);
     autoCross = new AutoCross(m_robotContainer.driveSub);
     autoReturn = new AutoReturn(m_robotContainer.driveSub);
@@ -78,10 +78,11 @@ public class Robot extends TimedRobot {
 
 
     //ShootAndCross = new SequentialCommandGroup(autoIntakeDrop, autoCross, autoShoot);
-    ShootAndCross = new SequentialCommandGroup(new IntakeDrop(intakeSub).withTimeout(2), 
-                        autoCross.withTimeout(4), autoReturn.withTimeout(3.5), autoElevator.withTimeout(4));
+    /*ShootAndCross = new SequentialCommandGroup(
+                        autoCross, autoReturn, autoElevator.withTimeout(4));*/
+      
 
-    ParallelTwoBall = new ParallelCommandGroup(ShootAndCross, spinFlywheel);
+    //ParallelTwoBall = new ParallelCommandGroup(new IntakeDrop(intakeSub).withTimeout(2), ShootAndCross, spinFlywheel, turretAutoAlign);
 
     //table = NetworkTableInstance.getDefault().getTable("limelight"); //Gets Table instance
     //table.getEntry("ledMode").setNumber(1); //sets limelight LEDS to "off"
@@ -123,12 +124,12 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
   
     //set Limelight at auto start
-    m_robotContainer.driveSub.encoderReset();
+    //m_robotContainer.driveSub.encoderReset();
     //RobotContainer.shooterSub.encoderReset();
-    Limelight.setLedMode(LightMode.eOn); //TODO test
-    ParallelTwoBall
-    .schedule();
-    //autoCross.schedule();
+    //Limelight.setLedMode(LightMode.eOn); //TODO test
+    //ShootAndCross.schedule();
+    //ParallelTwoBall.schedule();
+    
     //m_DriveSubsystem.zeroHeading();
     
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -136,9 +137,9 @@ public class Robot extends TimedRobot {
     //turretAutoAlign.schedule();
     //intake.schedule();
     // schedule the autonomous command (example)
-    /*if (m_autonomousCommand != null) {
+    if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
-    }*/
+    }
 
   }
 

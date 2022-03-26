@@ -66,17 +66,17 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     setBrake();
     //setting ramp
-    falconFR.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconFR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    falconFR.configOpenloopRamp(.4); // 0.4 seconds from neutral to full output (during open-loop control)
+    falconFR.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
 
-    falconFL.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconFL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    falconFL.configOpenloopRamp(.4); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconFL.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
 
-    falconBL.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconBL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    falconBL.configOpenloopRamp(.4); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconBL.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
 
-    falconBR.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconBR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    falconBR.configOpenloopRamp(.4); // 0.5 seconds from neutral to full output (during open-loop control)
+    falconBR.configClosedloopRamp(0); // 0 disables ramping (during closed-loop control)
 
     //Drive Base Code
     falconBR.follow(falconFR); //talonBR follows TalonFR
@@ -147,13 +147,13 @@ public class DriveSubsystem extends SubsystemBase {
 
 }
 
-  private static double driveTrainP() {
+  private double driveTrainP() {
     error = falconFL.getSelectedSensorPosition() - falconFR.getSelectedSensorPosition();
     //integral += error*.02;
     return DriveConstants.DRIVE_P*error;
   }
 
-  public static void driveStraight(double xSpeed) {
+  public void driveStraight(double xSpeed) {
     drive.arcadeDrive(xSpeed, -driveTrainP());
   }
 
@@ -274,7 +274,17 @@ public class DriveSubsystem extends SubsystemBase {
   public double getTurnRate() {
     return -navx.getRate();
   }
+   
+  public double getLeftEncoder(){
+   
+    return falconFL.getSelectedSensorPosition();
+  }
+
+
+
 }
+
+
 
 
 

@@ -35,7 +35,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-
+import frc.robot.commands.AutoCross;
+import frc.robot.commands.AutoReturn;
 import frc.robot.commands.AutoStop;
 import frc.robot.commands.BallShoot;
 import frc.robot.commands.Elevator;
@@ -83,6 +84,8 @@ public class RobotContainer {
   private AutoStop autoStop2 = new AutoStop(new DriveSubsystem());
   private WaitCommand waitCommand = new WaitCommand(2);
   private IntakeDrop autoDrop = new IntakeDrop(intakeSub);
+  private AutoCross autoCross;
+  private AutoReturn autoReturn;
  
   // declaring and intializing controller(s)
   public static XboxController xbox = new XboxController(OIConstants.XBOX_ID);
@@ -194,6 +197,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     //Create a voltage constraint to ensure we don't accelerate too fast
+
+    autoCross = new AutoCross(driveSub);
+    autoReturn = new AutoReturn(driveSub);
+
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(
@@ -223,7 +230,7 @@ public class RobotContainer {
         new Pose2d(3, 3, new Rotation2d(0)), config);
 
     //String myPathName = "";
-    String trajectoryfile = "paths/3 carg.wpilib.json";
+    String trajectoryfile = "paths/Testing.wpilib.json";
 
     //myPathName = "Unamed";
 
@@ -304,10 +311,7 @@ public class RobotContainer {
     driveSub.resetOdometry(trajectory1.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return new SequentialCommandGroup(
-      /*autoDrop.withTimeout(3), autoShoot.withTimeout(2),ramseteCommand, autoStop, autoShoot1.withTimeout(2),
-      ramseteCommand1, autoStop1, autoShoot2);*/
-      ramseteCommand1);
+    return ramseteCommand.andThen(() -> driveSub.tankDriveVolts(0, 0));
     
     }
   }

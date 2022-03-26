@@ -18,6 +18,7 @@ import frc.robot.subsystems.TurretSubsystem;
 public class AutoReturn extends CommandBase {
   private DriveSubsystem m_driveSub;
   private TurretSubsystem m_turretSubsystem;
+  double leftEncoderStart;
   /**
    * Creates a new AutoDriveToWall.
    */
@@ -30,8 +31,8 @@ public class AutoReturn extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    leftEncoderStart = m_driveSub.getLeftEncoder();
     
-    DriveSubsystem.setDriveSpeed_Tank(-1, -1); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,7 +40,7 @@ public class AutoReturn extends CommandBase {
   public void execute() {
     
 
-    DriveSubsystem.setDriveSpeed_Tank(-1, -1); 
+    m_driveSub.driveStraight(-1); 
 
   }
 
@@ -55,9 +56,9 @@ public class AutoReturn extends CommandBase {
   @Override
   public boolean isFinished() {
     //return m_turretSubsystem.getDistance() >= (1.5); //JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
-    
+    return m_driveSub.getLeftEncoder() < 000;//JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
    
-      return false;
+      
   }
   }
 
