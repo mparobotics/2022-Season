@@ -11,11 +11,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoCross;
-
-
+import frc.robot.commands.AutoReturn;
 import frc.robot.commands.Elevator;
 import frc.robot.commands.FlyWheelVelocityRun;
 import frc.robot.commands.Intake;
@@ -47,12 +46,15 @@ public class Robot extends TimedRobot {
   NetworkTable table;
   //private AutoIntakeDrop autoIntakeDrop;
   private AutoCross autoCross;
+  private AutoReturn autoReturn;
   private Elevator autoElevator;
   private SequentialCommandGroup ShootAndCross;
+  private ParallelCommandGroup ParallelTwoBall;
   private Intake intake = new Intake(intakeSub);
   private TurretAutoAlign turretAutoAlign = new TurretAutoAlign();
   private SequentialCommandGroup TrajTest;
   private FlyWheelVelocityRun spinFlywheel = new FlyWheelVelocityRun(new FlyWheel_Velocity()); 
+
   
   
   /**
@@ -70,13 +72,16 @@ public class Robot extends TimedRobot {
     Limelight.setLedMode(LightMode.eOff);
     autoElevator = new Elevator(m_ElevatorSub);
     autoCross = new AutoCross(m_robotContainer.driveSub);
+    autoReturn = new AutoReturn(m_robotContainer.driveSub);
+    
+    
+
 
     //ShootAndCross = new SequentialCommandGroup(autoIntakeDrop, autoCross, autoShoot);
     ShootAndCross = new SequentialCommandGroup(new IntakeDrop(intakeSub).withTimeout(2), 
-                      autoElevator.withTimeout(6),
-                        autoCross.withTimeout(3) );
+                        autoCross.withTimeout(4), autoReturn.withTimeout(3.5), autoElevator.withTimeout(4));
 
-
+    ParallelTwoBall = new ParallelCommandGroup(ShootAndCross, spinFlywheel);
 
     //table = NetworkTableInstance.getDefault().getTable("limelight"); //Gets Table instance
     //table.getEntry("ledMode").setNumber(1); //sets limelight LEDS to "off"
@@ -121,18 +126,19 @@ public class Robot extends TimedRobot {
     m_robotContainer.driveSub.encoderReset();
     //RobotContainer.shooterSub.encoderReset();
     Limelight.setLedMode(LightMode.eOn); //TODO test
-    //ShootAndCross.schedule();
+    ParallelTwoBall
+    .schedule();
     //autoCross.schedule();
-    m_DriveSubsystem.zeroHeading();
+    //m_DriveSubsystem.zeroHeading();
     
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    spinFlywheel.schedule();
-    turretAutoAlign.schedule();
-    intake.schedule();
+    //spinFlywheel.schedule();
+    //turretAutoAlign.schedule();
+    //intake.schedule();
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    /*if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
-    }
+    }*/
 
   }
 

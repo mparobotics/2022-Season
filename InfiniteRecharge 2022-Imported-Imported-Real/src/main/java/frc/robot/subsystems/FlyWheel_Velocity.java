@@ -8,8 +8,12 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
+import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
@@ -18,6 +22,10 @@ public class FlyWheel_Velocity extends SubsystemBase {
   static WPI_TalonFX _talon = new WPI_TalonFX(ShooterConstants.FALCON_shooter_ID, "rio");
  
   public double speedINeed = 4000;
+
+  private final I2C.Port i2cPort = I2C.Port.kOnboard;
+  private final Alliance allianceColor = DriverStation.getAlliance();
+  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
 
 
   /** Creates a new FlyWheel_Velocity. */
@@ -84,6 +92,34 @@ public class FlyWheel_Velocity extends SubsystemBase {
     else {return false;}
     
   }  
+
+  public boolean GetColor()
+  {
+    Color detectedColor = m_colorSensor.getColor();
+    SmartDashboard.putNumber("Blue", detectedColor.blue);
+    SmartDashboard.putNumber("Red", detectedColor.red);
+    Boolean correctColor;
+    if (allianceColor == Alliance.Red)
+    {
+        if (detectedColor.blue == 1){
+          correctColor = false;
+        }
+          else {correctColor = true;}
+            }
+    else {if (allianceColor == Alliance.Blue)
+      {
+      if (detectedColor.blue == 1){
+        correctColor = false;
+      }
+      else {correctColor = true;}
+    }
+    else {correctColor = true;}
+
+  }
+
+    SmartDashboard.putBoolean("CorrectColor?", correctColor);
+    return correctColor;
+  }
 }
 
 

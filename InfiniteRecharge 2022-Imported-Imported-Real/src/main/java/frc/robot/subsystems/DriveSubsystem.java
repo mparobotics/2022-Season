@@ -243,7 +243,9 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double getAverageEncoderDistance() {
+    SmartDashboard.putNumber("avg encoder d", (falconFL.getSelectedSensorPosition() + falconFR.getSelectedSensorPosition()) / 2.0);
     return (falconFL.getSelectedSensorPosition() + falconFR.getSelectedSensorPosition()) / 2.0;
+    
   }
 
     /**

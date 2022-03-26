@@ -7,10 +7,10 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 
-import edu.wpi.first.wpilibj.DigitalInput;
+
 //import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 //import frc.robot.Constants.IntakeConstants;
@@ -19,6 +19,7 @@ public class ElevatorSub extends SubsystemBase {
   /** Creates a new Intake. */
   static WPI_TalonSRX frontElev;
   static WPI_TalonSRX backElev;
+
   
   //DigitalInput linebreak = new DigitalInput(ElevatorConstants.LINEBREAK_RECIVER_ID);
 
@@ -54,8 +55,8 @@ public class ElevatorSub extends SubsystemBase {
     frontElev.set(speed);
     backElev.set(speed);
   }
-  
-  
+
+
 
     //topElev.set(speed);
   
