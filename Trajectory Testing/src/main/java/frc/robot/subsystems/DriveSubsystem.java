@@ -246,10 +246,17 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return the robot's heading in degrees, from -180 to 180
    */
-  public double getHeading() {
+  public Rotation2d getHeading() {
     //return m_gyro.getRotation2d().getDegrees();
-    return Rotation2d.fromDegrees(-navx.getAngle());
-  } //TODO FIX
+    return Rotation2d.fromDegrees(navx.getAngle());
+  }
+
+  //TODO Something to Try
+  /*
+  public double getHeading() {
+    return navx.getYaw();
+  }
+  */
 
   /**
    * Returns the turn rate of the robot.
