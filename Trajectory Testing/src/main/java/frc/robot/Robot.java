@@ -7,6 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,6 +21,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private DriveSubsystem m_DriveSubsystem;
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -28,6 +33,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    m_DriveSubsystem = new DriveSubsystem();
+    DataLogManager.start();
   }
 
   /**
@@ -48,7 +55,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -62,11 +71,19 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    DataLogManager.start();
+    DriverStation.startDataLog(DataLogManager.getLog(), true);
+    DataLogManager.log("Auto!");
+    m_DriveSubsystem.zeroHeading();
+    m_DriveSubsystem.resetEncoders();
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    m_DriveSubsystem.dataLogTrajectory();
+
+  }
 
   @Override
   public void teleopInit() {
@@ -77,6 +94,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    DataLogManager.start();
+    DataLogManager.log("Teleop!");
   }
 
   /** This function is called periodically during operator control. */

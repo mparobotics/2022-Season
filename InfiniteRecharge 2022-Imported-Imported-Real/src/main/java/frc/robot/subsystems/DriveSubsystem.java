@@ -86,16 +86,16 @@ public class DriveSubsystem extends SubsystemBase {
     setBrake();
     //setting ramp
     falconFR.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconFR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    //falconFR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     falconFL.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconFL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    //falconFL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     falconBL.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconBL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    //falconBL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     falconBR.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconBR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    //falconBR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     //Drive Base Code
     falconBR.follow(falconFR); //talonBR follows TalonFR
@@ -109,9 +109,6 @@ public class DriveSubsystem extends SubsystemBase {
     //matches whatever falconFR is
     //falconFL.setInverted(true); //set to invert falconFL.. CW/CCW.. Green = foward (motor led)
     
-    
-
-
     
     //Encoder Code Start
     fxConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor; //Selecting Feedback Sensor
@@ -140,8 +137,6 @@ public class DriveSubsystem extends SubsystemBase {
     //setting coast or brake mode, can also be done in Phoenix tuner
     falconFR.setNeutralMode(NeutralMode.Coast);
     falconFL.setNeutralMode(NeutralMode.Coast);
-    falconBR.setNeutralMode(NeutralMode.Coast);
-    falconBL.setNeutralMode(NeutralMode.Coast);
   }
   /**
    * setBrake sets falcon500 motors to brake mode
@@ -151,8 +146,6 @@ public class DriveSubsystem extends SubsystemBase {
     //setting coast or brake mode, can also be done in Phoenix tuner
     falconFR.setNeutralMode(NeutralMode.Brake);
     falconFL.setNeutralMode(NeutralMode.Brake);
-    falconBR.setNeutralMode(NeutralMode.Brake);
-    falconBL.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override

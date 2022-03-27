@@ -274,7 +274,7 @@ public class ShooterSubsystem extends SubsystemBase {
    public void shootPIControl() {
      falconShooter.set(((shooterPI() + setpoint) / ShooterConstants.SHOOTER_MAX_VELOCITY));
      //SmartDashboard.putNumber("Shooter PI", shooterPI()+ setpoint);
-    // SmartDashboard.putNumber("Shooter Power", (shooterPI() + setpoint) / ShooterConstants.SHOOTER_MAX_VELOCITY);
+    //SmartDashboard.putNumber("Shooter Power", (shooterPI() + setpoint) / ShooterConstants.SHOOTER_MAX_VELOCITY);
    }
 
 

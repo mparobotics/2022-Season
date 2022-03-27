@@ -11,11 +11,14 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
@@ -32,8 +35,6 @@ public class DriveSubsystem extends SubsystemBase {
   private final static MotorControllerGroup SCG_L = new MotorControllerGroup(falconFL, falconBL); 
 
   private final static DifferentialDrive drive = new DifferentialDrive(SCG_L, SCG_R);
-
-  private final Field2d m_field = new Field2d();
   
   static final byte navx_rate = 127;
   public AHRS navx = new AHRS(SPI.Port.kMXP, navx_rate);
@@ -43,35 +44,58 @@ public class DriveSubsystem extends SubsystemBase {
 
   private static double error;
 
+  /**data Logging define logs */
+  DoubleLogEntry encoderLogRawR;
+  DoubleLogEntry encoderLogRawL;
+  DoubleLogEntry encoderLogMetersR;
+  DoubleLogEntry encoderLogMetersL;
+  DoubleLogEntry poseLog; //this
+  DoubleLogEntry odomentryLog;
+  DoubleLogEntry headingLogR2d; //this
+  DoubleLogEntry angleLog;
+  StringLogEntry rotation2dlog; //this
+  //FLoatLogEntry myFloatLog;
+  //IntegerLogEntry myIntegerLogEntry;
+  //StringLogEntry myStringLog;
+    
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     setBrake();
     //setting ramp
     falconFR.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconFR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    //falconFR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     falconFL.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconFL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    //falconFL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     falconBL.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconBL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    //falconBL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     falconBR.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconBR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    //falconBR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     //Drive Base Code
     falconBR.follow(falconFR); //talonBR follows TalonFR
     falconBL.follow(falconFL); //talonBL follows TalonFR 
 
     falconFR.setInverted(false); //set to invert falconFR.. CW/CCW.. Green = forward (motor led)
-    falconBR.setInverted(false);
     falconFL.setInverted(true);
-    falconBL.setInverted(true);
 
     fxConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor; //Selecting Feedback Sensor
 
     resetEncoders();
     m_odometry = new DifferentialDriveOdometry(navx.getRotation2d());
+
+
+    DataLog log = DataLogManager.getLog();
+    encoderLogRawR = new DoubleLogEntry(log, "/auto/encodeRawR");
+    encoderLogRawL = new DoubleLogEntry(log, "/auto/encodeRawL");
+    encoderLogMetersR = new DoubleLogEntry(log, "/auto/encodeMR");
+    encoderLogMetersL = new DoubleLogEntry(log, "/auto/encodeML");
+    headingLogR2d = new DoubleLogEntry(log, "/auto/heading"); 
+    angleLog = new DoubleLogEntry(log, "/auto/angle");
+ 
   }
 
   @Override
@@ -81,6 +105,9 @@ public class DriveSubsystem extends SubsystemBase {
       navx.getRotation2d(), 
       (((falconFL.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters),
       (((falconFR.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters));
+    dataLogTrajectory();
+    SmartDashboard.putNumber("angle", navx.getAngle());
+    SmartDashboard.putNumber("rate", navx.getRate());
   }
 
   private static double driveTrainP() {
@@ -135,8 +162,6 @@ public class DriveSubsystem extends SubsystemBase {
     //setting coast or brake mode, can also be done in Phoenix tuner
     falconFR.setNeutralMode(NeutralMode.Brake);
     falconFL.setNeutralMode(NeutralMode.Brake);
-    falconBR.setNeutralMode(NeutralMode.Brake);
-    falconBL.setNeutralMode(NeutralMode.Brake);
   }
 
   /**
@@ -153,12 +178,14 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return The current wheel speeds.
    */
+
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(
-      m_leftEncoder.getRate(),
-      m_rightEncoder.getRate());
-  } //TODO This is it probably
-  //moreinfo getRate() returns Yaw axis angular rate in degrees per second (CCW positive)
+    double frontLeftSpeed = falconFL.getSelectedSensorVelocity() * (10.0/2048) * Constants.DriveConstants.WheelCircumferenceMeters;
+    double frontRightSpeed = falconFR.getSelectedSensorVelocity() * (10.0/2048) * Constants.DriveConstants.WheelCircumferenceMeters;
+
+    return new DifferentialDriveWheelSpeeds(frontLeftSpeed, frontRightSpeed);
+    
+  }
 
   /**
    * Resets the odometry to the specified pose.
@@ -248,7 +275,17 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public Rotation2d getHeading() {
     //return m_gyro.getRotation2d().getDegrees();
-    return Rotation2d.fromDegrees(navx.getAngle());
+    return Rotation2d.fromDegrees(-navx.getAngle());
+  }
+
+  public void dataLogTrajectory() {
+    DataLogManager.start();
+    encoderLogRawR.append(falconFR.getSelectedSensorPosition());
+    encoderLogRawL.append(falconFL.getSelectedSensorPosition());
+    encoderLogMetersR.append((((falconFR.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters));
+    encoderLogMetersL.append((((falconFL.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters));
+    headingLogR2d.append(-navx.getAngle());
+    angleLog.append(getTurnRate());
   }
 
   //TODO Something to Try

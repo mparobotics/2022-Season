@@ -11,9 +11,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -67,17 +65,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //creating a voltage constraint to ensure we don't accelerate to fast
-    var autoVoltageConstraint =
-      new DifferentialDriveVoltageConstraint(
-        new SimpleMotorFeedforward(
-          DriveConstants.Drive_Ks, //kVolts
-          DriveConstants.Drive_Kv, //kVoltSecondsPerMeter
-          DriveConstants.Drive_Ka), //kVoltsSecondsSquaredPerMeter
-        DriveConstants.kDriveKinematics,
-        10);
 
-    String trajectoryJSON = "paths/Testing.wpilib.json";
+    String trajectoryJSON = "paths/Test3.wpilib.json";
     Trajectory trajectory = new Trajectory();
 
     try {
@@ -86,16 +75,6 @@ public class RobotContainer {
     } catch (IOException ex) {
         DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
     }
-
-    //Create config for Trajectory
-    TrajectoryConfig config = //TODO FIX
-      new TrajectoryConfig(
-        DriveConstants.kMaxSpeedMetersPerSecond,
-        DriveConstants.kMaxAccelerationMetersPerSecondSquared)
-        // Add kinematics to ensure max speed is actually obeyed
-        .setKinematics(DriveConstants.kDriveKinematics)
-        // Apply the voltage constraint
-        .addConstraint(autoVoltageConstraint);
 
     RamseteCommand ramseteCommand =
       new RamseteCommand(
@@ -122,3 +101,4 @@ public class RobotContainer {
     return ramseteCommand.andThen(() -> driveSub.tankDriveVolts(0, 0));
   }
 }
+  
