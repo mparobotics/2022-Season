@@ -311,8 +311,9 @@ public class RobotContainer {
     driveSub.resetOdometry(trajectory1.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> driveSub.tankDriveVolts(0, 0));
-    
+    //return ramseteCommand.andThen(() -> driveSub.tankDriveVolts(0, 0));
+    return new SequentialCommandGroup(ramseteCommand.andThen(() -> driveSub.tankDriveVolts(0, 0)),
+                                       autoShoot, ramseteCommand1.andThen(()-> driveSub.tankDriveVolts(0, 0)), autoShoot1);
     }
   }
 

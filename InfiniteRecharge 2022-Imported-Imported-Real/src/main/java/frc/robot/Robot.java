@@ -78,8 +78,8 @@ public class Robot extends TimedRobot {
 
 
     //ShootAndCross = new SequentialCommandGroup(autoIntakeDrop, autoCross, autoShoot);
-    /*ShootAndCross = new SequentialCommandGroup(
-                        autoCross, autoReturn, autoElevator.withTimeout(4));*/
+    ShootAndCross = new SequentialCommandGroup(
+                        autoCross, autoReturn, autoElevator.withTimeout(4));
       
 
     //ParallelTwoBall = new ParallelCommandGroup(new IntakeDrop(intakeSub).withTimeout(2), ShootAndCross, spinFlywheel, turretAutoAlign);
@@ -127,19 +127,19 @@ public class Robot extends TimedRobot {
     //m_robotContainer.driveSub.encoderReset();
     //RobotContainer.shooterSub.encoderReset();
     //Limelight.setLedMode(LightMode.eOn); //TODO test
-    //ShootAndCross.schedule();
+    ShootAndCross.schedule();
     //ParallelTwoBall.schedule();
     
     //m_DriveSubsystem.zeroHeading();
     
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    //spinFlywheel.schedule();
-    //turretAutoAlign.schedule();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    spinFlywheel.schedule();
+    turretAutoAlign.schedule();
     //intake.schedule();
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    /*if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
-    }
+    }*/
 
   }
 
