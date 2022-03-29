@@ -25,10 +25,13 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.FlyWheel_Velocity;
 import frc.robot.subsystems.IntakeSub;
-import frc.robot.subsystems.TurretSubsystem;
+
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.util.datalog.DataLog;
 import frc.robot.utils.Limelight;
 import frc.robot.utils.Limelight.LightMode;
+import edu.wpi.first.wpilibj.DataLogManager;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -41,7 +44,7 @@ public class Robot extends TimedRobot {
   private ElevatorSub m_ElevatorSub;
   private RobotContainer m_robotContainer;
   private DriveSubsystem m_DriveSubsystem;
-  private TurretSubsystem m_turretSub;
+
   private FlyWheel_Velocity m_flywheelVelocity;
   private IntakeSub intakeSub = new IntakeSub();
   NetworkTable table;
@@ -65,7 +68,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     m_DriveSubsystem = new DriveSubsystem();
     m_flywheelVelocity = new FlyWheel_Velocity();
-    m_turretSub = new TurretSubsystem();
+ 
     m_ElevatorSub = new ElevatorSub();
     Limelight.setLedMode(LightMode.eOff);
     autoElevator = new Elevator(m_ElevatorSub);
@@ -117,13 +120,15 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
   
+    DataLogManager.start();
     //set Limelight at auto start
-    m_robotContainer.driveSub.encoderReset();
+    //m_robotContainer.driveSub.encoderReset();
+    DriveSubsystem.encoderReset();
+    m_DriveSubsystem.zeroHeading();
     //RobotContainer.shooterSub.encoderReset();
     Limelight.setLedMode(LightMode.eOn); //TODO test
     //ShootAndCross.schedule();
     //autoCross.schedule();
-    m_DriveSubsystem.zeroHeading();
     
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     spinFlywheel.schedule();
@@ -157,7 +162,7 @@ public class Robot extends TimedRobot {
     m_ElevatorSub.ElevatorStop();
     m_flywheelVelocity.my_Flywheel_Velocity(0);
     DriveSubsystem.stopRobot();
-    DriveSubsystem.encoderReset();
+    m_DriveSubsystem.encoderReset();
     //RobotContainer.ShooterSub.encoderReset();
     //if (m_autonomousCommand != null) {
       //m_autonomousCommand.cancel();

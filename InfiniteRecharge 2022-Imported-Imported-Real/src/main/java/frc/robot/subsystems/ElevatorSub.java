@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.CANSparkMax;
+
 
 import edu.wpi.first.wpilibj.DigitalInput;
 //import edu.wpi.first.wpilibj.XboxController;
@@ -19,18 +19,17 @@ public class ElevatorSub extends SubsystemBase {
   /** Creates a new Intake. */
   static WPI_TalonSRX frontElev;
   static WPI_TalonSRX backElev;
-  static CANSparkMax topElev;
-  DigitalInput linebreak;
-  MotorControllerGroup elevatorMotors;
+  
+  //DigitalInput linebreak = new DigitalInput(ElevatorConstants.LINEBREAK_RECIVER_ID);
+
+  
 
   public ElevatorSub() {
     frontElev = new WPI_TalonSRX(ElevatorConstants.FRONT_ELEVATOR_ID);
     frontElev.setInverted(false);
     backElev = new WPI_TalonSRX(ElevatorConstants.BACK_ELEVATOR_ID);
     backElev.setInverted(false);
-    //linebreak = new DigitalInput(ElevatorConstants.LINEBREAK_RECIVER_ID);
-
-    //topElev = new CANSparkMax(ElevatorConstants.TOP_ELEVATOR_ID, MotorType.kBrushless);
+    
 
     //elevatorMotors = new MotorControllerGroup(frontElev, backElev);
   }
@@ -69,8 +68,8 @@ public class ElevatorSub extends SubsystemBase {
   }
 
 
-  public boolean lineBreakBroken() {
-    //return linebreak.get(); 
-    return true;
-  } 
+  /*public boolean lineBreakBroken() {
+    return linebreak.get(); 
+    
+  } */
 }

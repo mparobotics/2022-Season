@@ -26,8 +26,9 @@ public class Elevator extends CommandBase {
   @Override
   public void execute() {
 
-      m_elevatorSub.FrontElevatorUp(ElevatorConstants.ELEVATOR_SPEED);
+      
     if (m_FlyWheelVelocity.canIShoot()) {
+ 
       m_elevatorSub.BackElevatorUp(ElevatorConstants.ELEVATOR_SPEED);
     }
 

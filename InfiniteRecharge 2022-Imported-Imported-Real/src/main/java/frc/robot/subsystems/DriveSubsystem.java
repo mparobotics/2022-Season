@@ -35,6 +35,12 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 
+/**Datalogging */
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
+
 /**
  * this subsystem sets up and directly manipulates everything on the drive train
  */
@@ -64,7 +70,7 @@ public class DriveSubsystem extends SubsystemBase {
   //DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(getHeading());
 
   private static double error;
-  private double integral;
+ 
 
   private final Field2d m_fieldSim;
   public DifferentialDrivetrainSim m_drivetrainSimulator;
@@ -76,16 +82,16 @@ public class DriveSubsystem extends SubsystemBase {
     setBrake();
     //setting ramp
     falconFR.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconFR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    //falconFR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     falconFL.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconFL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    //falconFL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     falconBL.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconBL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    //falconBL.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     falconBR.configOpenloopRamp(0.4); // 0.5 seconds from neutral to full output (during open-loop control)
-    falconBR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
+    //falconBR.configClosedloopRamp(0.1); // 0 disables ramping (during closed-loop control)
 
     //Drive Base Code
     falconBR.follow(falconFR); //talonBR follows TalonFR
@@ -98,7 +104,6 @@ public class DriveSubsystem extends SubsystemBase {
     
     //matches whatever falconFR is
     //falconFL.setInverted(true); //set to invert falconFL.. CW/CCW.. Green = foward (motor led)
-
     
     //Encoder Code Start
     fxConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor; //Selecting Feedback Sensor
@@ -129,19 +134,23 @@ public class DriveSubsystem extends SubsystemBase {
     m_odometry = new DifferentialDriveOdometry(navx.getRotation2d());
   }
 
+  /**
+   * setCoat sets Falcon500 motors to Coast Mode.
+   * Usually used for Drivebase Falcon Config
+   */
   public void setCoast() {
     //setting coast or brake mode, can also be done in Phoenix tuner
     falconFR.setNeutralMode(NeutralMode.Coast);
     falconFL.setNeutralMode(NeutralMode.Coast);
-    falconBR.setNeutralMode(NeutralMode.Coast);
-    falconBL.setNeutralMode(NeutralMode.Coast);
   }
+  /**
+   * setBrake sets falcon500 motors to brake mode
+   * Usualy used for Drivebase Falcon Config
+   */
   public void setBrake() {
     //setting coast or brake mode, can also be done in Phoenix tuner
     falconFR.setNeutralMode(NeutralMode.Brake);
     falconFL.setNeutralMode(NeutralMode.Brake);
-    falconBR.setNeutralMode(NeutralMode.Brake);
-    falconBL.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
@@ -166,9 +175,9 @@ public class DriveSubsystem extends SubsystemBase {
     //divide by MPArunits ratio (mpu) to convert from MPAror Units to Meters
     
 
-  var translation = m_odometry.getPoseMeters().getTranslation();
-  m_xEntry.setNumber(translation.getX());
-  m_yEntry.setNumber(translation.getY());  
+  //var translation = m_odometry.getPoseMeters().getTranslation();
+  //m_xEntry.setNumber(translation.getX());
+  //m_yEntry.setNumber(translation.getY());  
   
 }
 
@@ -187,7 +196,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param xSpeed
    * @param zRotation
    */
-  public static void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
+  public void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
     xSpeed = xSpeed * .95;
     zRotation = zRotation * .85;
   /*  if (RobotContainer.helms.getRawButton(9) == true) {
@@ -221,16 +230,6 @@ public class DriveSubsystem extends SubsystemBase {
     falconFL.set(ControlMode.PercentOutput, 0);
   }
 
-  /**
-   * prints encoder values to the smart dashboard
-   */
-  public void printEncoderValues() {
-    SmartDashboard.putNumber("FR pos", falconFR.getSelectedSensorPosition());
-    SmartDashboard.putNumber("BR pos", falconBR.getSelectedSensorPosition());
-    SmartDashboard.putNumber("FL pos", falconFL.getSelectedSensorPosition());
-    SmartDashboard.putNumber("BL pos", falconBL.getSelectedSensorPosition());
-  }
-
   private int distanceToNativeUnits(double positionMeters) {
     double wheelRotations = positionMeters/(2 * Math.PI * Units.inchesToMeters(DriveConstants.kWheelRadiusInches));
     double motorRotations = wheelRotations * DriveConstants.GearRatio;
@@ -257,6 +256,9 @@ public class DriveSubsystem extends SubsystemBase {
     return (falconFR.getSelectedSensorPosition() + falconBR.getSelectedSensorPosition()) / 2;
   }
 
+  /**
+   * encoderReset Sets SelectedSensor to 0 (zeros)
+   */
   public static void encoderReset() {
     falconFR.setSelectedSensorPosition(0);
     falconFL.setSelectedSensorPosition(0);
@@ -264,6 +266,11 @@ public class DriveSubsystem extends SubsystemBase {
     falconBL.setSelectedSensorPosition(0);
   }
 
+  /**
+   * Returns the position of the robot on the field.
+   *
+   * @return The pose of the robot (x and y are in meters).
+   */
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
@@ -291,6 +298,14 @@ public class DriveSubsystem extends SubsystemBase {
     drive.arcadeDrive(fwd, rot);
   }
 
+  /**
+   * Sets the Left and Right Voltage for the Drive Speed Controll Groups
+   *
+   * @param leftVolts Left half of the Drive Train Volts
+   * @param rightVolts Right half of the drive Train Volts.
+   * @param drive.feed.
+   * @return TankDriveVolts.
+   */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     SCG_L.setVoltage(leftVolts);
     SCG_R.setVoltage(rightVolts);
@@ -313,12 +328,15 @@ public class DriveSubsystem extends SubsystemBase {
     drive.setMaxOutput(maxOutput);
   }
 
-  /** Zeroes the heading of the robot. */
+  /**
+   * Zeros NavX Heading
+   *
+   */
   public void zeroHeading() {
     navx.reset();
   }
 
-    /**
+  /**
    * Returns the heading of the robot.
    *
    * @return the robot's heading in degrees, from -180 to 180
@@ -328,6 +346,11 @@ public class DriveSubsystem extends SubsystemBase {
     return Math.IEEEremainder(navx.getAngle(), 360) * (DriveConstants.kGyroReversed ? - 1.0 : 1.0);
   }
 
+  /**
+   * Returns TurnRate from NavX
+   *
+   * @return The Robot's Turn Rate from x to x
+   */
   public double getTurnRate() {
     return -navx.getRate();
   }

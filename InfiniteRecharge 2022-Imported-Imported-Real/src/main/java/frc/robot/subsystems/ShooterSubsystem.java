@@ -18,7 +18,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.Servo;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
+
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.TurretAutoAlign;
 /**
@@ -36,7 +36,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public Servo servo;
   private double integral, setpoint = 0;
   private double error;
-  //static CANSparkMax hoodMotor = new CANSparkMax(ShooterConstants.hood_motor_ID, MotorType.kBrushless);
+
   //public static RelativeEncoder m_encoder = hoodMotor.getEncoder();
 
 
@@ -147,9 +147,9 @@ public class ShooterSubsystem extends SubsystemBase {
   public void ShootReverse() {
     //setpoint = getSetpoint();
     
-    boolean canIShoot;
+
     //alignHood();
-    double m_setpoint = -4500;
+    
     falconShooter.set(-.3);
     //.000148
    
@@ -274,7 +274,7 @@ public class ShooterSubsystem extends SubsystemBase {
    public void shootPIControl() {
      falconShooter.set(((shooterPI() + setpoint) / ShooterConstants.SHOOTER_MAX_VELOCITY));
      //SmartDashboard.putNumber("Shooter PI", shooterPI()+ setpoint);
-    // SmartDashboard.putNumber("Shooter Power", (shooterPI() + setpoint) / ShooterConstants.SHOOTER_MAX_VELOCITY);
+    //SmartDashboard.putNumber("Shooter Power", (shooterPI() + setpoint) / ShooterConstants.SHOOTER_MAX_VELOCITY);
    }
 
 

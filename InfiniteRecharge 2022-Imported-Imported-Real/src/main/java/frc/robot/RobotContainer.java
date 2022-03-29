@@ -42,12 +42,14 @@ import frc.robot.commands.Elevator;
 import frc.robot.commands.ElevatorNeutral;
 import frc.robot.commands.ElevatorReverse;
 import frc.robot.commands.FlyWheelVelocityRunLow;
+import frc.robot.commands.FlyWheelVelocityRunReverse;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeDrop;
 import frc.robot.commands.IntakeIdle;
 import frc.robot.commands.IntakeReverse;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.IntakeUp;
+import frc.robot.commands.Queue;
 import frc.robot.commands.TurretNeutral;
 import frc.robot.commands.TurretTurnLeft;
 import frc.robot.commands.TurretTurnRight;
@@ -121,7 +123,7 @@ public class RobotContainer {
     //new JoystickButton(xbox, Button.kBumperRight.value).whenHeld(new StartWinch(climberSub)); // Disabled - Climber Taken off
       //new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub, 2));
       new JoystickButton(helms, Button.kB.value).whenHeld(new BallShoot());
-      new JoystickButton(helms, Button.kY.value).whenHeld(new FlyWheelVelocityRunLow(flyWheel_Velocity));
+      new JoystickButton(helms, Button.kStart.value).whenHeld(new FlyWheelVelocityRunLow(flyWheel_Velocity));
       //new JoystickButton(helms, Button.kY.value).whenHeld(new TurretAutoAlign(turretSubsystem));
       //new JoystickButton(helms, Button.kY.value).whenHeld(new ShootBall(shooterSub, 2));
       //new JoystickButton(helms, Button.kRightStick.value).whenHeld(new ShootLow(shooterSub));
@@ -135,7 +137,7 @@ public class RobotContainer {
         new JoystickButton(helms, Button.kX.value).whenReleased(new IntakeStop());
         new JoystickButton(xbox, Button.kY.value).whenReleased(new IntakeStop());
         
-        
+      
        
 
     //turret stuff
@@ -157,8 +159,11 @@ public class RobotContainer {
        
         
     //Elevator settings
-        new JoystickButton(helms, Button.kA.value).whenHeld(new Elevator(elevatorsub));
+        new JoystickButton(helms, Button.kA.value).whenHeld(new Queue(elevatorsub));
+        new JoystickButton(helms, Button.kY.value).whenHeld(new Elevator(elevatorsub));
         new JoystickButton(xbox, Button.kY.value).whenHeld(new ElevatorReverse(elevatorsub));
+        
+        new JoystickButton(xbox, Button.kY.value).whenHeld(new FlyWheelVelocityRunReverse(flyWheel_Velocity));
         //elevator stop
         new JoystickButton(helms, Button.kB.value).whenReleased(new ElevatorNeutral(elevatorsub));
         new JoystickButton(xbox, Button.kY.value).whenReleased(new ElevatorNeutral(elevatorsub));

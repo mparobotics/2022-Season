@@ -29,9 +29,9 @@ public final class Constants {
         public static final int FALCON_FL_ID = 48;
         public static final int FALCON_BR_ID = 46;
         public static final int FALCON_BL_ID = 49;
-        public static final double Drive_Ks = .60713;
-        public static final double Drive_Kv = .18424;
-        public static final double Drive_Ka = .036145;
+        public static final double Drive_Ks = 0.6057;
+        public static final double Drive_Kv = 2.4263;
+        public static final double Drive_Ka = 0.37369;
         public static final double Drive_Kp = 1.4948;
         public static final double Drive_KpTest = 0;
         public static final double Drive_Kd = 0.0;
@@ -110,7 +110,7 @@ public final class Constants {
     {
         public static final int INTAKE_ID = 15; 
         public static final double INTAKE_SPEED = 1; //placeholder
-        public static final int INTAKE_DROPDOWN_ID = 53; 
+        //public static final int INTAKE_DROPDOWN_ID = 53; 
         public static final double DROPDOWN_SPEED = -.3; //placeholder
     }
 
@@ -119,7 +119,7 @@ public final class Constants {
         public static final int FRONT_ELEVATOR_ID = 32;
         public static final int BACK_ELEVATOR_ID = 26; 
         
-        public static final double ELEVATOR_SPEED = 1; //placeholder
+        public static final double ELEVATOR_SPEED = .75; //placeholder
        
     
         public static final int LINEBREAK_RECIVER_ID = 10;
@@ -130,10 +130,4 @@ public final class Constants {
         public static final int LED_Port = 4;
         public static final int LED_Length = 149; //length of led -1
     }
-
-
-
-
-
-
 }
