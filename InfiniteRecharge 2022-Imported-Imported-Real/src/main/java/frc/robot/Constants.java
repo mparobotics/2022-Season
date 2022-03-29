@@ -55,17 +55,14 @@ public final class Constants {
         public static final int EncoderTPR = 2048;
         public static final double WheelDiameterMeters = Units.inchesToMeters(6.0);
         public static final double WheelRadiousMeters  = Units.inchesToMeters(3.0);
+        public static final double kWheelRadiusInches = 3.00;
         public static final double EncoderDistancePerPulse =
             // Uses the integrated Falcon 500 Encoders
             (WheelDiameterMeters * Math.PI)/ GearRatio / (double) EncoderTPR;
         public static final double WheelCircumferenceMeters = 2*Math.PI*WheelRadiousMeters;
         public static final double Conversion = WheelCircumferenceMeters/(GearRatio*EncoderTPR);
-
-        // ((sensor/2048)/10.91)*2*pi*(2inch)
-        // ((sensor/2048)/10.91)*WheelCircumferenceMeters
-        
-        public static final double MPArunitsToMeters = 30.30303;
-
+        public static final int k100msPerSecond = 10;
+        public static boolean kGyroReversed = true;
     }
 
     public final class ShooterConstants

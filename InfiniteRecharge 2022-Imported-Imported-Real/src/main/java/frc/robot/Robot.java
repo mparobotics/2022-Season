@@ -141,13 +141,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    SmartDashboard.putNumber("angle", m_DriveSubsystem.navx.getAngle());
-    SmartDashboard.putNumber("rate", m_DriveSubsystem.navx.getRate());
-    SmartDashboard.putString("heading", m_DriveSubsystem.getHeading().toString());
-
-
-
-
   }
 
   @Override
