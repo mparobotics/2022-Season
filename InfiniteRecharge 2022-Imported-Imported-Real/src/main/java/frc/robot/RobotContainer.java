@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ArcadeDriveClassic;
 import frc.robot.commands.AutoCross;
 import frc.robot.commands.AutoReturn;
 import frc.robot.commands.AutoStop;
@@ -106,9 +107,9 @@ public class RobotContainer {
                               () -> xbox.getRightTriggerAxis(),
                               () -> xbox.getLeftX()));*/
   
-  //  driveSub.setDefaultCommand(new ArcadeDriveClassic(driveSub,
-  //                             () -> xbox.getLeftY(),
-  //                             () -> xbox.getRightX()*.75));
+    driveSub.setDefaultCommand(new ArcadeDriveClassic(driveSub,
+                               () -> xbox.getLeftY(),
+                               () -> xbox.getRightX()*.7));
                         
     // Configure the button bindings
     //shooterSub.setDefaultCommand(new ShootBall(shooterSub, shooterStick.getY()));

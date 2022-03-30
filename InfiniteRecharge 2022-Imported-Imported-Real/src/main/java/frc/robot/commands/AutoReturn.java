@@ -40,7 +40,7 @@ public class AutoReturn extends CommandBase {
   public void execute() {
     
 
-    m_driveSub.driveStraight(-1); 
+    DriveSubsystem.setDriveSpeed_Tank(-.6, -.6); 
 
   }
 
@@ -56,7 +56,7 @@ public class AutoReturn extends CommandBase {
   @Override
   public boolean isFinished() {
     //return m_turretSubsystem.getDistance() >= (1.5); //JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
-    return m_driveSub.getLeftEncoder() < 000;//JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
+    return m_driveSub.getLeftEncoder() < 1000;//JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
    
       
   }

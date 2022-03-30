@@ -44,9 +44,9 @@ public class AutoCross extends CommandBase {
   public void execute() {
     
 
-    IntakeSub.intakeBall(IntakeConstants.INTAKE_SPEED);
+
     
-    m_driveSub.tankDriveVolts(12, 12);
+    DriveSubsystem.setDriveSpeed_Tank(.6, .6);
   
 
   }

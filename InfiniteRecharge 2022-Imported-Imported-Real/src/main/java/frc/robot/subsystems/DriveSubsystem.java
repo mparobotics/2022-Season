@@ -119,7 +119,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-  setDriveSpeed_Arcade(-RobotContainer.xbox.getLeftY(), RobotContainer.xbox.getRightX()*.75);
+  //setDriveSpeed_Arcade(-RobotContainer.xbox.getLeftY(), RobotContainer.xbox.getRightX()*.75);
   //SmartDashboard.putNumber("Left Encoder", falconFL.getSelectedSensorPosition());
   //SmartDashboard.putNumber("Right Encoder", falconFR.getSelectedSensorPosition());
   NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
@@ -163,8 +163,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @param zRotation
    */
   public void setDriveSpeed_Arcade(double xSpeed, double zRotation) {
-    xSpeed = xSpeed * .95;
-    zRotation = zRotation * .85;
+    xSpeed = xSpeed * .85;
+    zRotation = zRotation * .9;
   /*  if (RobotContainer.helms.getRawButton(9) == true) {
       xSpeed = xSpeed / 2;
     }

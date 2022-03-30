@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -19,6 +20,7 @@ import frc.robot.commands.Elevator;
 import frc.robot.commands.FlyWheelVelocityRun;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeDrop;
+import frc.robot.commands.NullCommand;
 import frc.robot.commands.TurretAutoAlign;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
@@ -40,11 +42,12 @@ public class Robot extends TimedRobot {
   private ElevatorSub m_ElevatorSub;
   private RobotContainer m_robotContainer;
   private DriveSubsystem m_DriveSubsystem;
+  
 
   private FlyWheel_Velocity m_flywheelVelocity;
   private IntakeSub intakeSub = new IntakeSub();
   NetworkTable table;
-  //private AutoIntakeDrop autoIntakeDrop;
+
   private AutoCross autoCross;
   private AutoReturn autoReturn;
   private Elevator autoElevator;
@@ -54,7 +57,9 @@ public class Robot extends TimedRobot {
   private TurretAutoAlign turretAutoAlign = new TurretAutoAlign();
   private SequentialCommandGroup TrajTest;
   private FlyWheelVelocityRun spinFlywheel = new FlyWheelVelocityRun(new FlyWheel_Velocity()); 
-
+  private IntakeDrop intakeDrop =  new IntakeDrop(intakeSub);
+  private WaitCommand waitCommand = new WaitCommand(2);
+  private NullCommand nullCommand = new NullCommand();
   
   
   /**
@@ -73,13 +78,14 @@ public class Robot extends TimedRobot {
     autoElevator = new Elevator(m_ElevatorSub);
     autoCross = new AutoCross(m_robotContainer.driveSub);
     autoReturn = new AutoReturn(m_robotContainer.driveSub);
+
     
     
 
 
     //ShootAndCross = new SequentialCommandGroup(autoIntakeDrop, autoCross, autoShoot);
     ShootAndCross = new SequentialCommandGroup(
-                        autoCross, autoReturn, autoElevator.withTimeout(4));
+                        intakeDrop.withTimeout(1), autoCross, nullCommand.withTimeout(2), autoElevator.withTimeout(4));
       
 
     //ParallelTwoBall = new ParallelCommandGroup(new IntakeDrop(intakeSub).withTimeout(2), ShootAndCross, spinFlywheel, turretAutoAlign);
@@ -135,7 +141,7 @@ public class Robot extends TimedRobot {
     //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     spinFlywheel.schedule();
     turretAutoAlign.schedule();
-    //intake.schedule();
+    intake.schedule();
     // schedule the autonomous command (example)
     /*if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
