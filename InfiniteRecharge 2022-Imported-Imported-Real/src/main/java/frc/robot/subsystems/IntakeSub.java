@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -13,12 +13,12 @@ import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSub extends SubsystemBase {
   /** Creates a new Intake. */
-  static WPI_TalonSRX intake;
+  static WPI_TalonFX intake;
   static CANSparkMax dropdown = new CANSparkMax(53, MotorType.kBrushless);
   public static boolean IntakeIsDown = false;
 
   public IntakeSub() {
-    intake = new WPI_TalonSRX(IntakeConstants.INTAKE_ID);
+    intake = new WPI_TalonFX(IntakeConstants.INTAKE_ID);
    
     intake.configOpenloopRamp(2); // 2 seconds from neutral to full output (during open-loop control)
     intake.configClosedloopRamp(2);
