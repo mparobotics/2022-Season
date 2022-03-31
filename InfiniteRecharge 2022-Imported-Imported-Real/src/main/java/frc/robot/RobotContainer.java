@@ -221,7 +221,7 @@ public class RobotContainer {
         new Pose2d(3, 3, new Rotation2d(0)), config);
 
     //String myPathName = "";
-    String trajectoryfile = "paths/3 carg.wpilib.json";
+    String trajectoryfile = "paths/test.wpilib.json";
 
     //myPathName = "Unamed";
 
@@ -299,13 +299,11 @@ public class RobotContainer {
                     driveSub);
     
     // Reset odometry to the starting pose of the trajectory.
-    driveSub.resetOdometry(trajectory1.getInitialPose());
+    driveSub.resetOdometry(trajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return new SequentialCommandGroup(
-      /*autoDrop.withTimeout(3), autoShoot.withTimeout(2),ramseteCommand, autoStop, autoShoot1.withTimeout(2),
-      ramseteCommand1, autoStop1, autoShoot2);*/
-      ramseteCommand1);
+    return ramseteCommand.andThen(() -> driveSub.tankDriveVolts(0, 0));
+
     
     }
   }

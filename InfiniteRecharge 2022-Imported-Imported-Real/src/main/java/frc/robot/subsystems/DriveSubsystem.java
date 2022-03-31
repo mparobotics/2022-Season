@@ -163,19 +163,7 @@ public class DriveSubsystem extends SubsystemBase {
   m_odometry.update(navx.getRotation2d(),
                     nativeUnitsToDistanceMeters(falconFL.getSelectedSensorPosition()),
                     nativeUnitsToDistanceMeters(falconFR.getSelectedSensorPosition()));
-  m_fieldSim.setRobotPose(m_odometry.getPoseMeters());
-    //(((falconFL.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters),
-    //(((falconFR.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters)); 
-    //SmartDashboard.putNumber("left troubleshooting", (((falconFL.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters));
-    //SmartDashboard.putNumber("right troubleshooting", (((falconFR.getSelectedSensorPosition() / Constants.DriveConstants.EncoderTPR) / Constants.DriveConstants.GearRatio) * Constants.DriveConstants.WheelCircumferenceMeters));
-    //10.91 is the gear ratio, 2piRadius is circumfrence of the wheel, divide by 60 to get from min to sec 
-    //divide by MPArunits ratio (mpu) to convert from MPAror Units to Meters
-    
-
-  //var translation = m_odometry.getPoseMeters().getTranslation();
-  //m_xEntry.setNumber(translation.getX());
-  //m_yEntry.setNumber(translation.getY());  
-  
+  m_fieldSim.setRobotPose(m_odometry.getPoseMeters());  
 }
 
   private static double driveTrainP() {

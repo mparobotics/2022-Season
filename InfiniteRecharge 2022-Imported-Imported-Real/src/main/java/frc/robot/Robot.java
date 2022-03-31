@@ -85,8 +85,8 @@ public class Robot extends TimedRobot {
   /**
    * Note: Specify the colors you are trying to match
    */
-  private final Color kBlueTarget = new Color(0.00, 0.00, 0.00);
-  private final Color kRedTarget = new Color(0.00, 0.00, 0.00);
+  private final Color kBlueTarget = new Color(0.239, 0.506, 0.255);
+  private final Color kRedTarget = new Color(0.293, 0.499, 0.207);
   
 
   /**
@@ -165,9 +165,9 @@ public class Robot extends TimedRobot {
      * Open Smart Dashboard or Shuffleboard to see the color detected by the 
      * sensor.
      */
-    SmartDashboard.putNumber("Red", detectedColor.red);
-    SmartDashboard.putNumber("Green", detectedColor.green);
-    SmartDashboard.putNumber("Blue", detectedColor.blue);
+    //SmartDashboard.putNumber("Red", detectedColor.red);
+    //SmartDashboard.putNumber("Green", detectedColor.green);
+    //SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);
     SmartDashboard.putNumber("Red", detectedColor.red);
@@ -188,7 +188,7 @@ public class Robot extends TimedRobot {
      */
     int proximity = m_colorSensor.getProximity();
 
-    SmartDashboard.putNumber("Proximity", proximity);
+    //SmartDashboard.putNumber("Proximity", proximity);
   }
 
   /**
@@ -200,11 +200,13 @@ public class Robot extends TimedRobot {
     //set limelight off when robot is disabled
     Limelight.setLedMode(LightMode.eOn); //TODO test
     //table.getEntry("ledMode").setNumber(1);
+    m_DriveSubsystem.zeroHeading();
+    m_DriveSubsystem.encoderReset();
   }
 
   @Override
   public void disabledPeriodic() {
-  
+    SmartDashboard.putNumber("heading", m_DriveSubsystem.getHeading());
   }
 
   /**
@@ -239,8 +241,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    SmartDashboard.putNumber("angle", m_DriveSubsystem.navx.getAngle());
-    SmartDashboard.putNumber("rate", m_DriveSubsystem.navx.getRate());
+    //SmartDashboard.putNumber("angle", m_DriveSubsystem.navx.getAngle());
+    //SmartDashboard.putNumber("rate", m_DriveSubsystem.navx.getRate());
     SmartDashboard.putNumber("heading", m_DriveSubsystem.getHeading());
   }
 
@@ -274,7 +276,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-
+    //SmartDashboard.putNumber("angle", m_DriveSubsystem.navx.getAngle());
+    //SmartDashboard.putNumber("rate", m_DriveSubsystem.navx.getRate());
+    SmartDashboard.putNumber("heading", m_DriveSubsystem.getHeading());
   }
 
   @Override
