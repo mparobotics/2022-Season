@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.DriveSubsystem;
@@ -76,6 +77,9 @@ public class Robot extends TimedRobot {
     DataLogManager.log("Auto!");
     m_DriveSubsystem.zeroHeading();
     m_DriveSubsystem.resetEncoders();
+    SmartDashboard.putNumber("angle", m_DriveSubsystem.navx.getAngle());
+    SmartDashboard.putNumber("rate", m_DriveSubsystem.navx.getRate());
+    SmartDashboard.putString("heading", m_DriveSubsystem.getHeading().toString());
   }
 
   /** This function is called periodically during autonomous. */

@@ -10,13 +10,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -31,7 +29,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 
@@ -259,7 +256,7 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * encoderReset Sets SelectedSensor to 0 (zeros)
    */
-  public static void encoderReset() {
+  public void encoderReset() {
     falconFR.setSelectedSensorPosition(0);
     falconFL.setSelectedSensorPosition(0);
     falconBR.setSelectedSensorPosition(0);

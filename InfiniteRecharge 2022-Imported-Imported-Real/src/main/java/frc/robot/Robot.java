@@ -216,7 +216,7 @@ public class Robot extends TimedRobot {
     DataLogManager.start();
     //set Limelight at auto start
     //m_robotContainer.driveSub.encoderReset();
-    DriveSubsystem.encoderReset();
+    m_DriveSubsystem.encoderReset();
     m_DriveSubsystem.zeroHeading();
     //RobotContainer.shooterSub.encoderReset();
     Limelight.setLedMode(LightMode.eOn); //TODO test
@@ -239,6 +239,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    SmartDashboard.putNumber("angle", m_DriveSubsystem.navx.getAngle());
+    SmartDashboard.putNumber("rate", m_DriveSubsystem.navx.getRate());
+    SmartDashboard.putNumber("heading", m_DriveSubsystem.getHeading());
   }
 
   @Override
