@@ -8,19 +8,20 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoCross;
-
-
+import frc.robot.commands.AutoReturn;
 import frc.robot.commands.Elevator;
 import frc.robot.commands.FlyWheelVelocityRun;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeDrop;
+import frc.robot.commands.NullCommand;
 import frc.robot.commands.TurretAutoAlign;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
@@ -49,18 +50,24 @@ public class Robot extends TimedRobot {
   private ElevatorSub m_ElevatorSub;
   private RobotContainer m_robotContainer;
   private DriveSubsystem m_DriveSubsystem;
+  
 
   private FlyWheel_Velocity m_flywheelVelocity;
   private IntakeSub intakeSub = new IntakeSub();
   NetworkTable table;
-  //private AutoIntakeDrop autoIntakeDrop;
+
   private AutoCross autoCross;
+  private AutoReturn autoReturn;
   private Elevator autoElevator;
-  private SequentialCommandGroup ShootAndCross;
+  private Command ShootAndCross;
+  private ParallelCommandGroup ParallelTwoBall;
   private Intake intake = new Intake(intakeSub);
   private TurretAutoAlign turretAutoAlign = new TurretAutoAlign();
   private SequentialCommandGroup TrajTest;
   private FlyWheelVelocityRun spinFlywheel = new FlyWheelVelocityRun(new FlyWheel_Velocity()); 
+  private IntakeDrop intakeDrop =  new IntakeDrop(intakeSub);
+  private WaitCommand waitCommand = new WaitCommand(2);
+  private NullCommand nullCommand = new NullCommand();
   
   
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
@@ -100,16 +107,21 @@ public class Robot extends TimedRobot {
     m_flywheelVelocity = new FlyWheel_Velocity();
  
     m_ElevatorSub = new ElevatorSub();
-    Limelight.setLedMode(LightMode.eOff);
+    //Limelight.setLedMode(LightMode.eOff);
     autoElevator = new Elevator(m_ElevatorSub);
     autoCross = new AutoCross(m_robotContainer.driveSub);
+    autoReturn = new AutoReturn(m_robotContainer.driveSub);
+
+    
+    
+
 
     //ShootAndCross = new SequentialCommandGroup(autoIntakeDrop, autoCross, autoShoot);
-    ShootAndCross = new SequentialCommandGroup(new IntakeDrop(intakeSub).withTimeout(2), 
-                      autoElevator.withTimeout(6),
-                        autoCross.withTimeout(3) );
+    ShootAndCross = new SequentialCommandGroup(
+                        intakeDrop.withTimeout(1), autoCross, nullCommand.withTimeout(2), autoElevator.withTimeout(4));
+      
 
-
+    //ParallelTwoBall = new ParallelCommandGroup(new IntakeDrop(intakeSub).withTimeout(2), ShootAndCross, spinFlywheel, turretAutoAlign);
 
     //table = NetworkTableInstance.getDefault().getTable("limelight"); //Gets Table instance
     //table.getEntry("ledMode").setNumber(1); //sets limelight LEDS to "off"
@@ -216,22 +228,22 @@ public class Robot extends TimedRobot {
   
     DataLogManager.start();
     //set Limelight at auto start
-    //m_robotContainer.driveSub.encoderReset();
-    m_DriveSubsystem.encoderReset();
-    m_DriveSubsystem.zeroHeading();
-    //RobotContainer.shooterSub.encoderReset();
-    Limelight.setLedMode(LightMode.eOn); //TODO test
+    //m_DriveSubsystem.encoderReset();
+    //m_DriveSubsystem.zeroHeading();
+    //Limelight.setLedMode(LightMode.eOn); //TODO test
     ShootAndCross.schedule();
-    //autoCross.schedule();
+    //ParallelTwoBall.schedule();
     
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_DriveSubsystem.zeroHeading();
+    
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     spinFlywheel.schedule();
     turretAutoAlign.schedule();
     intake.schedule();
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    /*if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
-    }
+    }*/
 
   }
 

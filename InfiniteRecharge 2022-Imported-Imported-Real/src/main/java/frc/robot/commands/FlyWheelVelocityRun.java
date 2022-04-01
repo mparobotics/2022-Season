@@ -34,6 +34,8 @@ public class FlyWheelVelocityRun extends CommandBase {
   public void execute() {
     double d = m_turretSubsystem.getDistance();
     double speedToGet;
+    boolean correctColor;
+
 
     //d = SmartDashboard.getNumber("distance sim", 3);
     SmartDashboard.putBoolean("Lined Up To Shoot", false);
@@ -55,8 +57,12 @@ public class FlyWheelVelocityRun extends CommandBase {
     else {speedToGet = 4000;} */
     
    //d = Math.round(d * 100) / 100;
-    speedToGet = (1204 * d) + 4032; //4560 1620  1404 5232
+    //speedToGet = (1204 * d) + 4032; //4560 1620  1404 5232
+    speedToGet = (1260 * d) + 3934; //1264 3927
     if (d > 6.5) {speedToGet = 4000;}
+
+    correctColor = m_flywWheel_Velocity.GetColor();
+    if (correctColor = false) {speedToGet = 4000;}
 
     m_flywWheel_Velocity.my_Flywheel_Velocity(speedToGet);
   }

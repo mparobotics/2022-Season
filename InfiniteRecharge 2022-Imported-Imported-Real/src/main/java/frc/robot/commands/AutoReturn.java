@@ -7,24 +7,22 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSub;
 import frc.robot.subsystems.TurretSubsystem;
-import frc.robot.utils.Limelight;
-import frc.robot.utils.Limelight.LightMode;
 
-public class AutoCross extends CommandBase {
+public class AutoReturn extends CommandBase {
   private DriveSubsystem m_driveSub;
   private TurretSubsystem m_turretSubsystem;
   double leftEncoderStart;
   /**
    * Creates a new AutoDriveToWall.
    */
-  public AutoCross(DriveSubsystem driveSub) {
+  public AutoReturn(DriveSubsystem driveSub) {
     m_driveSub = driveSub;
 
     addRequirements(m_driveSub);
@@ -34,9 +32,7 @@ public class AutoCross extends CommandBase {
   @Override
   public void initialize() {
     leftEncoderStart = m_driveSub.getLeftEncoder();
-
-    Limelight.setLedMode(LightMode.eOn);
-
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,10 +40,7 @@ public class AutoCross extends CommandBase {
   public void execute() {
     
 
-
-    
-    DriveSubsystem.setDriveSpeed_Tank(.6, .6);
-  
+    DriveSubsystem.setDriveSpeed_Tank(-.6, -.6); 
 
   }
 
@@ -62,11 +55,10 @@ public class AutoCross extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-  return m_driveSub.getLeftEncoder() > 80000 + leftEncoderStart;//JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
-    
-
-  }
+    //return m_turretSubsystem.getDistance() >= (1.5); //JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
+    return m_driveSub.getLeftEncoder() < 1000;//JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
+   
       
-
-}
+  }
+  }
 

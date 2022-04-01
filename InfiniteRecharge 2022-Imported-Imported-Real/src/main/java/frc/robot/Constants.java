@@ -95,6 +95,8 @@ public final class Constants {
         public static final double SHOOTER_SETPOINT = 4400; 
         public static final double SHOOTER_MAX_VELOCITY = 5676;
 
+        public static final double TURRET_SPEED = .25;
+
         public static final double AUTO_SHOOT_TIME = 5;
     }
 
@@ -117,7 +119,7 @@ public final class Constants {
         public static final int FRONT_ELEVATOR_ID = 32;
         public static final int BACK_ELEVATOR_ID = 26; 
         
-        public static final double ELEVATOR_SPEED = .75; //placeholder
+        public static final double ELEVATOR_SPEED = .6; //placeholder
        
     
         public static final int LINEBREAK_RECIVER_ID = 10;

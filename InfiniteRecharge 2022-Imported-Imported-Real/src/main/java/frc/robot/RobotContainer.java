@@ -29,7 +29,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
-
+import frc.robot.commands.ArcadeDriveClassic;
+import frc.robot.commands.AutoCross;
+import frc.robot.commands.AutoReturn;
 import frc.robot.commands.AutoStop;
 import frc.robot.commands.BallShoot;
 import frc.robot.commands.Elevator;
@@ -77,6 +79,8 @@ public class RobotContainer {
   private AutoStop autoStop2 = new AutoStop(new DriveSubsystem());
   private WaitCommand waitCommand = new WaitCommand(2);
   private IntakeDrop autoDrop = new IntakeDrop(intakeSub);
+  private AutoCross autoCross;
+  private AutoReturn autoReturn;
  
   // declaring and intializing controller(s)
   public static XboxController xbox = new XboxController(OIConstants.XBOX_ID);
@@ -95,9 +99,9 @@ public class RobotContainer {
                               () -> xbox.getRightTriggerAxis(),
                               () -> xbox.getLeftX()));*/
   
-  //  driveSub.setDefaultCommand(new ArcadeDriveClassic(driveSub,
-  //                             () -> xbox.getLeftY(),
-  //                             () -> xbox.getRightX()*.75));
+    driveSub.setDefaultCommand(new ArcadeDriveClassic(driveSub,
+                               () -> xbox.getLeftY(),
+                               () -> xbox.getRightX()*.7));
                         
     // Configure the button bindings
     //shooterSub.setDefaultCommand(new ShootBall(shooterSub, shooterStick.getY()));
@@ -153,14 +157,14 @@ public class RobotContainer {
        
         
     //Elevator settings
-        new JoystickButton(helms, Button.kA.value).whenHeld(new Queue(elevatorsub));
-        new JoystickButton(helms, Button.kY.value).whenHeld(new Elevator(elevatorsub));
-        new JoystickButton(xbox, Button.kY.value).whenHeld(new ElevatorReverse(elevatorsub));
+        //new JoystickButton(helms, Button.kA.value).whenHeld(new Queue(elevatorsub));
+        new JoystickButton(helms, Button.kA.value).whenHeld(new Elevator(elevatorsub));
+        new JoystickButton(helms, Button.kY.value).whenHeld(new ElevatorReverse(elevatorsub));
         
-        new JoystickButton(xbox, Button.kY.value).whenHeld(new FlyWheelVelocityRunReverse(flyWheel_Velocity));
+        new JoystickButton(helms, Button.kY.value).whenHeld(new FlyWheelVelocityRunReverse(flyWheel_Velocity));
         //elevator stop
         new JoystickButton(helms, Button.kB.value).whenReleased(new ElevatorNeutral(elevatorsub));
-        new JoystickButton(xbox, Button.kY.value).whenReleased(new ElevatorNeutral(elevatorsub));
+        new JoystickButton(helms, Button.kY.value).whenReleased(new ElevatorNeutral(elevatorsub));
     
 
 
@@ -272,7 +276,7 @@ public class RobotContainer {
     // Run path following command, then stop at the end.
     return ramseteCommandThree.andThen(() -> driveSub.tankDriveVolts(0, 0));
     //return new SequentialCommandGroup(ramseteCommandOne.andThen(() -> driveSub.tankDriveVolts(0, 0)),
-    //autoShoot, ramseteCommandTwo.andThen(()-> driveSub.tankDriveVolts(0, 0)), autoShoot1);
+    //                                    autoShoot, ramseteCommandTwo.andThen(()-> driveSub.tankDriveVolts(0, 0)), autoShoot1);
     
     }
   }

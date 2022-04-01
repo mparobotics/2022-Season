@@ -5,17 +5,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.TurretSubsystem;
 
-public class TurretTurnRight extends CommandBase {
-  /** Creates a new TurretTurnRight. */
-  TurretSubsystem turretSubsystem;
-  public TurretTurnRight(TurretSubsystem t) {
-      turretSubsystem = t;
-      addRequirements(turretSubsystem);
-    }
+public class NullCommand extends CommandBase {
+  /** Creates a new NullCommand. */
+  public NullCommand() {
+    // Use addRequirements() here to declare subsystem dependencies.
+  }
 
   // Called when the command is initially scheduled.
   @Override
@@ -23,15 +18,7 @@ public class TurretTurnRight extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    //if (TurretSubsystem.m_encoder.getPosition() < -ShooterConstants.max_turret_rotation)
-    //{
-     // new TurretCenter();
-    //}
-    
-    //else
-     {RobotContainer.turretSubsystem.turnTurret(-ShooterConstants.TURRET_SPEED);} //todo test speed 
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.AutoCross;
 //import frc.robot.commands.AutoCross;
 //import frc.robot.commands.AutoShootBall;
 import frc.robot.commands.Shoot;
@@ -34,7 +35,7 @@ public class Robot extends TimedRobot {
   NetworkTable table;
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
   
-  //private AutoCross autoCross;
+  private AutoCross autoCross;
   private SequentialCommandGroup oneBall;
 
   /**'/;=_'
