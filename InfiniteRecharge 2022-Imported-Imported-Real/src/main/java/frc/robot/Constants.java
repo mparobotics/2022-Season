@@ -37,9 +37,7 @@ public final class Constants {
         public static final double Drive_Kd = 0.0;
         
 
-        public static final double DRIVE_P = 4; /**not sure what these do TODO ask mikey but im pretty sure theyre the offset
-         for the drive forward but yeah so like do we need to change this Mikey? If you see this remind me to ask them, it was 
-         not documented in Annie's code*/
+        public static final double DRIVE_P = 4;
         public static final double DRIVE_I = 1;
 
         public static final double TIC_FT = ((Math.PI)/2048)/10.91; //inches?

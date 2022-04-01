@@ -9,18 +9,11 @@ package frc.robot;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -195,9 +188,11 @@ public class RobotContainer {
 
     Trajectory trajectoryOne = new Trajectory();
     Trajectory trajectoryTwo = new Trajectory();
+    Trajectory trajectoryTest = new Trajectory();
 
-    String trajectoryFileOne = "paths/test.wpilib.json";
-    String trajectoryFileTwo = "paths/test2.wpilib.json";
+    String trajectoryFileOne = "paths/5carg.wpilib.json";
+    String trajectoryFileTwo = "paths/5carg.wpilib.json";
+    String trajectoryFileTest = "paths/Unnamed.wpilib.json";
     try{
       Path trajectoryPathOne = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFileOne);
       trajectoryOne = TrajectoryUtil.fromPathweaverJson(trajectoryPathOne);
@@ -211,6 +206,14 @@ public class RobotContainer {
     } catch(IOException ex) {
         DriverStation.reportError("Unable to open trajectory:" + trajectoryFileTwo, ex.getStackTrace());
     }
+    
+    try{
+      Path trajectoryPathTest = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFileTest);
+      trajectoryTest = TrajectoryUtil.fromPathweaverJson(trajectoryPathTest);
+    } catch(IOException ex) {
+        DriverStation.reportError("Unable to open trajectory:" + trajectoryFileTest, ex.getStackTrace());
+    }
+
 
             RamseteCommand ramseteCommandOne =
             new RamseteCommand(
@@ -245,13 +248,31 @@ public class RobotContainer {
                     // RamseteCommand passes volts to the callback
                     driveSub::tankDriveVolts,
                     driveSub);
+                    
+              RamseteCommand ramseteCommandThree =
+              new RamseteCommand(
+                  trajectoryTest,
+                  driveSub::getPose,
+                  new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
+                  new SimpleMotorFeedforward(
+                      DriveConstants.Drive_Ks,
+                      DriveConstants.Drive_Kv,
+                      DriveConstants.Drive_Ka),
+                  DriveConstants.kDriveKinematics,
+                  driveSub::getWheelSpeeds,
+                  new PIDController(DriveConstants.Drive_Kp, 0, 0),
+                  new PIDController(DriveConstants.Drive_Kp, 0, 0),
+                  // RamseteCommand passes volts to the callback
+                  driveSub::tankDriveVolts,
+                  driveSub);
     
     // Reset odometry to the starting pose of the trajectory.
     driveSub.resetOdometry(trajectoryOne.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return ramseteCommandOne.andThen(() -> driveSub.tankDriveVolts(0, 0));
-
+    return ramseteCommandThree.andThen(() -> driveSub.tankDriveVolts(0, 0));
+    //return new SequentialCommandGroup(ramseteCommandOne.andThen(() -> driveSub.tankDriveVolts(0, 0)),
+    //autoShoot, ramseteCommandTwo.andThen(()-> driveSub.tankDriveVolts(0, 0)), autoShoot1);
     
     }
   }

@@ -19,8 +19,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
@@ -31,12 +29,6 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
-
-/**Datalogging */
-import edu.wpi.first.util.datalog.DataLog;
-import edu.wpi.first.util.datalog.DoubleLogEntry;
-import edu.wpi.first.util.datalog.StringLogEntry;
-import edu.wpi.first.wpilibj.DataLogManager;
 
 /**
  * this subsystem sets up and directly manipulates everything on the drive train
@@ -157,8 +149,6 @@ public class DriveSubsystem extends SubsystemBase {
   setDriveSpeed_Arcade(-RobotContainer.xbox.getLeftY(), RobotContainer.xbox.getRightX()*.75);
   //SmartDashboard.putNumber("Left Encoder", falconFL.getSelectedSensorPosition());
   //SmartDashboard.putNumber("Right Encoder", falconFR.getSelectedSensorPosition());
-  NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
-  NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
 
   m_odometry.update(navx.getRotation2d(),
                     nativeUnitsToDistanceMeters(falconFL.getSelectedSensorPosition()),
@@ -297,7 +287,7 @@ public class DriveSubsystem extends SubsystemBase {
     drive.feed();
   }
 
-  public double getAverageEncoderDistance() { //TODO Fix Math
+  public double getAverageEncoderDistance() {
     double left_meters = nativeUnitsToDistanceMeters(falconFL.getSelectedSensorPosition());
     double right_meters = nativeUnitsToDistanceMeters(falconFR.getSelectedSensorPosition());
     return (left_meters + right_meters) / 2.0;

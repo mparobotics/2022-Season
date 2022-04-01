@@ -32,7 +32,6 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.util.datalog.DataLog;
 import frc.robot.utils.Limelight;
 import frc.robot.utils.Limelight.LightMode;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -222,7 +221,7 @@ public class Robot extends TimedRobot {
     m_DriveSubsystem.zeroHeading();
     //RobotContainer.shooterSub.encoderReset();
     Limelight.setLedMode(LightMode.eOn); //TODO test
-    //ShootAndCross.schedule();
+    ShootAndCross.schedule();
     //autoCross.schedule();
     
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
