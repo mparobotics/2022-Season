@@ -16,6 +16,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
@@ -191,82 +192,29 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //Create a voltage constraint to ensure we don't accelerate too fast
-    var autoVoltageConstraint =
-        new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(
-                DriveConstants.Drive_Ks,
-                DriveConstants.Drive_Kv,
-                DriveConstants.Drive_Ka),
-            DriveConstants.kDriveKinematics,
-            10);
 
-    // Create config for trajectory
-    TrajectoryConfig config =
-        new TrajectoryConfig(
-                DriveConstants.kMaxSpeedMetersPerSecond,
-                DriveConstants.kMaxAccelerationMetersPerSecondSquared)
-            // Add kinematics to ensure max speed is actually obeyed
-            .setKinematics(DriveConstants.kDriveKinematics)
-            // Apply the voltage constraint
-            .addConstraint(autoVoltageConstraint);
+    Trajectory trajectoryOne = new Trajectory();
+    Trajectory trajectoryTwo = new Trajectory();
 
-    // An example trajectory to follow.  All units in meters.
-    //Trajectory trajectory = new Trajectory();
-
-    var trajectory =
-      TrajectoryGenerator.generateTrajectory(
-        new Pose2d(0, 3, new Rotation2d(0)), 
-        List.of(new Translation2d(1,3), new Translation2d(2, 3)),
-        new Pose2d(3, 3, new Rotation2d(0)), config);
-
-    //String myPathName = "";
-    String trajectoryfile = "paths/test.wpilib.json";
-
-    //myPathName = "Unamed";
-
-    //trajectoryfile = myPathName + ".wpilib.json";
-    try {
-        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);
-        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    } catch (IOException ex) {
-        DriverStation.reportError("Unable to open trajectory: " + trajectoryfile, ex.getStackTrace());
+    String trajectoryFileOne = "paths/test.wpilib.json";
+    String trajectoryFileTwo = "paths/test2.wpilib.json";
+    try{
+      Path trajectoryPathOne = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFileOne);
+      trajectoryOne = TrajectoryUtil.fromPathweaverJson(trajectoryPathOne);
+    } catch(IOException ex) {
+        DriverStation.reportError("Unable to open trajectory:" + trajectoryFileOne, ex.getStackTrace());
     }
 
-    var trajectory1 =
-    TrajectoryGenerator.generateTrajectory(
-      new Pose2d(0, 3, new Rotation2d(0)), 
-      List.of(new Translation2d(1,3), new Translation2d(2, 3)),
-      new Pose2d(3, 3, new Rotation2d(0)), config);
-
-    //String myPathName = "";
-    String trajectoryfile1 = "paths/Testing.wpilib.json";
-
-    //myPathName = "Unamed";
-
-    //trajectoryfile = myPathName + ".wpilib.json";
-    try {
-        Path trajectoryPath1 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile1);
-        trajectory1 = TrajectoryUtil.fromPathweaverJson(trajectoryPath1);
-    } catch (IOException ex) {
-        DriverStation.reportError("Unable to open trajectory: " + trajectoryfile, ex.getStackTrace());
+    try{
+      Path trajectoryPathTwo = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFileTwo);
+      trajectoryTwo = TrajectoryUtil.fromPathweaverJson(trajectoryPathTwo);
+    } catch(IOException ex) {
+        DriverStation.reportError("Unable to open trajectory:" + trajectoryFileTwo, ex.getStackTrace());
     }
 
-    trajectory1 = TrajectoryGenerator.generateTrajectory(
-      // Start at the origin facing the +X direction
-      new Pose2d(0, 0, new Rotation2d(0)),
-      // Pass through these two interior waypoints, making an 's' curve path
-      List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-      // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(3, 0, new Rotation2d(0)),
-      // Pass config
-      config);
-  
-
-
-            RamseteCommand ramseteCommand =
+            RamseteCommand ramseteCommandOne =
             new RamseteCommand(
-                trajectory,
+                trajectoryOne,
                 driveSub::getPose,
                 new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
                 new SimpleMotorFeedforward(
@@ -281,9 +229,9 @@ public class RobotContainer {
                 driveSub::tankDriveVolts,
                 driveSub);
 
-              RamseteCommand ramseteCommand1 =
+              RamseteCommand ramseteCommandTwo =
                 new RamseteCommand(
-                    trajectory1,
+                    trajectoryTwo,
                     driveSub::getPose,
                     new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
                     new SimpleMotorFeedforward(
@@ -299,10 +247,10 @@ public class RobotContainer {
                     driveSub);
     
     // Reset odometry to the starting pose of the trajectory.
-    driveSub.resetOdometry(trajectory.getInitialPose());
+    driveSub.resetOdometry(trajectoryOne.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> driveSub.tankDriveVolts(0, 0));
+    return ramseteCommandOne.andThen(() -> driveSub.tankDriveVolts(0, 0));
 
     
     }
