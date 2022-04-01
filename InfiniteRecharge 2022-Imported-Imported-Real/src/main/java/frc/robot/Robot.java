@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoCross;
 import frc.robot.commands.AutoReturn;
+import frc.robot.commands.BallShoot;
 import frc.robot.commands.Elevator;
 import frc.robot.commands.FlyWheelVelocityRun;
 import frc.robot.commands.Intake;
@@ -60,6 +61,7 @@ public class Robot extends TimedRobot {
   private IntakeDrop intakeDrop =  new IntakeDrop(intakeSub);
   private WaitCommand waitCommand = new WaitCommand(2);
   private NullCommand nullCommand = new NullCommand();
+  private BallShoot ballShoot = new BallShoot();
   
   
   /**
@@ -72,7 +74,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     m_DriveSubsystem = new DriveSubsystem();
     m_flywheelVelocity = new FlyWheel_Velocity();
- 
+    
     m_ElevatorSub = new ElevatorSub();
     //Limelight.setLedMode(LightMode.eOff);
     autoElevator = new Elevator(m_ElevatorSub);
@@ -85,7 +87,7 @@ public class Robot extends TimedRobot {
 
     //ShootAndCross = new SequentialCommandGroup(autoIntakeDrop, autoCross, autoShoot);
     ShootAndCross = new SequentialCommandGroup(
-                        intakeDrop.withTimeout(1), autoCross, nullCommand.withTimeout(2), autoElevator.withTimeout(4));
+                        intakeDrop.withTimeout(1), autoCross, autoReturn, nullCommand.withTimeout(3), autoElevator.withTimeout(4));
       
 
     //ParallelTwoBall = new ParallelCommandGroup(new IntakeDrop(intakeSub).withTimeout(2), ShootAndCross, spinFlywheel, turretAutoAlign);
@@ -139,9 +141,8 @@ public class Robot extends TimedRobot {
     //m_DriveSubsystem.zeroHeading();
     
     //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    spinFlywheel.schedule();
-    turretAutoAlign.schedule();
-    intake.schedule();
+    ballShoot.schedule();
+   //intake.schedule();
     // schedule the autonomous command (example)
     /*if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
