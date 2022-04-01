@@ -14,6 +14,7 @@ import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -190,6 +191,15 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
+    var table = NetworkTableInstance.getDefault().getTable("troubleshooting");
+    var leftReference = table.getEntry("left_reference");
+    var leftMeasurement = table.getEntry("left_measurement");
+    var rightReference = table.getEntry("right_reference");
+    var rightMeasurement = table.getEntry("right_measurement");
+
+    var leftController = new PIDController(DriveConstants.Drive_Kp, 0, 0);
+    var rightController = new PIDController(DriveConstants.Drive_Kp, 0, 0);
+
     Trajectory trajectoryOne = new Trajectory();
     Trajectory trajectoryTwo = new Trajectory();
     Trajectory trajectoryTest = new Trajectory();
@@ -197,6 +207,7 @@ public class RobotContainer {
     String trajectoryFileOne = "paths/5carg.wpilib.json";
     String trajectoryFileTwo = "paths/5carg.wpilib.json";
     String trajectoryFileTest = "paths/Unnamed.wpilib.json";
+    
     try{
       Path trajectoryPathOne = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFileOne);
       trajectoryOne = TrajectoryUtil.fromPathweaverJson(trajectoryPathOne);
@@ -218,6 +229,9 @@ public class RobotContainer {
         DriverStation.reportError("Unable to open trajectory:" + trajectoryFileTest, ex.getStackTrace());
     }
 
+    //Call concatTraj in Ramsete to run both trajectories back to back as one
+    var concatTraj = trajectoryOne.concatenate(trajectoryTwo);
+
 
             RamseteCommand ramseteCommandOne =
             new RamseteCommand(
@@ -230,8 +244,8 @@ public class RobotContainer {
                     DriveConstants.Drive_Ka),
                 DriveConstants.kDriveKinematics,
                 driveSub::getWheelSpeeds,
-                new PIDController(DriveConstants.Drive_Kp, 0, 0),
-                new PIDController(DriveConstants.Drive_Kp, 0, 0),
+                leftController,
+                rightController,
                 // RamseteCommand passes volts to the callback
                 driveSub::tankDriveVolts,
                 driveSub);
@@ -247,8 +261,8 @@ public class RobotContainer {
                         DriveConstants.Drive_Ka),
                     DriveConstants.kDriveKinematics,
                     driveSub::getWheelSpeeds,
-                    new PIDController(DriveConstants.Drive_Kp, 0, 0),
-                    new PIDController(DriveConstants.Drive_Kp, 0, 0),
+                    leftController,
+                    rightController,
                     // RamseteCommand passes volts to the callback
                     driveSub::tankDriveVolts,
                     driveSub);
@@ -264,20 +278,29 @@ public class RobotContainer {
                       DriveConstants.Drive_Ka),
                   DriveConstants.kDriveKinematics,
                   driveSub::getWheelSpeeds,
-                  new PIDController(DriveConstants.Drive_Kp, 0, 0),
-                  new PIDController(DriveConstants.Drive_Kp, 0, 0),
+                  leftController,
+                  rightController,
                   // RamseteCommand passes volts to the callback
                   driveSub::tankDriveVolts,
                   driveSub);
+
+    leftMeasurement.setNumber(driveSub.getWheelSpeeds().leftMetersPerSecond);
+    leftReference.setNumber(leftController.getSetpoint());
+
+    rightMeasurement.setNumber(driveSub.getWheelSpeeds().rightMetersPerSecond);
+    rightReference.setNumber(rightController.getSetpoint());
     
     // Reset odometry to the starting pose of the trajectory.
     driveSub.resetOdometry(trajectoryOne.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return ramseteCommandThree.andThen(() -> driveSub.tankDriveVolts(0, 0));
-    //return new SequentialCommandGroup(ramseteCommandOne.andThen(() -> driveSub.tankDriveVolts(0, 0)),
-    //                                    autoShoot, ramseteCommandTwo.andThen(()-> driveSub.tankDriveVolts(0, 0)), autoShoot1);
-    
+
+    //Run only one path
+    //return ramseteCommandThree.andThen(() -> driveSub.tankDriveVolts(0, 0));
+  
+    //full auto
+    return new SequentialCommandGroup(ramseteCommandOne.andThen(() -> driveSub.tankDriveVolts(0, 0)),
+                                       autoShoot, ramseteCommandTwo.andThen(()-> driveSub.tankDriveVolts(0, 0)), autoShoot1);
     }
   }
 
