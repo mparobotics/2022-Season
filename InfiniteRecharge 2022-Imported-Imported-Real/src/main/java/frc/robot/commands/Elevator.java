@@ -27,8 +27,8 @@ public class Elevator extends CommandBase {
   public void execute() {
 
      
-      m_elevatorSub.BackElevatorUp(ElevatorConstants.ELEVATOR_SPEED);
-      m_elevatorSub.FrontElevatorUp(ElevatorConstants.ELEVATOR_SPEED);
+      m_elevatorSub.BackElevatorUp(1);
+      m_elevatorSub.FrontElevatorUp(.4);
 
     
   }

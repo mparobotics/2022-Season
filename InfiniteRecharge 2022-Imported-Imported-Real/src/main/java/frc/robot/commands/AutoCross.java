@@ -34,7 +34,7 @@ public class AutoCross extends CommandBase {
   @Override
   public void initialize() {
     leftEncoderStart = m_driveSub.getLeftEncoder();
-
+    System.out.println("AutoCross Start!");
     Limelight.setLedMode(LightMode.eOn);
 
   }
@@ -47,7 +47,7 @@ public class AutoCross extends CommandBase {
 
     
     DriveSubsystem.setDriveSpeed_Tank(.6, .6);
-  
+    IntakeSub.intakeBall(IntakeConstants.INTAKE_SPEED);
 
   }
 
@@ -55,7 +55,7 @@ public class AutoCross extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     DriveSubsystem.setDriveSpeed_Tank(0, 0);
-    
+    System.out.println("AutoCross End!");
 
   }
 

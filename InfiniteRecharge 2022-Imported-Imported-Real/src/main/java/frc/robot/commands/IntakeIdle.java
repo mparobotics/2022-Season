@@ -21,7 +21,7 @@ public class IntakeIdle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IntakeSub.intakeBall(.2);
+    IntakeSub.intakeBall(.5);
   }
 
   // Called once the command ends or is interrupted.

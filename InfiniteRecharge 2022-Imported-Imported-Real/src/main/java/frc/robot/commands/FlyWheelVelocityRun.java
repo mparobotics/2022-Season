@@ -58,11 +58,13 @@ public class FlyWheelVelocityRun extends CommandBase {
     
    //d = Math.round(d * 100) / 100;
     //speedToGet = (1204 * d) + 4032; //4560 1620  1404 5232
-    speedToGet = (1260 * d) + 3934; //1264 3927
-    if (d > 6.5) {speedToGet = 4000;}
+    if (d < 2) {speedToGet = (1360 * d) + 4534;} //1264 3927}
+    else if (d < 5) {speedToGet = (1390 * d) + 4364;}
+    else if (d < 6.5) {speedToGet = (1460 * d) + 4034;}
+    else {speedToGet = 4000;}
 
-    correctColor = m_flywWheel_Velocity.GetColor();
-    if (correctColor = false) {speedToGet = 4000;}
+    //correctColor = m_flywWheel_Velocity.GetColor();
+    //if (correctColor = false) {speedToGet = 4000;}
 
     m_flywWheel_Velocity.my_Flywheel_Velocity(speedToGet);
   }

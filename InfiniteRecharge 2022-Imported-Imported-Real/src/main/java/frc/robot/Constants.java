@@ -71,7 +71,7 @@ public final class Constants {
         public static final double hub_height = 2.74 ; //meters 
         public static final double limelight_height = 1.21; //metres
         public static final double limelight_angle = 21; //degrees
-        public static final int FALCON_shooter_ID = 45; 
+        public static final int FALCON_shooter_ID = 50; 
         public static final double kP = .019117; //proportional feedback constant 12.087
         public static final double kA = .42682; // acceleration constant of shooter
         public static final double kV = .39505; // describes how much voltage is needed to hold (or “cruise”) at a given constant velocity while overcoming the electromagnetic resistance in the motor and any additional friction that increases with speed (known as viscous drag). The relationship between speed and voltage (at constant acceleration) is almost entirely linear
@@ -108,7 +108,7 @@ public final class Constants {
 
     public final class IntakeConstants
     {
-        public static final int INTAKE_ID = 15; 
+        public static final int INTAKE_ID = 45; 
         public static final double INTAKE_SPEED = 1; //placeholder
         //public static final int INTAKE_DROPDOWN_ID = 53; 
         public static final double DROPDOWN_SPEED = -.3; //placeholder
@@ -119,7 +119,7 @@ public final class Constants {
         public static final int FRONT_ELEVATOR_ID = 32;
         public static final int BACK_ELEVATOR_ID = 26; 
         
-        public static final double ELEVATOR_SPEED = .6; //placeholder
+        public static final double ELEVATOR_SPEED = .5; //placeholder
        
     
         public static final int LINEBREAK_RECIVER_ID = 10;

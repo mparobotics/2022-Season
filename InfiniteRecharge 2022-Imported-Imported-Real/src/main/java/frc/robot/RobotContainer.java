@@ -107,6 +107,7 @@ public class RobotContainer {
     // Configure the button bindings
     //shooterSub.setDefaultCommand(new ShootBall(shooterSub, shooterStick.getY()));
     intakeSub.setDefaultCommand(new IntakeIdle(intakeSub));
+    
     configureButtonBindings();
   }
 
