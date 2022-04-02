@@ -56,7 +56,7 @@ public class AutoReturn extends CommandBase {
   @Override
   public boolean isFinished() {
     //return m_turretSubsystem.getDistance() >= (1.5); //JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
-    return m_driveSub.getLeftEncoder() < leftEncoderStart - 55000;//JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
+    return m_driveSub.getLeftEncoder() < leftEncoderStart - 30000;//JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
    
       
   }

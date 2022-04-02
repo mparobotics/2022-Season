@@ -37,7 +37,7 @@ public class TurretSubsystem extends SubsystemBase {
     if (tv != 1) {tapeFound = false;}
     else {tapeFound = true;}
     
-    SmartDashboard.putBoolean("limelight vision", tapeFound); //prints if target has been found to dash
+    //SmartDashboard.putBoolean("limelight vision", tapeFound); //prints if target has been found to dash
     if (tapeFound == true){
   
       //Robot.driveSubsystem.teleop(0, 0);
@@ -88,7 +88,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void printTurretEncoder ()
   {
-    SmartDashboard.putNumber("Encoder Position", m_encoder.getPosition());
+    //SmartDashboard.putNumber("Encoder Position", m_encoder.getPosition());
   }
 
   public double getDistance () //gets the distance from the hub
@@ -107,21 +107,21 @@ public class TurretSubsystem extends SubsystemBase {
   public static double getY () //gets Y offset of limelight
   {
     double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);//degrees, offset from target on y axis
-    SmartDashboard.putNumber("LimelightY", ty);
+    //SmartDashboard.putNumber("LimelightY", ty);
     return ty;
   }
 
   public static double getX () //gets X offset of limelight
   {
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);//degrees, offset from target on y axis
-    SmartDashboard.putNumber("LimelightX", tx);
+    //SmartDashboard.putNumber("LimelightX", tx);
     return tx;
   }
  
   public static double getTv () //gets tv of limelight
   {
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);//is target in view?
-    SmartDashboard.putNumber("Target Found", tv);
+    //SmartDashboard.putNumber("Target Found", tv);
     return tv;
   }
 
