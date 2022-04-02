@@ -29,7 +29,7 @@ public class IntakeUp extends CommandBase {
   public void execute() {
     IntakeSub.IntakeUp();
 
-    SmartDashboard.putBoolean("Is intake down?", IntakeSub.IntakeIsDown);
+    //SmartDashboard.putBoolean("Is intake down?", IntakeSub.IntakeIsDown);
 }
 
   // Called once the command ends or is interrupted.

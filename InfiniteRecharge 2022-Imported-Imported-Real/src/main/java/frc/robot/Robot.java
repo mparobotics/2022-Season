@@ -183,9 +183,9 @@ public class Robot extends TimedRobot {
     //SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);
-    SmartDashboard.putNumber("Red", detectedColor.red);
-    SmartDashboard.putNumber("Green", detectedColor.green);
-    SmartDashboard.putNumber("Blue", detectedColor.blue);
+    //SmartDashboard.putNumber("Red", detectedColor.red);
+    //SmartDashboard.putNumber("Green", detectedColor.green);
+    //SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("IR", IR);
 
     /**
@@ -288,9 +288,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    //SmartDashboard.putNumber("angle", m_DriveSubsystem.navx.getAngle());
-    //SmartDashboard.putNumber("rate", m_DriveSubsystem.navx.getRate());
-    SmartDashboard.putNumber("heading", m_DriveSubsystem.getHeading());
   }
 
   @Override

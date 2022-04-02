@@ -38,7 +38,7 @@ public class FlyWheelVelocityRun extends CommandBase {
 
 
     //d = SmartDashboard.getNumber("distance sim", 3);
-    SmartDashboard.putBoolean("Lined Up To Shoot", false);
+    //SmartDashboard.putBoolean("Lined Up To Shoot", false);
    /* if (d < .5) {speedToGet = 4000;}
     else if (d < 1) {speedToGet = 4000;}
     else if (d < 1.5) {speedToGet = 4000;}

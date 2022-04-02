@@ -30,7 +30,7 @@ public class IntakeDrop extends CommandBase {
   public void execute() {
     IntakeSub.IntakeDrop();
 
-    SmartDashboard.putBoolean("Is intake down?", IntakeSub.IntakeIsDown);
+    //SmartDashboard.putBoolean("Is intake down?", IntakeSub.IntakeIsDown);
 }
 
   // Called once the command ends or is interrupted.
