@@ -39,15 +39,16 @@ public class FlyWheelVelocityRun extends CommandBase {
 
     //d = SmartDashboard.getNumber("distance sim", 3);
     SmartDashboard.putBoolean("Lined Up To Shoot", false);
-   /* if (d < .5) {speedToGet = 4000;}
+   /*if (d < .5) {speedToGet = 4000;}
     else if (d < 1) {speedToGet = 4000;}
     else if (d < 1.5) {speedToGet = 4000;}
-    else if (d < 2) {speedToGet = 5050;}
-    //else if (d < 2.35) {speedToGet = 7800; SmartDashboard.putBoolean("Lined Up To Shoot", false);} //to test on practice field
-    else if (d < 2.5) {speedToGet = 5550; SmartDashboard.putBoolean("Lined Up To Shoot", true);}
-    //else if (d < 2.75) {speedToGet = 9000; SmartDashboard.putBoolean("Lined Up To Shoot", false);} //to test on practice field
-    else if (d < 3) {speedToGet = 6075;}
-    else if (d < 3.5) {speedToGet = 6300;} //9200
+    else if (d < 2) {speedToGet = 7700;}
+    else if (d < 2.25) {speedToGet = 7380;} //to test on practice field
+    else if (d < 2.5) {speedToGet = 7950;}
+    else if (d < 2.75) {speedToGet = 8000;} //to test on practice field
+    else if (d < 3) {speedToGet = 8275;}
+    else if (d < 3.25) {speedToGet = 8325;}
+    else if (d < 3.5) {speedToGet = 8400;} //9200
     else if (d < 4) {speedToGet = 7250;}
     else if (d < 4.5) {speedToGet = 7400;}
     else if (d < 5) {speedToGet = 7600;}
@@ -58,11 +59,10 @@ public class FlyWheelVelocityRun extends CommandBase {
     
    //d = Math.round(d * 100) / 100;
     //speedToGet = (1204 * d) + 4032; //4560 1620  1404 5232
-    if (d < 2) {speedToGet = (1360 * d) + 4534;} //1264 3927}
-    else if (d < 5) {speedToGet = (1390 * d) + 4364;}
+    if (d < 2.3) {speedToGet = (1364 * d) + 4229;} //1264 3927}
+    else if (d < 5) {speedToGet = (1255 * d) + 4044;}
     else if (d < 6.5) {speedToGet = (1460 * d) + 4034;}
     else {speedToGet = 4000;}
-
     //correctColor = m_flywWheel_Velocity.GetColor();
     //if (correctColor = false) {speedToGet = 4000;}
 
