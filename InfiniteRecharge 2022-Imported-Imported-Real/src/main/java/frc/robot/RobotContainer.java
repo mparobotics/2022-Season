@@ -9,17 +9,12 @@ package frc.robot;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -92,8 +87,6 @@ public class RobotContainer {
   public static XboxController xbox = new XboxController(OIConstants.XBOX_ID);
   public static XboxController helms = new XboxController(OIConstants.HELMS_ID);
   public static Joystick shooterStick = new Joystick(2);
-
-  //private Joystick buttonBoard = new Joystick(OIConstants.buttonBoard); //TODO ButtonBoardTEST
 
   public static boolean shooting = false;
    
@@ -198,86 +191,52 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //Create a voltage constraint to ensure we don't accelerate too fast
 
-    autoCross = new AutoCross(driveSub);
-    autoReturn = new AutoReturn(driveSub);
+    var table = NetworkTableInstance.getDefault().getTable("troubleshooting");
+    var leftReference = table.getEntry("left_reference");
+    var leftMeasurement = table.getEntry("left_measurement");
+    var rightReference = table.getEntry("right_reference");
+    var rightMeasurement = table.getEntry("right_measurement");
 
-    var autoVoltageConstraint =
-        new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(
-                DriveConstants.Drive_Ks,
-                DriveConstants.Drive_Kv,
-                DriveConstants.Drive_Ka),
-            DriveConstants.kDriveKinematics,
-            10);
+    var leftController = new PIDController(DriveConstants.Drive_Kp, 0, 0);
+    var rightController = new PIDController(DriveConstants.Drive_Kp, 0, 0);
 
-    // Create config for trajectory
-    TrajectoryConfig config =
-        new TrajectoryConfig(
-                DriveConstants.kMaxSpeedMetersPerSecond,
-                DriveConstants.kMaxAccelerationMetersPerSecondSquared)
-            // Add kinematics to ensure max speed is actually obeyed
-            .setKinematics(DriveConstants.kDriveKinematics)
-            // Apply the voltage constraint
-            .addConstraint(autoVoltageConstraint);
+    Trajectory trajectoryOne = new Trajectory();
+    Trajectory trajectoryTwo = new Trajectory();
+    Trajectory trajectoryTest = new Trajectory();
 
-    // An example trajectory to follow.  All units in meters.
-    //Trajectory trajectory = new Trajectory();
-
-    var trajectory =
-      TrajectoryGenerator.generateTrajectory(
-        new Pose2d(0, 3, new Rotation2d(0)), 
-        List.of(new Translation2d(1,3), new Translation2d(2, 3)),
-        new Pose2d(3, 3, new Rotation2d(0)), config);
-
-    //String myPathName = "";
-    String trajectoryfile = "paths/Testing.wpilib.json";
-
-    //myPathName = "Unamed";
-
-    //trajectoryfile = myPathName + ".wpilib.json";
-    try {
-        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile);
-        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    } catch (IOException ex) {
-        DriverStation.reportError("Unable to open trajectory: " + trajectoryfile, ex.getStackTrace());
+    String trajectoryFileOne = "paths/5carg.wpilib.json";
+    String trajectoryFileTwo = "paths/5carg.wpilib.json";
+    String trajectoryFileTest = "paths/Unnamed.wpilib.json";
+    
+    try{
+      Path trajectoryPathOne = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFileOne);
+      trajectoryOne = TrajectoryUtil.fromPathweaverJson(trajectoryPathOne);
+    } catch(IOException ex) {
+        DriverStation.reportError("Unable to open trajectory:" + trajectoryFileOne, ex.getStackTrace());
     }
 
-    var trajectory1 =
-    TrajectoryGenerator.generateTrajectory(
-      new Pose2d(0, 3, new Rotation2d(0)), 
-      List.of(new Translation2d(1,3), new Translation2d(2, 3)),
-      new Pose2d(3, 3, new Rotation2d(0)), config);
+    try{
+      Path trajectoryPathTwo = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFileTwo);
+      trajectoryTwo = TrajectoryUtil.fromPathweaverJson(trajectoryPathTwo);
+    } catch(IOException ex) {
+        DriverStation.reportError("Unable to open trajectory:" + trajectoryFileTwo, ex.getStackTrace());
+    }
+    
+    try{
+      Path trajectoryPathTest = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFileTest);
+      trajectoryTest = TrajectoryUtil.fromPathweaverJson(trajectoryPathTest);
+    } catch(IOException ex) {
+        DriverStation.reportError("Unable to open trajectory:" + trajectoryFileTest, ex.getStackTrace());
+    }
 
-  //String myPathName = "";
-  String trajectoryfile1 = "paths/Testing.wpilib.json";
-
-  //myPathName = "Unamed";
-
-  //trajectoryfile = myPathName + ".wpilib.json";
-  try {
-      Path trajectoryPath1 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryfile1);
-      trajectory1 = TrajectoryUtil.fromPathweaverJson(trajectoryPath1);
-  } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryfile, ex.getStackTrace());
-  }
-
-  trajectory1 = TrajectoryGenerator.generateTrajectory(
-    // Start at the origin facing the +X direction
-    new Pose2d(0, 0, new Rotation2d(0)),
-    // Pass through these two interior waypoints, making an 's' curve path
-    List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-    // End 3 meters straight ahead of where we started, facing forward
-    new Pose2d(3, 0, new Rotation2d(0)),
-    // Pass config
-    config);
-  
+    //Call concatTraj in Ramsete to run both trajectories back to back as one
+    var concatTraj = trajectoryOne.concatenate(trajectoryTwo);
 
 
-            RamseteCommand ramseteCommand =
+            RamseteCommand ramseteCommandOne =
             new RamseteCommand(
-                trajectory,
+                trajectoryOne,
                 driveSub::getPose,
                 new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
                 new SimpleMotorFeedforward(
@@ -286,15 +245,15 @@ public class RobotContainer {
                     DriveConstants.Drive_Ka),
                 DriveConstants.kDriveKinematics,
                 driveSub::getWheelSpeeds,
-                new PIDController(DriveConstants.Drive_Kp, 0, 0),
-                new PIDController(DriveConstants.Drive_Kp, 0, 0),
+                leftController,
+                rightController,
                 // RamseteCommand passes volts to the callback
                 driveSub::tankDriveVolts,
                 driveSub);
 
-              RamseteCommand ramseteCommand1 =
+              RamseteCommand ramseteCommandTwo =
                 new RamseteCommand(
-                    trajectory1,
+                    trajectoryTwo,
                     driveSub::getPose,
                     new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
                     new SimpleMotorFeedforward(
@@ -303,20 +262,46 @@ public class RobotContainer {
                         DriveConstants.Drive_Ka),
                     DriveConstants.kDriveKinematics,
                     driveSub::getWheelSpeeds,
-                    new PIDController(DriveConstants.Drive_Kp, 0, 0),
-                    new PIDController(DriveConstants.Drive_Kp, 0, 0),
+                    leftController,
+                    rightController,
                     // RamseteCommand passes volts to the callback
                     driveSub::tankDriveVolts,
                     driveSub);
+                    
+              RamseteCommand ramseteCommandThree =
+              new RamseteCommand(
+                  trajectoryTest,
+                  driveSub::getPose,
+                  new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
+                  new SimpleMotorFeedforward(
+                      DriveConstants.Drive_Ks,
+                      DriveConstants.Drive_Kv,
+                      DriveConstants.Drive_Ka),
+                  DriveConstants.kDriveKinematics,
+                  driveSub::getWheelSpeeds,
+                  leftController,
+                  rightController,
+                  // RamseteCommand passes volts to the callback
+                  driveSub::tankDriveVolts,
+                  driveSub);
+
+    leftMeasurement.setNumber(driveSub.getWheelSpeeds().leftMetersPerSecond);
+    leftReference.setNumber(leftController.getSetpoint());
+
+    rightMeasurement.setNumber(driveSub.getWheelSpeeds().rightMetersPerSecond);
+    rightReference.setNumber(rightController.getSetpoint());
     
     // Reset odometry to the starting pose of the trajectory.
-    driveSub.resetOdometry(trajectory1.getInitialPose());
+    driveSub.resetOdometry(trajectoryOne.getInitialPose());
 
     // Run path following command, then stop at the end.
-    //return ramseteCommand.andThen(() -> driveSub.tankDriveVolts(0, 0));
-    return new SequentialCommandGroup(ramseteCommand.andThen(() -> driveSub.tankDriveVolts(0, 0)),
-                                       autoShoot, ramseteCommand1.andThen(()-> driveSub.tankDriveVolts(0, 0)), autoShoot1);
+
+    //Run only one path
+    //return ramseteCommandThree.andThen(() -> driveSub.tankDriveVolts(0, 0));
+  
+    //full auto
+    return new SequentialCommandGroup(ramseteCommandOne.andThen(() -> driveSub.tankDriveVolts(0, 0)),
+                                       autoShoot, ramseteCommandTwo.andThen(()-> driveSub.tankDriveVolts(0, 0)), autoShoot1);
     }
   }
-
 
