@@ -132,7 +132,7 @@ public class RobotContainer {
       
     //intake settings
         new JoystickButton(helms, Button.kX.value).whenHeld(new Intake(intakeSub));
-        new JoystickButton(xbox, Button.kY.value).whenHeld(new IntakeReverse(intakeSub));
+        new JoystickButton(helms, Button.kY.value).whenHeld(new IntakeReverse(intakeSub));
     //intake stop
         new JoystickButton(helms, Button.kX.value).whenReleased(new IntakeStop());
         new JoystickButton(xbox, Button.kY.value).whenReleased(new IntakeStop());

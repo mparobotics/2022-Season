@@ -10,9 +10,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.IntakeConstants;
+
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IntakeSub;
+
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.utils.Limelight;
 import frc.robot.utils.Limelight.LightMode;
@@ -47,7 +47,7 @@ public class AutoCross extends CommandBase {
 
     
     DriveSubsystem.setDriveSpeed_Tank(.6, .6);
-    IntakeSub.intakeBall(IntakeConstants.INTAKE_SPEED);
+
 
   }
 
