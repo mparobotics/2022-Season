@@ -233,18 +233,18 @@ public class Robot extends TimedRobot {
     //m_DriveSubsystem.encoderReset();
     //m_DriveSubsystem.zeroHeading();
     //Limelight.setLedMode(LightMode.eOn); //TODO test
-    ShootAndCross.schedule();
+    //ShootAndCross.schedule();
     //ParallelTwoBall.schedule();
     
     //m_DriveSubsystem.zeroHeading();
     
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    ballShoot.schedule();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //ballShoot.schedule();
    //intake.schedule();
     // schedule the autonomous command (example)
-    /*if (m_autonomousCommand != null) {
+    if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
-    }*/
+    }
 
   }
 
