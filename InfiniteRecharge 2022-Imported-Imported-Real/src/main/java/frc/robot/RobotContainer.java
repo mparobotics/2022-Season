@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -32,6 +33,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArcadeDriveClassic;
 import frc.robot.commands.AutoCross;
+import frc.robot.commands.AutoFlywheelVelocityRun;
 import frc.robot.commands.AutoReturn;
 import frc.robot.commands.AutoStop;
 import frc.robot.commands.BallShoot;
@@ -46,7 +48,9 @@ import frc.robot.commands.IntakeIdle;
 import frc.robot.commands.IntakeReverse;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.IntakeUp;
+import frc.robot.commands.NullCommand;
 import frc.robot.commands.Queue;
+import frc.robot.commands.TurretAutoAlign;
 import frc.robot.commands.TurretNeutral;
 import frc.robot.commands.TurretTurnLeft;
 import frc.robot.commands.TurretTurnRight;
@@ -78,7 +82,14 @@ public class RobotContainer {
   private AutoStop autoStop = new AutoStop(new DriveSubsystem());
   private AutoStop autoStop1 = new AutoStop(new DriveSubsystem());
   private AutoStop autoStop2 = new AutoStop(new DriveSubsystem());
+  private TurretAutoAlign turretAutoAlign = new TurretAutoAlign();
+  private Intake intake = new Intake(intakeSub);
   private WaitCommand waitCommand = new WaitCommand(2);
+  private NullCommand nullCommand = new NullCommand();
+  private NullCommand nullCommand2 = new NullCommand();
+  private AutoFlywheelVelocityRun flywheelVelocityRunOneBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 7630);
+  private AutoFlywheelVelocityRun flywheelVelocityRunThreeBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8920);
+  private AutoFlywheelVelocityRun flywheelVelocityRunFiveBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8920);
   private IntakeDrop autoDrop = new IntakeDrop(intakeSub);
   private AutoCross autoCross;
   private AutoReturn autoReturn;
@@ -106,7 +117,7 @@ public class RobotContainer {
                         
     // Configure the button bindings
     //shooterSub.setDefaultCommand(new ShootBall(shooterSub, shooterStick.getY()));
-    intakeSub.setDefaultCommand(new IntakeIdle(intakeSub));
+    
     
     configureButtonBindings();
   }
@@ -134,8 +145,8 @@ public class RobotContainer {
         new JoystickButton(helms, Button.kX.value).whenHeld(new Intake(intakeSub));
         new JoystickButton(helms, Button.kY.value).whenHeld(new IntakeReverse(intakeSub));
     //intake stop
-        new JoystickButton(helms, Button.kX.value).whenReleased(new IntakeStop());
-        new JoystickButton(xbox, Button.kY.value).whenReleased(new IntakeStop());
+        new JoystickButton(helms, Button.kX.value).whenReleased(new IntakeIdle(intakeSub));
+        new JoystickButton(xbox, Button.kY.value).whenReleased(new IntakeIdle(intakeSub));
         
       
        
@@ -205,8 +216,8 @@ public class RobotContainer {
     Trajectory trajectoryTwo = new Trajectory();
     Trajectory trajectoryTest = new Trajectory();
 
-    String trajectoryFileOne = "paths/5carg.wpilib.json";
-    String trajectoryFileTwo = "paths/5carg.wpilib.json";
+    String trajectoryFileOne = "paths/3 carg.wpilib.json";
+    String trajectoryFileTwo = "paths/5 carg.wpilib.json";
     String trajectoryFileTest = "paths/Unnamed.wpilib.json";
     
     try{
@@ -295,13 +306,10 @@ public class RobotContainer {
     driveSub.resetOdometry(trajectoryOne.getInitialPose());
 
     // Run path following command, then stop at the end.
-
-    //Run only one path
-    //return ramseteCommandThree.andThen(() -> driveSub.tankDriveVolts(0, 0));
-  
-    //full auto
-    return new SequentialCommandGroup(ramseteCommandOne.andThen(() -> driveSub.tankDriveVolts(0, 0)),
-                                       autoShoot, ramseteCommandTwo.andThen(()-> driveSub.tankDriveVolts(0, 0)), autoShoot1);
+    //return ramseteCommand.andThen(() -> driveSub.tankDriveVolts(0, 0));
+    return new ParallelCommandGroup(new SequentialCommandGroup(flywheelVelocityRunOneBall, autoDrop.withTimeout(1), /*autoShoot1.withTimeout(.5),*/ flywheelVelocityRunThreeBall,
+     ramseteCommandOne.andThen(() -> driveSub.tankDriveVolts(0, 0)), nullCommand.withTimeout(.5), autoShoot.withTimeout(1.5), flywheelVelocityRunFiveBall,
+     ramseteCommandTwo.andThen(() -> driveSub.tankDriveVolts(0, 0)), nullCommand2.withTimeout(.25), autoShoot1), turretAutoAlign);
     }
   }
 

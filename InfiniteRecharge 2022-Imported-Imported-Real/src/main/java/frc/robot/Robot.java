@@ -16,12 +16,14 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoCross;
+import frc.robot.commands.AutoFlywheelVelocityRun;
 import frc.robot.commands.AutoReturn;
 import frc.robot.commands.BallShoot;
 import frc.robot.commands.Elevator;
 import frc.robot.commands.FlyWheelVelocityRun;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeDrop;
+import frc.robot.commands.IntakeIdle;
 import frc.robot.commands.NullCommand;
 import frc.robot.commands.TurretAutoAlign;
 import frc.robot.subsystems.DriveSubsystem;
@@ -53,7 +55,7 @@ public class Robot extends TimedRobot {
   private DriveSubsystem m_DriveSubsystem;
   
 
-  private FlyWheel_Velocity m_flywheelVelocity;
+  private FlyWheel_Velocity m_flywheelVelocity = new FlyWheel_Velocity();
   private IntakeSub intakeSub = new IntakeSub();
   NetworkTable table;
 
@@ -64,6 +66,8 @@ public class Robot extends TimedRobot {
   private ParallelCommandGroup ParallelTwoBall;
   private Intake intake = new Intake(intakeSub);
   private TurretAutoAlign turretAutoAlign = new TurretAutoAlign();
+  private AutoFlywheelVelocityRun autoFlywheel2ball = new AutoFlywheelVelocityRun(m_flywheelVelocity, 7751);
+  private IntakeIdle intakeIdle = new IntakeIdle(intakeSub);
   private SequentialCommandGroup TrajTest;
   private FlyWheelVelocityRun spinFlywheel = new FlyWheelVelocityRun(new FlyWheel_Velocity()); 
   private IntakeDrop intakeDrop =  new IntakeDrop(intakeSub);
@@ -106,8 +110,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     m_robotContainer = new RobotContainer();
     m_DriveSubsystem = new DriveSubsystem();
-    m_flywheelVelocity = new FlyWheel_Velocity();
-    
+  
     m_ElevatorSub = new ElevatorSub();
     //Limelight.setLedMode(LightMode.eOff);
     autoElevator = new Elevator(m_ElevatorSub);
@@ -216,7 +219,6 @@ public class Robot extends TimedRobot {
     m_DriveSubsystem.zeroHeading();
     m_DriveSubsystem.encoderReset();
   }
-
   @Override
   public void disabledPeriodic() {
     SmartDashboard.putNumber("heading", m_DriveSubsystem.getHeading());
@@ -229,6 +231,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
   
     DataLogManager.start();
+    intake.schedule();
     //set Limelight at auto start
     //m_DriveSubsystem.encoderReset();
     //m_DriveSubsystem.zeroHeading();
@@ -240,7 +243,9 @@ public class Robot extends TimedRobot {
     
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     //ballShoot.schedule();
-   //intake.schedule();
+    //turretAutoAlign.schedule();
+    //autoFlywheel2ball.schedule();
+    //intake.schedule();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -269,7 +274,7 @@ public class Robot extends TimedRobot {
     //IntakeSub.IntakeDropStop();
     spinFlywheel.cancel();
     turretAutoAlign.cancel();
-    intake.cancel();
+    intakeIdle.schedule();
     m_ElevatorSub.ElevatorStop();
     m_flywheelVelocity.my_Flywheel_Velocity(0);
     DriveSubsystem.stopRobot();

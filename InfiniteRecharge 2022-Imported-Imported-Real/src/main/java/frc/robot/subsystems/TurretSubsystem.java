@@ -98,7 +98,7 @@ public class TurretSubsystem extends SubsystemBase {
     //double tv = getTv();
     double angleRad = Math.PI*(ty+a1)/180; // converting ty+a1 from degrees to radians
     distanceFromHub = (h2-h1) / Math.tan(angleRad); // caculate the distance with M A T H and T R I G O N O M E T R Y 
-    //SmartDashboard.putNumber("DistanceFromHub", distanceFromHub); 
+    SmartDashboard.putNumber("DistanceFromHub", distanceFromHub); 
     return distanceFromHub;
 
 

@@ -33,6 +33,7 @@ public class FlyWheelVelocityRun extends CommandBase {
   @Override
   public void execute() {
     double d = m_turretSubsystem.getDistance();
+    double t = m_turretSubsystem.getTv();
     double speedToGet;
     boolean correctColor;
 
@@ -59,16 +60,21 @@ public class FlyWheelVelocityRun extends CommandBase {
     
    //d = Math.round(d * 100) / 100;
     //speedToGet = (1204 * d) + 4032; //4560 1620  1404 5232
-    if (d < 2) {speedToGet = (1360 * d) + 4934;} //1264 3927}
+    if (d < 1.75) {speedToGet = (1460 * d) + 1900;} //1264 3927}
     else if (d < 3.5) {speedToGet = (1250 * d) + 4334;}
     else if (d < 5) {speedToGet = (1300 * d) + 4314;}
     else if (d < 6.5) {speedToGet = (1360 * d) + 4534;}
     else {speedToGet = 4000;}
     //correctColor = m_flywWheel_Velocity.GetColor();
     //if (correctColor = false) {speedToGet = 4000;}
+    if (t != 1) {
+      speedToGet = 3900;
+    }
 
     m_flywWheel_Velocity.my_Flywheel_Velocity(speedToGet);
   }
+
+  
 
   // Called once the command ends or is interrupted.
   @Override
