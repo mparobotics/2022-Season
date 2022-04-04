@@ -20,8 +20,7 @@ public class IntakeSub extends SubsystemBase {
   public IntakeSub() {
     intake = new WPI_TalonFX(IntakeConstants.INTAKE_ID);
    
-    intake.configOpenloopRamp(2); // 2 seconds from neutral to full output (during open-loop control)
-    intake.configClosedloopRamp(2);
+
   }
 
   @Override

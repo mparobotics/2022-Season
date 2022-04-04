@@ -35,10 +35,12 @@ import frc.robot.commands.AutoCross;
 import frc.robot.commands.AutoFlywheelVelocityRun;
 import frc.robot.commands.AutoReturn;
 import frc.robot.commands.AutoStop;
+import frc.robot.commands.AutoTurretAutoAlign;
 import frc.robot.commands.BallShoot;
 import frc.robot.commands.Elevator;
 import frc.robot.commands.ElevatorNeutral;
 import frc.robot.commands.ElevatorReverse;
+import frc.robot.commands.FastElevator;
 import frc.robot.commands.FlyWheelVelocityRunLow;
 import frc.robot.commands.FlyWheelVelocityRunReverse;
 import frc.robot.commands.Intake;
@@ -75,17 +77,19 @@ public class RobotContainer {
   //public static ShooterSubsystem shooterSub = new ShooterSubsystem();
   public static FlyWheel_Velocity flyWheel_Velocity = new FlyWheel_Velocity();
   public static TurretSubsystem turretSubsystem = new TurretSubsystem();
-  private Elevator autoShoot = new Elevator(elevatorsub);
+  private FastElevator autoShoot = new FastElevator(elevatorsub);
   private Elevator autoShoot1 = new Elevator(elevatorsub);
   private Elevator autoShoot2 = new Elevator(elevatorsub);
-  private TurretAutoAlign turretAutoAlign = new TurretAutoAlign();
+  private AutoTurretAutoAlign autoTurretAutoAlign = new AutoTurretAutoAlign();
+  private TurretAutoAlign TurretAutoAlign = new TurretAutoAlign();
   private Intake intake = new Intake(intakeSub);
   private WaitCommand waitCommand = new WaitCommand(2);
   private NullCommand nullCommand = new NullCommand();
   private NullCommand nullCommand2 = new NullCommand();
-  private AutoFlywheelVelocityRun flywheelVelocityRunOneBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 7630);
-  private AutoFlywheelVelocityRun flywheelVelocityRunThreeBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8920);
-  private AutoFlywheelVelocityRun flywheelVelocityRunFiveBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8920);
+  private NullCommand nullCommand3 = new NullCommand();
+  private AutoFlywheelVelocityRun flywheelVelocityRunTwoBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8414);
+  private AutoFlywheelVelocityRun flywheelVelocityRunFourBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 7021);
+  private AutoFlywheelVelocityRun flywheelVelocityRunFiveBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8414);
   private IntakeDrop autoDrop = new IntakeDrop(intakeSub);
   private AutoCross autoCross;
   private AutoReturn autoReturn;
@@ -210,11 +214,15 @@ public class RobotContainer {
 
     Trajectory trajectoryOne = new Trajectory();
     Trajectory trajectoryTwo = new Trajectory();
-    Trajectory trajectoryTest = new Trajectory();
+    Trajectory trajectoryThree = new Trajectory();
+    Trajectory trajectoryFour= new Trajectory();
 
-    String trajectoryFileOne = "paths/3 carg.wpilib.json";
-    String trajectoryFileTwo = "paths/5 carg.wpilib.json";
-    String trajectoryFileTest = "paths/Unnamed.wpilib.json";
+    String trajectoryFileOne = "pathplanner/generatedJSON/2cargoreal.wpilib.json";
+    String trajectoryFileTwo = "pathplanner/generatedJSON/4cargoreal.wpilib.json";
+    String trajectoryFileThree = "pathplanner/generatedJSON/4cargoreverse.wpilib.json";
+    String trajectoryFileFour = "pathplanner/generatedJSON/5cargoreal.wpilib.json";
+   
+
     
     try{
       Path trajectoryPathOne = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFileOne);
@@ -229,16 +237,27 @@ public class RobotContainer {
     } catch(IOException ex) {
         DriverStation.reportError("Unable to open trajectory:" + trajectoryFileTwo, ex.getStackTrace());
     }
-    
+
     try{
-      Path trajectoryPathTest = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFileTest);
-      trajectoryTest = TrajectoryUtil.fromPathweaverJson(trajectoryPathTest);
+      Path trajectoryPathThree = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFileThree);
+      trajectoryThree = TrajectoryUtil.fromPathweaverJson(trajectoryPathThree);
     } catch(IOException ex) {
-        DriverStation.reportError("Unable to open trajectory:" + trajectoryFileTest, ex.getStackTrace());
+        DriverStation.reportError("Unable to open trajectory:" + trajectoryFileThree, ex.getStackTrace());
     }
 
+    try{
+      Path trajectoryPathFour = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFileFour);
+      trajectoryFour = TrajectoryUtil.fromPathweaverJson(trajectoryPathFour);
+    } catch(IOException ex) {
+        DriverStation.reportError("Unable to open trajectory:" + trajectoryFileFour, ex.getStackTrace());
+    }
+    
+ 
+    
+ 
+
     //Call concatTraj in Ramsete to run both trajectories back to back as one
-    var concatTraj = trajectoryOne.concatenate(trajectoryTwo);
+    var concatTraj = trajectoryTwo.concatenate(trajectoryThree);
 
 
             RamseteCommand ramseteCommandOne =
@@ -260,7 +279,7 @@ public class RobotContainer {
 
               RamseteCommand ramseteCommandTwo =
                 new RamseteCommand(
-                    trajectoryTwo,
+                    concatTraj,
                     driveSub::getPose,
                     new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
                     new SimpleMotorFeedforward(
@@ -277,7 +296,7 @@ public class RobotContainer {
                     
               RamseteCommand ramseteCommandThree =
               new RamseteCommand(
-                  trajectoryTest,
+                  trajectoryFour,
                   driveSub::getPose,
                   new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
                   new SimpleMotorFeedforward(
@@ -303,9 +322,10 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     //return ramseteCommand.andThen(() -> driveSub.tankDriveVolts(0, 0));
-    return new ParallelCommandGroup(new SequentialCommandGroup(flywheelVelocityRunOneBall, autoDrop.withTimeout(1), /*autoShoot1.withTimeout(.5),*/ flywheelVelocityRunThreeBall,
-     ramseteCommandOne.andThen(() -> driveSub.tankDriveVolts(0, 0)), nullCommand.withTimeout(.5), autoShoot.withTimeout(1.5), flywheelVelocityRunFiveBall,
-     ramseteCommandTwo.andThen(() -> driveSub.tankDriveVolts(0, 0)), nullCommand2.withTimeout(.25), autoShoot1), turretAutoAlign);
+    return new ParallelCommandGroup(new SequentialCommandGroup(/*autoShoot1.withTimeout(.5),*/ flywheelVelocityRunTwoBall,
+     ramseteCommandOne.andThen(() -> driveSub.tankDriveVolts(0, 0)), autoShoot.withTimeout(1.1), flywheelVelocityRunFourBall,
+     ramseteCommandTwo.andThen(() -> driveSub.tankDriveVolts(0, 0)), autoShoot1.withTimeout(1), 
+     flywheelVelocityRunFiveBall, ramseteCommandThree.andThen(() -> driveSub.tankDriveVolts(0, 0)), autoShoot2), autoTurretAutoAlign, autoDrop.withTimeout(.5));
     }
   }
 

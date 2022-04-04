@@ -77,6 +77,55 @@ public class TurretSubsystem extends SubsystemBase {
     else{turnTurret(0);}
   }
 
+  public void autoTurnAuto () {
+    double tx = getX();//offset on x axis
+    double tv = getTv();//is target in view?
+    boolean tapeFound;
+
+  
+    if (tv != 1) {tapeFound = false;}
+    else {tapeFound = true;}
+    
+    //SmartDashboard.putBoolean("limelight vision", tapeFound); //prints if target has been found to dash
+    if (tapeFound == true){
+  
+      //Robot.driveSubsystem.teleop(0, 0);
+      double steering_adjust = 0.0f;
+      if (tx > 0 ) //if to the right of center, turns left; to test deadzone 
+      {
+          
+        if (m_encoder.getPosition() < -ShooterConstants.max_turret_rotation)
+          {
+            new TurretCenter();
+          }
+        else{
+          steering_adjust = ShooterConstants.Turret_Kp_Auto * tx - ShooterConstants.min_command; //Kp is a number that sets the speed, and the min command is the minimum needed for it to react
+          //steering_adjust = -.05; //to test speed and inversion
+          turnTurret(steering_adjust); //turns the turret
+          }
+      }
+    
+      else if (tx < 0 ) //if to the left of center, turns right; to test deadzone
+      {
+        if (m_encoder.getPosition() > ShooterConstants.max_turret_rotation)
+        {
+          new TurretCenter();
+        }
+        else
+          {steering_adjust = ShooterConstants.Turret_Kp_Auto * tx + ShooterConstants.min_command;
+          //steering_adjust = .05; //to test speed and inversion
+          turnTurret(steering_adjust);//turns the turret
+          }
+      }
+  
+      else{turnTurret(0);}
+  
+  
+      
+    }
+    else{turnTurret(0);}
+  }
+
 
 
   public void turnTurret (double turnSpeed) {
