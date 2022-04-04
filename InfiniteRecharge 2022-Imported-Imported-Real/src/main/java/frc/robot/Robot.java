@@ -8,7 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.PrintCommand;
 import edu.wpi.first.wpilibj.command.WaitCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -54,6 +56,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private DriveSubsystem m_DriveSubsystem;
   
+  private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   private FlyWheel_Velocity m_flywheelVelocity = new FlyWheel_Velocity();
   private IntakeSub intakeSub = new IntakeSub();
@@ -63,10 +66,12 @@ public class Robot extends TimedRobot {
   private AutoReturn autoReturn;
   private Elevator autoElevator;
   private Command ShootAndCross;
+  private Command OneBall;
   private ParallelCommandGroup ParallelTwoBall;
   private Intake intake = new Intake(intakeSub);
   private TurretAutoAlign turretAutoAlign = new TurretAutoAlign();
   private AutoFlywheelVelocityRun autoFlywheel2ball = new AutoFlywheelVelocityRun(m_flywheelVelocity, 7751);
+  private AutoFlywheelVelocityRun autoFlywheel1ball = new AutoFlywheelVelocityRun(m_flywheelVelocity, 3700);
   private IntakeIdle intakeIdle = new IntakeIdle(intakeSub);
   private SequentialCommandGroup TrajTest;
   private FlyWheelVelocityRun spinFlywheel = new FlyWheelVelocityRun(new FlyWheel_Velocity()); 
@@ -117,17 +122,22 @@ public class Robot extends TimedRobot {
     autoCross = new AutoCross(m_robotContainer.driveSub);
     autoReturn = new AutoReturn(m_robotContainer.driveSub);
 
+
     
     
 
 
     //ShootAndCross = new SequentialCommandGroup(autoIntakeDrop, autoCross, autoShoot);
     ShootAndCross = new SequentialCommandGroup(
-                        intakeDrop.withTimeout(1), autoCross, autoReturn, nullCommand.withTimeout(3), autoElevator.withTimeout(4));
+                        autoFlywheel2ball, intakeDrop.withTimeout(1), autoCross, autoReturn, nullCommand.withTimeout(3), autoElevator.withTimeout(4));
       
-
+    OneBall = new SequentialCommandGroup(autoFlywheel1ball, nullCommand.withTimeout(3), autoElevator.withTimeout(4));
     //ParallelTwoBall = new ParallelCommandGroup(new IntakeDrop(intakeSub).withTimeout(2), ShootAndCross, spinFlywheel, turretAutoAlign);
-
+    autoChooser.addOption("dO Nøthîng", null);
+    autoChooser.addOption("One Ball", OneBall);
+    autoChooser.addOption("Two Ball", ShootAndCross);
+    autoChooser.addOption("Five Ball", m_autonomousCommand);
+    autoChooser.setDefaultOption("Five Ball", m_autonomousCommand);
     //table = NetworkTableInstance.getDefault().getTable("limelight"); //Gets Table instance
     //table.getEntry("ledMode").setNumber(1); //sets limelight LEDS to "off"
     m_colorMatcher.addColorMatch(kBlueTarget);
@@ -238,18 +248,33 @@ public class Robot extends TimedRobot {
     //Limelight.setLedMode(LightMode.eOn); //TODO test
     //ShootAndCross.schedule();
     //ParallelTwoBall.schedule();
-    
-    //m_DriveSubsystem.zeroHeading();
-    
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_DriveSubsystem.zeroHeading();
+    switch (autoChooser.getSelected().toString()) {
+      case "One Ball":
+      OneBall.schedule();
+      break;
+     
+      case "Two Ball":
+      ShootAndCross.schedule();
+      break;
+
+      case "Five Ball":
+      if (m_autonomousCommand != null) {
+        m_autonomousCommand.schedule();
+      }
+      break;
+     
+      case "dO Nøthîng":
+      break;
+    }
+   
     //ballShoot.schedule();
     //turretAutoAlign.schedule();
     //autoFlywheel2ball.schedule();
     //intake.schedule();
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+
 
   }
 

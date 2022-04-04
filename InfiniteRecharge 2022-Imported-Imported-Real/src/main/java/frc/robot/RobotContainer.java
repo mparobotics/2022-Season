@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
-
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -79,9 +78,6 @@ public class RobotContainer {
   private Elevator autoShoot = new Elevator(elevatorsub);
   private Elevator autoShoot1 = new Elevator(elevatorsub);
   private Elevator autoShoot2 = new Elevator(elevatorsub);
-  private AutoStop autoStop = new AutoStop(new DriveSubsystem());
-  private AutoStop autoStop1 = new AutoStop(new DriveSubsystem());
-  private AutoStop autoStop2 = new AutoStop(new DriveSubsystem());
   private TurretAutoAlign turretAutoAlign = new TurretAutoAlign();
   private Intake intake = new Intake(intakeSub);
   private WaitCommand waitCommand = new WaitCommand(2);
