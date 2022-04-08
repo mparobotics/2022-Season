@@ -4,6 +4,9 @@
 
 package frc.robot.commands;
 
+
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.ElevatorSub;
@@ -11,6 +14,7 @@ import frc.robot.subsystems.FlyWheel_Velocity;
 
 public class Elevator extends CommandBase {
   ElevatorSub m_elevatorSub;
+  public Timer reverseDelay = new Timer();
   FlyWheel_Velocity m_FlyWheelVelocity = new FlyWheel_Velocity();
   public Elevator(ElevatorSub b) {
     m_elevatorSub = b;
@@ -20,15 +24,34 @@ public class Elevator extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    reverseDelay.reset();
+    reverseDelay.stop();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-     
+     if (m_FlyWheelVelocity.canIShoot()) {
       m_elevatorSub.BackElevatorUp(1);
       m_elevatorSub.FrontElevatorUp(.4);
+      reverseDelay.reset();
+     }
+     else{
+      if (reverseDelay.get() == 0){
+        reverseDelay.start();
+      }
+      
+      if (reverseDelay.get() < .5)
+     {
+      m_elevatorSub.BackElevatorUp(-1);
+      m_elevatorSub.FrontElevatorUp(-.4);
+     }
+
+     else {m_elevatorSub.ElevatorStop();}
+    }
+
 
     
   }

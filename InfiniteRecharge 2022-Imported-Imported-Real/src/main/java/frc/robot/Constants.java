@@ -104,6 +104,7 @@ public final class Constants {
     public final class OIConstants {
         public static final int XBOX_ID = 0;
         public static final int HELMS_ID = 1;
+        public static final int BOX_ID = 2;
     
     }
 

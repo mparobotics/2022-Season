@@ -54,7 +54,9 @@ import frc.robot.commands.Queue;
 import frc.robot.commands.TurretAutoAlign;
 import frc.robot.commands.TurretNeutral;
 import frc.robot.commands.TurretTurnLeft;
+import frc.robot.commands.TurretTurnLeftSlow;
 import frc.robot.commands.TurretTurnRight;
+import frc.robot.commands.TurretTurnRightSlow;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.FlyWheel_Velocity;
@@ -87,9 +89,9 @@ public class RobotContainer {
   private NullCommand nullCommand = new NullCommand();
   private NullCommand nullCommand2 = new NullCommand();
   private NullCommand nullCommand3 = new NullCommand();
-  private AutoFlywheelVelocityRun flywheelVelocityRunTwoBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8414);
+  private AutoFlywheelVelocityRun flywheelVelocityRunTwoBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8814);
   private AutoFlywheelVelocityRun flywheelVelocityRunFourBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 7021);
-  private AutoFlywheelVelocityRun flywheelVelocityRunFiveBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8414);
+  private AutoFlywheelVelocityRun flywheelVelocityRunFiveBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8814);
   private IntakeDrop autoDrop = new IntakeDrop(intakeSub);
   private AutoCross autoCross;
   private AutoReturn autoReturn;
@@ -97,7 +99,9 @@ public class RobotContainer {
   // declaring and intializing controller(s)
   public static XboxController xbox = new XboxController(OIConstants.XBOX_ID);
   public static XboxController helms = new XboxController(OIConstants.HELMS_ID);
-  public static Joystick shooterStick = new Joystick(2);
+  public static Joystick box = new Joystick(OIConstants.BOX_ID);
+    final JoystickButton box1 = new JoystickButton(box, 1);
+
 
   public static boolean shooting = false;
    
@@ -117,8 +121,7 @@ public class RobotContainer {
                         
     // Configure the button bindings
     //shooterSub.setDefaultCommand(new ShootBall(shooterSub, shooterStick.getY()));
-    
-    
+
     configureButtonBindings();
   }
 
@@ -135,6 +138,8 @@ public class RobotContainer {
       //new JoystickButton(helms, Button.kB.value).whenHeld(new ShootBall(shooterSub, 2));
       new JoystickButton(helms, Button.kB.value).whenHeld(new BallShoot());
       new JoystickButton(helms, Button.kStart.value).whenHeld(new FlyWheelVelocityRunLow(flyWheel_Velocity));
+
+
       //new JoystickButton(helms, Button.kY.value).whenHeld(new TurretAutoAlign(turretSubsystem));
       //new JoystickButton(helms, Button.kY.value).whenHeld(new ShootBall(shooterSub, 2));
       //new JoystickButton(helms, Button.kRightStick.value).whenHeld(new ShootLow(shooterSub));
@@ -153,17 +158,21 @@ public class RobotContainer {
 
     //turret stuff
         //new JoystickButton(helms, Button.kB.value).whenHeld(new TurretAutoAlign(turretSubsystem));
+        new JoystickButton(helms, Button.kLeftStick.value).whenHeld(new TurretTurnLeftSlow(turretSubsystem));
+        new JoystickButton(helms, Button.kRightStick.value).whenHeld(new TurretTurnRightSlow(turretSubsystem));
         new JoystickButton(helms, Button.kLeftBumper.value).whenHeld(new TurretTurnLeft(turretSubsystem));
         new JoystickButton(helms, Button.kRightBumper.value).whenHeld(new TurretTurnRight(turretSubsystem));
         //new JoystickButton(helms, Button.kA.value).whenHeld(new TurretCenter());
     //neutralizes turret
         new JoystickButton(helms, Button.kB.value).whenReleased(new TurretNeutral(turretSubsystem));
+        new JoystickButton(helms, Button.kLeftStick.value).whenReleased(new TurretNeutral(turretSubsystem));
+        new JoystickButton(helms, Button.kRightStick.value).whenReleased(new TurretNeutral(turretSubsystem));
         new JoystickButton(helms, Button.kLeftBumper.value).whenReleased(new TurretNeutral(turretSubsystem));
         new JoystickButton(helms, Button.kRightBumper.value).whenReleased(new TurretNeutral(turretSubsystem));
 
  
-        new JoystickButton(helms, Button.kRightStick.value).whenHeld(new IntakeDrop(new IntakeSub()));
-        new JoystickButton(helms, Button.kLeftStick.value).whenHeld(new IntakeUp());
+        new JoystickButton(box, 1).whenHeld(new IntakeDrop(new IntakeSub()));
+        new JoystickButton(box, 2).whenHeld(new IntakeUp());
        
     //intake dropdown
         //new JoystickButton(helms, Button.kX.value).whenHeld(new IntakeDrop());
@@ -193,6 +202,10 @@ public class RobotContainer {
     return helms;
   }
 
+  public Joystick getBox() {
+    return box;
+  }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -218,6 +231,7 @@ public class RobotContainer {
     Trajectory trajectoryFour= new Trajectory();
 
     String trajectoryFileOne = "pathplanner/generatedJSON/2cargoreal.wpilib.json";
+    //String trajectoryFileOne = "pathplanner/paths/3 carg.wpilib.json";
     String trajectoryFileTwo = "pathplanner/generatedJSON/4cargoreal.wpilib.json";
     String trajectoryFileThree = "pathplanner/generatedJSON/4cargoreverse.wpilib.json";
     String trajectoryFileFour = "pathplanner/generatedJSON/5cargoreal.wpilib.json";
@@ -257,7 +271,7 @@ public class RobotContainer {
  
 
     //Call concatTraj in Ramsete to run both trajectories back to back as one
-    var concatTraj = trajectoryTwo.concatenate(trajectoryThree);
+    //var concatTraj = trajectoryTwo.concatenate(trajectoryThree);
 
 
             RamseteCommand ramseteCommandOne =
@@ -279,7 +293,7 @@ public class RobotContainer {
 
               RamseteCommand ramseteCommandTwo =
                 new RamseteCommand(
-                    concatTraj,
+                    trajectoryTwo,
                     driveSub::getPose,
                     new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
                     new SimpleMotorFeedforward(
@@ -293,6 +307,23 @@ public class RobotContainer {
                     // RamseteCommand passes volts to the callback
                     driveSub::tankDriveVolts,
                     driveSub);
+
+                    RamseteCommand ramseteCommandTwoTwo =
+                    new RamseteCommand(
+                        trajectoryThree,
+                        driveSub::getPose,
+                        new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
+                        new SimpleMotorFeedforward(
+                            DriveConstants.Drive_Ks,
+                            DriveConstants.Drive_Kv,
+                            DriveConstants.Drive_Ka),
+                        DriveConstants.kDriveKinematics,
+                        driveSub::getWheelSpeeds,
+                        leftController,
+                        rightController,
+                        // RamseteCommand passes volts to the callback
+                        driveSub::tankDriveVolts,
+                        driveSub);      
                     
               RamseteCommand ramseteCommandThree =
               new RamseteCommand(
@@ -311,6 +342,7 @@ public class RobotContainer {
                   driveSub::tankDriveVolts,
                   driveSub);
 
+
     leftMeasurement.setNumber(driveSub.getWheelSpeeds().leftMetersPerSecond);
     leftReference.setNumber(leftController.getSetpoint());
 
@@ -323,9 +355,12 @@ public class RobotContainer {
     // Run path following command, then stop at the end.
     //return ramseteCommand.andThen(() -> driveSub.tankDriveVolts(0, 0));
     return new ParallelCommandGroup(new SequentialCommandGroup(/*autoShoot1.withTimeout(.5),*/ flywheelVelocityRunTwoBall,
-     ramseteCommandOne.andThen(() -> driveSub.tankDriveVolts(0, 0)), autoShoot.withTimeout(1.1), flywheelVelocityRunFourBall,
-     ramseteCommandTwo.andThen(() -> driveSub.tankDriveVolts(0, 0)), autoShoot1.withTimeout(1), 
+     ramseteCommandOne.andThen(() -> driveSub.tankDriveVolts(0, 0)), nullCommand2.withTimeout(.1), autoShoot.withTimeout(.9), flywheelVelocityRunFourBall,
+     ramseteCommandTwo.andThen(() -> driveSub.tankDriveVolts(0, 0)), nullCommand.withTimeout(.1), ramseteCommandTwoTwo.andThen(() -> driveSub.tankDriveVolts(0, 0)), autoShoot1.withTimeout(1), 
      flywheelVelocityRunFiveBall, ramseteCommandThree.andThen(() -> driveSub.tankDriveVolts(0, 0)), autoShoot2), autoTurretAutoAlign, autoDrop.withTimeout(.5));
-    }
+   
+
+    //return new ParallelCommandGroup(new SequentialCommandGroup(flyWheelVelocityRunTwoBall, ramseteCommandOne.andThen(() -> driveSub.tankDriveVolts(0, 0)), autoShoot), autoTurretAutoAlign, autoDrop.withTimeout(.5)); 
+    }   
   }
 

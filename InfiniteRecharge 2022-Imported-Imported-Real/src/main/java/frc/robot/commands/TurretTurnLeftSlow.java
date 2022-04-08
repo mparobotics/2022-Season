@@ -10,11 +10,11 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.TurretSubsystem;
 
-public class TurretTurnLeft extends CommandBase {
+public class TurretTurnLeftSlow extends CommandBase {
   /** Creates a new TurretTurnLeft. */
   TurretSubsystem turretSubsystem;
   
-  public TurretTurnLeft(TurretSubsystem t) {
+  public TurretTurnLeftSlow(TurretSubsystem t) {
       turretSubsystem = t;
       addRequirements(turretSubsystem);
     }
@@ -31,7 +31,7 @@ public class TurretTurnLeft extends CommandBase {
       SmartDashboard.putBoolean("Turret Good", false);
     }
     else{*/
-    RobotContainer.turretSubsystem.turnTurret(ShooterConstants.TURRET_SPEED);
+    RobotContainer.turretSubsystem.turnTurret(.1);
     //SmartDashboard.putBoolean("Turret Good", true); 
     //to test speed plus invert
    // }

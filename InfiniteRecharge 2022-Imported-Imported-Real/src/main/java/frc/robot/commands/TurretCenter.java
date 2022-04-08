@@ -22,13 +22,13 @@ public class TurretCenter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (TurretSubsystem.m_encoder.getPosition() > 5)
+    if (TurretSubsystem.m_encoder.getPosition() > 500)
     {
       RobotContainer.turretSubsystem.turnTurret(-ShooterConstants.centering_speed);
     
     }
 
-    else if (TurretSubsystem.m_encoder.getPosition() < -5) {
+    else if (TurretSubsystem.m_encoder.getPosition() < -500) {
       RobotContainer.turretSubsystem.turnTurret(ShooterConstants.centering_speed);
     }
 
@@ -47,6 +47,6 @@ public class TurretCenter extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return TurretSubsystem.m_encoder.getPosition() < 500 || TurretSubsystem.m_encoder.getPosition() > -500;
   }
 }

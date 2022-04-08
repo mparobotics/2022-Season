@@ -22,7 +22,7 @@ public class FlyWheel_Velocity extends SubsystemBase {
   static WPI_TalonFX _talon = new WPI_TalonFX(ShooterConstants.FALCON_shooter_ID, "rio");
  
   public double speedINeed = 4000;
-
+  public boolean upToSpeed = false;
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private final Alliance allianceColor = DriverStation.getAlliance();
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
@@ -50,9 +50,9 @@ public class FlyWheel_Velocity extends SubsystemBase {
 		/* Config the Velocity closed loop gains in slot0 */
 
 		_talon.config_kF(0, 1023.0/20660.0, 30);
-		_talon.config_kP(0, 1.331, 30); //0, 2, 30 .2 was working
+		_talon.config_kP(0, 2, 30); //0, 2, 30 .2 was working
 		_talon.config_kI(0, 0.001 / 95, 30);
-		_talon.config_kD(0,  5, 30); //0, 6, 30
+		_talon.config_kD(0,  13, 30); //0, 6, 30
     //SmartDashboard.putNumber("distance sim", 3);
     
   }
@@ -75,7 +75,16 @@ public class FlyWheel_Velocity extends SubsystemBase {
 			/* 2000 RPM in either direction */
 			_talon.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
       SmartDashboard.putNumber("Flywheel Speed Needed", setpoint);
+
+      if (_talon.getSelectedSensorVelocity() >= (setpoint - 50)){
+        upToSpeed = true;
+      }
+      else {upToSpeed = false;}
       
+  }
+
+  public boolean upToSpeed (){
+    return upToSpeed;
   }
 
 
@@ -86,7 +95,7 @@ public class FlyWheel_Velocity extends SubsystemBase {
 
   public boolean canIShoot(){
     
-    if (_talon.getSelectedSensorVelocity() > (speedINeed - 50)){
+    if (_talon.getSelectedSensorVelocity() > (speedINeed - 100)){
     return true;}
 
     else {return false;}

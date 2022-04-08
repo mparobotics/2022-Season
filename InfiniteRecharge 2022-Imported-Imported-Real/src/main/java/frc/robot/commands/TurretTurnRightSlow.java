@@ -10,11 +10,10 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.TurretSubsystem;
 
-public class TurretTurnLeft extends CommandBase {
-  /** Creates a new TurretTurnLeft. */
+public class TurretTurnRightSlow extends CommandBase {
+  /** Creates a new TurretTurnRight. */
   TurretSubsystem turretSubsystem;
-  
-  public TurretTurnLeft(TurretSubsystem t) {
+  public TurretTurnRightSlow(TurretSubsystem t) {
       turretSubsystem = t;
       addRequirements(turretSubsystem);
     }
@@ -26,15 +25,15 @@ public class TurretTurnLeft extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    /*if (TurretSubsystem.m_encoder.getPosition() > ShooterConstants.max_turret_rotation)
+    /*if (TurretSubsystem.m_encoder.getPosition() < -ShooterConstants.max_turret_rotation)
     {
       SmartDashboard.putBoolean("Turret Good", false);
-    }
-    else{*/
-    RobotContainer.turretSubsystem.turnTurret(ShooterConstants.TURRET_SPEED);
-    //SmartDashboard.putBoolean("Turret Good", true); 
-    //to test speed plus invert
-   // }
+    }*/
+    
+    //else
+     RobotContainer.turretSubsystem.turnTurret(-.1);
+     //SmartDashboard.putBoolean("Turret Good", true);
+     //todo test speed 
   }
 
   // Called once the command ends or is interrupted.

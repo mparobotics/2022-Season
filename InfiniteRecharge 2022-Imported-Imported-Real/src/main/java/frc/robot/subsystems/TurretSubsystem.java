@@ -96,7 +96,7 @@ public class TurretSubsystem extends SubsystemBase {
           
         if (m_encoder.getPosition() < -ShooterConstants.max_turret_rotation)
           {
-            new TurretCenter();
+            
           }
         else{
           steering_adjust = ShooterConstants.Turret_Kp_Auto * tx - ShooterConstants.min_command; //Kp is a number that sets the speed, and the min command is the minimum needed for it to react
@@ -109,7 +109,7 @@ public class TurretSubsystem extends SubsystemBase {
       {
         if (m_encoder.getPosition() > ShooterConstants.max_turret_rotation)
         {
-          new TurretCenter();
+          
         }
         else
           {steering_adjust = ShooterConstants.Turret_Kp_Auto * tx + ShooterConstants.min_command;
@@ -130,15 +130,12 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void turnTurret (double turnSpeed) {
     m_motor.set(turnSpeed); //makes motor of turret speed given
-    printTurretEncoder(); //pushes number of motor rotations to shuffleboard
+    //pushes number of motor rotations to shuffleboard
     getDistance(); // gets the distance from hub
 
   }
 
-  public void printTurretEncoder ()
-  {
-    //SmartDashboard.putNumber("Encoder Position", m_encoder.getPosition());
-  }
+  
 
   public double getDistance () //gets the distance from the hub
   {
@@ -147,11 +144,13 @@ public class TurretSubsystem extends SubsystemBase {
     //double tv = getTv();
     double angleRad = Math.PI*(ty+a1)/180; // converting ty+a1 from degrees to radians
     distanceFromHub = (h2-h1) / Math.tan(angleRad); // caculate the distance with M A T H and T R I G O N O M E T R Y 
-    SmartDashboard.putNumber("DistanceFromHub", distanceFromHub); 
+    //SmartDashboard.putNumber("DistanceFromHub", distanceFromHub); 
     return distanceFromHub;
 
 
   }
+
+
 
   public static double getY () //gets Y offset of limelight
   {
@@ -178,6 +177,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+
     // This method will be called once per scheduler run
   }
 
