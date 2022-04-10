@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
   private ParallelCommandGroup ParallelTwoBall;
   private Intake intake = new Intake(intakeSub);
   private TurretAutoAlign turretAutoAlign = new TurretAutoAlign();
-  private AutoFlywheelVelocityRun autoFlywheel2ball = new AutoFlywheelVelocityRun(m_flywheelVelocity, 7751);
+  private AutoFlywheelVelocityRun autoFlywheel2ball = new AutoFlywheelVelocityRun(m_flywheelVelocity, 7651);
   private AutoFlywheelVelocityRun autoFlywheel1ball = new AutoFlywheelVelocityRun(m_flywheelVelocity, 3700);
   private IntakeIdle intakeIdle = new IntakeIdle(intakeSub);
   private Elevator autoElevator1;
@@ -143,8 +143,8 @@ public class Robot extends TimedRobot {
     autoChooser.setDefaultOption("Five Ball", m_autonomousCommand);*/
     //table = NetworkTableInstance.getDefault().getTable("limelight"); //Gets Table instance
     //table.getEntry("ledMode").setNumber(1); //sets limelight LEDS to "off"
-    m_colorMatcher.addColorMatch(kBlueTarget);
-    m_colorMatcher.addColorMatch(kRedTarget);
+   // m_colorMatcher.addColorMatch(kBlueTarget);
+    //m_colorMatcher.addColorMatch(kRedTarget);
   }
 
   /**
@@ -197,8 +197,7 @@ public class Robot extends TimedRobot {
     //SmartDashboard.putNumber("Red", detectedColor.red);
     //SmartDashboard.putNumber("Green", detectedColor.green);
     //SmartDashboard.putNumber("Blue", detectedColor.blue);
-    SmartDashboard.putNumber("Confidence", match.confidence);
-    SmartDashboard.putString("Detected Color", colorString);
+
     //SmartDashboard.putNumber("Red", detectedColor.red);
     //SmartDashboard.putNumber("Green", detectedColor.green);
     //SmartDashboard.putNumber("Blue", detectedColor.blue);
@@ -244,14 +243,15 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
   
     DataLogManager.start();
-    intake.schedule();
+    ShootAndCross.schedule();
     //set Limelight at auto start
     //m_DriveSubsystem.encoderReset();
     //m_DriveSubsystem.zeroHeading();
     //Limelight.setLedMode(LightMode.eOn); //TODO test
     //ShootAndCross.schedule();
     //ParallelTwoBall.schedule();
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    intake.schedule();
     //m_DriveSubsystem.zeroHeading();
     /*switch (autoChooser.getSelected().toString()) {
       case "One Ball":
@@ -303,7 +303,7 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     
     //IntakeSub.IntakeDropStop();
-    spinFlywheel.cancel();
+  
     turretAutoAlign.cancel();
     intakeIdle.schedule();
     m_ElevatorSub.ElevatorStop();

@@ -101,7 +101,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     //put the 2d field on SmartDashboard to visualize the robot on the field (approx)
     m_fieldSim = new Field2d();
-    SmartDashboard.putData("Field", m_fieldSim);
+    
 
     // ==========================================================================
     // Code for simulation within the DriveTrain Constructer
@@ -153,7 +153,7 @@ public class DriveSubsystem extends SubsystemBase {
   m_odometry.update(navx.getRotation2d(),
                     nativeUnitsToDistanceMeters(falconFL.getSelectedSensorPosition()),
                     nativeUnitsToDistanceMeters(falconFR.getSelectedSensorPosition()));
-  m_fieldSim.setRobotPose(m_odometry.getPoseMeters());  
+  //m_fieldSim.setRobotPose(m_odometry.getPoseMeters());  
 }
 
   private double driveTrainP() {
@@ -184,7 +184,7 @@ public class DriveSubsystem extends SubsystemBase {
     if (Math.abs(zRotation) < .1) {zRotation = 0;}//deadzones
     if (zRotation == 0 )
       driveStraight(xSpeed);
-    
+
     drive.arcadeDrive(xSpeed, zRotation);
   }
 

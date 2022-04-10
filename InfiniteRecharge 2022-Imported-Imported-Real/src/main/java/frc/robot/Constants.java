@@ -66,7 +66,7 @@ public final class Constants {
     public final class ShooterConstants
     {
         public static final int NEO_TURRET_ID = 51;
-        public static final float Turret_Kp_Auto = -0.01f; //speed modifier of le turret -.005
+        public static final float Turret_Kp_Auto = -0.007f; //speed modifier of le turret -.005
         public static final float Turret_Kp = -.005f;
         public static final float min_command = 0.00001f; //deadzone of le turret
         public static final double hub_height = 2.74 ; //meters 

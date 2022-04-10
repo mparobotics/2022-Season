@@ -28,7 +28,7 @@ public class FastElevator extends CommandBase {
 
      
       m_elevatorSub.BackElevatorUp(1);
-      m_elevatorSub.FrontElevatorUp(1);
+      m_elevatorSub.FrontElevatorUp(.7);
 
     
   }

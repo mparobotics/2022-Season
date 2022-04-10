@@ -39,9 +39,11 @@ import frc.robot.commands.AutoTurretAutoAlign;
 import frc.robot.commands.BallShoot;
 import frc.robot.commands.Elevator;
 import frc.robot.commands.ElevatorNeutral;
+import frc.robot.commands.ElevatorOveride;
 import frc.robot.commands.ElevatorReverse;
 import frc.robot.commands.FastElevator;
 import frc.robot.commands.FlyWheelVelocityRunLow;
+import frc.robot.commands.FlyWheelVelocityRunOveride;
 import frc.robot.commands.FlyWheelVelocityRunReverse;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeDrop;
@@ -80,8 +82,8 @@ public class RobotContainer {
   public static FlyWheel_Velocity flyWheel_Velocity = new FlyWheel_Velocity();
   public static TurretSubsystem turretSubsystem = new TurretSubsystem();
   private FastElevator autoShoot = new FastElevator(elevatorsub);
-  private Elevator autoShoot1 = new Elevator(elevatorsub);
-  private Elevator autoShoot2 = new Elevator(elevatorsub);
+  private ElevatorOveride autoShoot1 = new ElevatorOveride(elevatorsub);
+  private ElevatorOveride autoShoot2 = new ElevatorOveride(elevatorsub);
   private AutoTurretAutoAlign autoTurretAutoAlign = new AutoTurretAutoAlign();
   private TurretAutoAlign TurretAutoAlign = new TurretAutoAlign();
   private Intake intake = new Intake(intakeSub);
@@ -89,9 +91,9 @@ public class RobotContainer {
   private NullCommand nullCommand = new NullCommand();
   private NullCommand nullCommand2 = new NullCommand();
   private NullCommand nullCommand3 = new NullCommand();
-  private AutoFlywheelVelocityRun flywheelVelocityRunTwoBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8814);
+  private AutoFlywheelVelocityRun flywheelVelocityRunTwoBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8944);
   private AutoFlywheelVelocityRun flywheelVelocityRunFourBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 7021);
-  private AutoFlywheelVelocityRun flywheelVelocityRunFiveBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8814);
+  private AutoFlywheelVelocityRun flywheelVelocityRunFiveBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8714);
   private IntakeDrop autoDrop = new IntakeDrop(intakeSub);
   private AutoCross autoCross;
   private AutoReturn autoReturn;
@@ -181,9 +183,11 @@ public class RobotContainer {
     //Elevator settings
         //new JoystickButton(helms, Button.kA.value).whenHeld(new Queue(elevatorsub));
         new JoystickButton(helms, Button.kA.value).whenHeld(new Elevator(elevatorsub));
+        new JoystickButton(box, 3).whenHeld(new ElevatorOveride(elevatorsub));
         new JoystickButton(helms, Button.kY.value).whenHeld(new ElevatorReverse(elevatorsub));
-        
+        new JoystickButton(box, 4).whenHeld(new FlyWheelVelocityRunOveride(flyWheel_Velocity));
         new JoystickButton(helms, Button.kY.value).whenHeld(new FlyWheelVelocityRunReverse(flyWheel_Velocity));
+
         //elevator stop
         new JoystickButton(helms, Button.kB.value).whenReleased(new ElevatorNeutral(elevatorsub));
         new JoystickButton(helms, Button.kY.value).whenReleased(new ElevatorNeutral(elevatorsub));

@@ -59,7 +59,7 @@ public class FlyWheel_Velocity extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("ShooterSpeed", _talon.getSelectedSensorVelocity());
+    //SmartDashboard.putNumber("ShooterSpeed", _talon.getSelectedSensorVelocity());
   }
 
   public  void my_Flywheel_Velocity(double setpoint){
@@ -74,7 +74,7 @@ public class FlyWheel_Velocity extends SubsystemBase {
     double targetVelocity_UnitsPer100ms = setpoint; //2000 * 2048 / 600
 			/* 2000 RPM in either direction */
 			_talon.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
-      SmartDashboard.putNumber("Flywheel Speed Needed", setpoint);
+      //SmartDashboard.putNumber("Flywheel Speed Needed", setpoint);
 
       if (_talon.getSelectedSensorVelocity() >= (setpoint - 50)){
         upToSpeed = true;
@@ -93,15 +93,15 @@ public class FlyWheel_Velocity extends SubsystemBase {
     _talon.set(TalonFXControlMode.PercentOutput, setpoint);
   }
 
-  public boolean canIShoot(){
+/*   public boolean canIShoot(){
     
     if (_talon.getSelectedSensorVelocity() > (speedINeed - 100)){
     return true;}
 
     else {return false;}
     
-  }  
-
+  }   */
+/* 
   public boolean GetColor()
   {
     Color detectedColor = m_colorSensor.getColor();
@@ -125,10 +125,10 @@ public class FlyWheel_Velocity extends SubsystemBase {
     else {correctColor = true;}
 
   }
-
+ 
     //SmartDashboard.putBoolean("CorrectColor?", correctColor);
     return correctColor;
-  }
+  }*/
 }
 
 
