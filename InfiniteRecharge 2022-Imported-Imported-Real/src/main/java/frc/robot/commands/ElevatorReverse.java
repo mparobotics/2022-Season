@@ -22,7 +22,7 @@ public class ElevatorReverse extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_elevatorSub.ElevateBall(-ElevatorConstants.ELEVATOR_SPEED); //invert? - woogy
+    m_elevatorSub.ElevateBall(-1); //invert? - woogy
   }
 
   // Called once the command ends or is interrupted.
