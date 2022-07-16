@@ -50,9 +50,9 @@ public class FlyWheel_Velocity extends SubsystemBase {
 		/* Config the Velocity closed loop gains in slot0 */
 
 		_talon.config_kF(0, 1023.0/20660.0, 30);
-		_talon.config_kP(0, 2, 30); //0, 2, 30 .2 was working
-		_talon.config_kI(0, 0.001 / 95, 30);
-		_talon.config_kD(0,  13, 30); //0, 6, 30
+		_talon.config_kP(0, 2, 30); //0, 2, 30 .2 was working tune this FIRST
+		_talon.config_kI(0, 0.001 / 95, 30); // Tune last this will fuck things up
+		_talon.config_kD(0,  13, 30); //0, 6, 30 tune this SECOND
     //SmartDashboard.putNumber("distance sim", 3);
     
   }
@@ -74,6 +74,29 @@ public class FlyWheel_Velocity extends SubsystemBase {
     double targetVelocity_UnitsPer100ms = setpoint; //2000 * 2048 / 600
 			/* 2000 RPM in either direction */
 			_talon.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
+      //SmartDashboard.putNumber("Flywheel Speed Needed", setpoint);
+
+      if (_talon.getSelectedSensorVelocity() >= (setpoint - 50)){
+        upToSpeed = true;
+      }
+      else {upToSpeed = false;}
+      
+
+  }
+
+
+  public  void my_Flywheel_Position(double setpoint){
+    //new TurretAutoAlign(new TurretSubsystem());
+    /**
+			 * Convert 6200 RPM to units / 100ms.
+			 * 2048 Units/Rev * 2000 RPM / 600 100ms/min in either direction:
+			 * velocity setpoint is in units/100ms
+			 */
+    //double targetVelocity_UnitsPer100ms = setpoint * 6200.0 * 2048.0 / 600.0;
+    speedINeed = setpoint;
+    double targetVelocity_UnitsPer100ms = setpoint; //2000 * 2048 / 600
+			/* 2000 RPM in either direction */
+			_talon.set(TalonFXControlMode.Position, targetVelocity_UnitsPer100ms);
       //SmartDashboard.putNumber("Flywheel Speed Needed", setpoint);
 
       if (_talon.getSelectedSensorVelocity() >= (setpoint - 50)){

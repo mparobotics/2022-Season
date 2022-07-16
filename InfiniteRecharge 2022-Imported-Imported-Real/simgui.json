@@ -18,6 +18,7 @@
       "/LiveWindow/Ungrouped/PIDController[8]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/Talon FX [45]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [50]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon SRX [15]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon SRX [26]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon SRX [32]": "Motor Controller",
@@ -26,7 +27,6 @@
     },
     "windows": {
       "/SmartDashboard/Field": {
-        "image": "E:\\Users\\flame\\Documents\\GitHub\\PathWeaver\\src\\main\\resources\\edu\\wpi\\first\\pathweaver\\2022-field.png",
         "window": {
           "visible": true
         }

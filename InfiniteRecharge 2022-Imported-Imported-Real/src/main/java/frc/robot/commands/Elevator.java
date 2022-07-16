@@ -34,7 +34,7 @@ public class Elevator extends CommandBase {
     
 
       m_elevatorSub.BackElevatorUp(.9);
-      m_elevatorSub.FrontElevatorUp(.38);
+      m_elevatorSub.FrontElevatorUp(.75);
 
  
 

@@ -243,14 +243,14 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
   
     DataLogManager.start();
-    ShootAndCross.schedule();
+    //ShootAndCross.schedule();
     //set Limelight at auto start
     //m_DriveSubsystem.encoderReset();
     //m_DriveSubsystem.zeroHeading();
     //Limelight.setLedMode(LightMode.eOn); //TODO test
     //ShootAndCross.schedule();
     //ParallelTwoBall.schedule();
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     intake.schedule();
     //m_DriveSubsystem.zeroHeading();
     /*switch (autoChooser.getSelected().toString()) {
