@@ -5,6 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+/*----------------------------------------------------------------------------
+      ALL BASIC DRIVE CODE FROM 2020-2022 IS DEPRECATED AND WE NOW USE 
+      4 FALCON MASTERCODE. IM NOT DOCUMENTING THIS. I DONT GET IT EITHER.
+      IF ANYONE NEEDS TO FIGURE OUT HOW THIS WORKS, DM iz_en_zi#0920 or Portameese#2734 on discord        
+----------------------------------------------------------------------------*/
+
+
 package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;

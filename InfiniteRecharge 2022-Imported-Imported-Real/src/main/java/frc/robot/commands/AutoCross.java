@@ -27,15 +27,15 @@ public class AutoCross extends CommandBase {
   public AutoCross(DriveSubsystem driveSub) {
     m_driveSub = driveSub;
 
-    addRequirements(m_driveSub);
+    addRequirements(m_driveSub); //Makes requirement from drive subsystem, only one drivesub command can run at once
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    leftEncoderStart = m_driveSub.getLeftEncoder();
+    leftEncoderStart = m_driveSub.getLeftEncoder(); //takes the starting measurement of the left encoder
     System.out.println("AutoCross Start!");
-    Limelight.setLedMode(LightMode.eOn);
+    Limelight.setLedMode(LightMode.eOn); //turns on limelight
 
   }
 
@@ -46,7 +46,7 @@ public class AutoCross extends CommandBase {
 
 
     
-    DriveSubsystem.setDriveSpeed_Tank(.6, .6);
+    DriveSubsystem.setDriveSpeed_Tank(.6, .6); //drives forward away from tarmac at speed of .6
 
 
   }
@@ -54,7 +54,7 @@ public class AutoCross extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    DriveSubsystem.setDriveSpeed_Tank(0, 0);
+    DriveSubsystem.setDriveSpeed_Tank(0, 0); //stops driving
     System.out.println("AutoCross End!");
 
   }
@@ -62,7 +62,8 @@ public class AutoCross extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-  return m_driveSub.getLeftEncoder() > 80000 + leftEncoderStart;//JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
+  return m_driveSub.getLeftEncoder() > 80000 + leftEncoderStart;//JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD – dont kow if thats true anymore
+  //if the position has moved by 80000 encode unites from where it started, stop the command
     
 
   }

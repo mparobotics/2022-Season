@@ -21,22 +21,25 @@ public class AutoTurretAutoAlign extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Limelight.setLedMode(LightMode.eOn);
+    Limelight.setLedMode(LightMode.eOn); //turns on limelight
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  Limelight.setLedMode(LightMode.eOn); 
-  RobotContainer.turretSubsystem.autoTurnAuto(); //goes to autoTurn in turret subsystem
-  
+  Limelight.setLedMode(LightMode.eOn); //turns on limelight again i guess, because turning it on once just isn't enough apparently
+  RobotContainer.turretSubsystem.autoTurnAuto(); //goes to autoTurn in turret subsystem  
+  /*future me – hey, i actually documented something in build season! thats what the commment above is for. I don't know what
+  *autoTurnAuto does in the subsystem but i'll get around to documenting it if i don't give up in the mean time or get hit by a truck
+  tomorrow or something. im assuming its for turning the turret in auto. why i would need a seperate command for that, i have no clue.
+  */
 }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Limelight.setLedMode(LightMode.eOff);
-    RobotContainer.turretSubsystem.turnTurret(0);
+    Limelight.setLedMode(LightMode.eOff); //turns off the limelight. savior of human's eyes everywhere.
+    RobotContainer.turretSubsystem.turnTurret(0); //stops the turret spinning
   }
 
   // Returns true when the command should end.

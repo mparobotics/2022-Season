@@ -21,7 +21,8 @@ public class AutoStop extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_driveSub.tankDriveVolts(0.0, 0.0);
+    m_driveSub.tankDriveVolts(0.0, 0.0); 
+    //instant command to stop driving i think?? dont know why its here or if we used it ever lol
 
   }
 }

@@ -25,13 +25,13 @@ public class AutoReturn extends CommandBase {
   public AutoReturn(DriveSubsystem driveSub) {
     m_driveSub = driveSub;
 
-    addRequirements(m_driveSub);
+    addRequirements(m_driveSub); //Makes requirement from drive subsystem, only one drivesub command can run at once
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    leftEncoderStart = m_driveSub.getLeftEncoder();
+    leftEncoderStart = m_driveSub.getLeftEncoder(); //takes the starting measurement of the left encoder
     
   }
 
@@ -40,14 +40,14 @@ public class AutoReturn extends CommandBase {
   public void execute() {
     
 
-    DriveSubsystem.setDriveSpeed_Tank(-.6, -.6); 
+    DriveSubsystem.setDriveSpeed_Tank(-.6, -.6); //drives backwards towards hub
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    DriveSubsystem.setDriveSpeed_Tank(0, 0);
+    DriveSubsystem.setDriveSpeed_Tank(0, 0); //stops robot driving
     
 
   }
@@ -56,8 +56,10 @@ public class AutoReturn extends CommandBase {
   @Override
   public boolean isFinished() {
     //return m_turretSubsystem.getDistance() >= (1.5); //JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
-    return m_driveSub.getLeftEncoder() < leftEncoderStart - 45000;//JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD
-   
+    return m_driveSub.getLeftEncoder() < leftEncoderStart - 45000;//JUST AN FYI + IS BACKWARDS HERE AND - IS FORWARD – i dont think it actually is
+    //Stops command when robot is 45000 ticks closer to hub than the left encoder started as. 
+    //in future years we should probably average the right and left encoders for more consistent readings
+    // ((getLeft + getRight) / 2)
       
   }
   }

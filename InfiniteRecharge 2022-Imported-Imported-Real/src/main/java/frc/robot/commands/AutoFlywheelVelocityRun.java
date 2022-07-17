@@ -12,41 +12,39 @@ import frc.robot.utils.Limelight.LightMode;
 
 public class AutoFlywheelVelocityRun extends CommandBase {
   /** Creates a new FlyWheelVelocityRun. */
-  double speedToGet;
+  double speedToGet; //instantiates variable speedToGet
   private final FlyWheel_Velocity m_flyWheel_Velocity;
-  public AutoFlywheelVelocityRun(FlyWheel_Velocity f, double speed) {
+  public AutoFlywheelVelocityRun(FlyWheel_Velocity f, double speed)  { //requires flywheel_velocity subsystem and a double speed as input
   
      m_flyWheel_Velocity = f;
 
-      speedToGet = speed;     
-    // Use addRequirements() here to declare subsystem dependencies.
+      speedToGet = speed;     //sets speed to get as the speed input given to the command
+    
+        // Use addRequirements() here to declare subsystem dependencies.
+        //THIS WAS CODED BADLY. IT SHOULD REQUIRE THE FLYWHEEL SUBSYSTEM. DO NOT COPY THIS COMMAND WITHOUT ADDING THAT
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_flyWheel_Velocity.my_Flywheel_Velocity(speedToGet);
+    m_flyWheel_Velocity.my_Flywheel_Velocity(speedToGet); // sets flywheel velocity to speedToGet
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-
-
-
-   
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Limelight.setLedMode(LightMode.eOff);
+    Limelight.setLedMode(LightMode.eOff); //turns of limelight
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return true; 
   }
 }
