@@ -18,7 +18,9 @@ public class FlyWheelVelocityRun extends CommandBase {
   private final FlyWheel_Velocity m_flywWheel_Velocity;
   public FlyWheelVelocityRun(FlyWheel_Velocity f) {
   
-     m_flywWheel_Velocity = f;
+     m_flywWheel_Velocity = f; //use more than just f
+
+     //THERE SHOULD BE AN ADDED REQUIREMENT HERE. DONT SKIP THIS STEP
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -26,16 +28,19 @@ public class FlyWheelVelocityRun extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Limelight.setLedMode(LightMode.eOn);
+    Limelight.setLedMode(LightMode.eOn); //turns on the evil light of doom
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double d = m_turretSubsystem.getDistance();
-    double t = m_turretSubsystem.getTv();
-    double speedToGet;
-    boolean correctColor;
+    double d = m_turretSubsystem.getDistance(); //gets the distance from the hub with the limelight
+    //while in BallShoot, i noted why subsystem interaction can be problematic, an exception* is when you are simply using
+    //a class that pulls a number. I would still avoid doing this
+    
+    double t = m_turretSubsystem.getTv(); //checks to see if the target in the limelights vision
+    double speedToGet; //our speed setpoint
+    boolean correctColor; //we did not ever use the color sorter
 
 
     //d = SmartDashboard.getNumber("distance sim", 3);
@@ -65,6 +70,36 @@ public class FlyWheelVelocityRun extends CommandBase {
     else if (d < 5) {speedToGet = (1325 * d) + 4884;}
     else if (d < 6.5) {speedToGet = (1360 * d) + 4534;}
     else {speedToGet = 4000;}
+
+    /*This is our speed calculation code
+     * its not great
+     * but it was a smartish idea
+     * so how did we calculate these functions you may ask
+     * well, originally we took data from a bunch of points every half meter (see commented function above)
+     * "but what if it isn't perfectly at those half meters" you, the oh so enlightened reader asks
+     * introducing, linear extrapolation. There's a proper way to do this in desmos or something probably
+     * but this is FRC. we don't do things properly. Well i mean it worked*, but instead i used logger pro
+     * (Which by all means can be used for this but it prolly made things harder than they needed to be).
+     * I inputed the speeds seen above at the distances seen above, and used the slope as m, and the y-intercept as c
+     * in a standard y=mx+b arrangement (x is the distance from the hub).
+     * It turns out, however, that one y=mx+b function is not enough when you don't have a hood. 
+     * who would have thought that speed effects the angle something shoots at
+     * oops
+     * 
+     * so i turned it into a peicewise function
+     * the rest of the edits were a result of guess and check
+     * 
+     * painful guess and check, as often i didn't know which function
+     * 
+     * *worked is subjective. the problem wasn't the linear extrapolation, it was the lack of the hood and me still trying to 
+     * "shoot from anywhere". I could have been spending time on better things.
+     */
+
+
+
+
+
+
     //correctColor = m_flywWheel_Velocity.GetColor();
     //if (correctColor = false) {speedToGet = 4000;}
     if (t != 1) {

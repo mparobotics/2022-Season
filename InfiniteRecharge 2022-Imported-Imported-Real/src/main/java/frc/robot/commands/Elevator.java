@@ -26,7 +26,7 @@ public class Elevator extends CommandBase {
 
   FlyWheel_Velocity m_FlyWheelVelocity = new FlyWheel_Velocity();
   public Elevator(ElevatorSub b) {
-    m_elevatorSub = b;
+    m_elevatorSub = b; //yea should've been more descriptive than "b". maybe use elevatorSub
     addRequirements(m_elevatorSub); //adding reqs! only one command can run on the elevator sub at once
   }
 

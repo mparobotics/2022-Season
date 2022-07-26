@@ -5,6 +5,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+/*a command that does nothing i used at a point in time to cause a delay in autonomous code
+ * prolly not the correct way to do this
+ * but it works 
+ */
 
 public class NullCommand extends CommandBase {
   /** Creates a new NullCommand. */

@@ -13,6 +13,12 @@ import frc.robot.subsystems.TurretSubsystem;
 public class TurretTurnLeftSlow extends CommandBase {
   /** Creates a new TurretTurnLeft. */
   TurretSubsystem turretSubsystem;
+
+  /*
+   * turretturnleft, BUT SLOWER
+   * 
+   * shocking
+   */
   
   public TurretTurnLeftSlow(TurretSubsystem t) {
       turretSubsystem = t;
@@ -39,7 +45,10 @@ public class TurretTurnLeftSlow extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+       //the turret should be coded to stop moving here
+    //it isnt.
+  }
 
   // Returns true when the command should end.
   @Override

@@ -9,12 +9,19 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.FlyWheel_Velocity;
 
+/*
+ * THIS IS ANNIE'S CODE
+ * IM PRETTY SURE ITS NEVER USED
+ * IM TOO SCARED TO DELETE IT FOR FEAR OF BREAKING OTHER THINGS
+ */
+
 public class Queue extends CommandBase {
   ElevatorSub m_elevatorSub;
   FlyWheel_Velocity m_FlyWheelVelocity = new FlyWheel_Velocity();
   public Queue(ElevatorSub b) {
-    m_elevatorSub = b;
+    m_elevatorSub = b; 
     addRequirements(m_elevatorSub);
+
   }
 
   // Called when the command is initially scheduled.
@@ -28,7 +35,6 @@ public class Queue extends CommandBase {
 
       
       m_elevatorSub.FrontElevatorUp(ElevatorConstants.ELEVATOR_SPEED);
-      
 
     
   }

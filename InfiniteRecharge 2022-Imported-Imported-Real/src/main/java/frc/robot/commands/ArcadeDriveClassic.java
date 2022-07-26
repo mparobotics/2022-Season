@@ -10,7 +10,9 @@
 /*----------------------------------------------------------------------------
       ALL BASIC DRIVE CODE FROM 2020-2022 IS DEPRECATED AND WE NOW USE 
       4 FALCON MASTERCODE. IM NOT DOCUMENTING THIS. I DONT GET IT EITHER.
-      IF ANYONE NEEDS TO FIGURE OUT HOW THIS WORKS, DM iz_en_zi#0920 or Portameese#2734 on discord        
+      IF ANYONE NEEDS TO FIGURE OUT HOW THIS WORKS, DM iz_en_zi#0920 (me) or Portameese#2734 (the coder before me who actually made this)
+      on discord        
+    
 ----------------------------------------------------------------------------*/
 
 package frc.robot.commands;

@@ -15,19 +15,19 @@ public class TurretAutoAlign extends CommandBase {
   /** Creates a new TurretAutoAlign. */
   TurretSubsystem turretSubsystem;
   public TurretAutoAlign() {
- 
+    //this needs requirements to be added
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Limelight.setLedMode(LightMode.eOn);
+    Limelight.setLedMode(LightMode.eOn); //turns on shining death laser
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  Limelight.setLedMode(LightMode.eOn); 
+  Limelight.setLedMode(LightMode.eOn);  //turns on death laser again in case once wasn't enough
   RobotContainer.turretSubsystem.autoTurn(); //goes to autoTurn in turret subsystem
   
 }
@@ -35,8 +35,8 @@ public class TurretAutoAlign extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Limelight.setLedMode(LightMode.eOff);
-    RobotContainer.turretSubsystem.turnTurret(0);
+    Limelight.setLedMode(LightMode.eOff); //saves our eyes from green death laser
+    RobotContainer.turretSubsystem.turnTurret(0); //stops turning turret
   }
 
   // Returns true when the command should end.

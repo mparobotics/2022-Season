@@ -14,6 +14,7 @@ public class TurretNeutral extends CommandBase {
   public TurretNeutral(TurretSubsystem t) {
       turretSubsystem = t;
       addRequirements(turretSubsystem);
+      //adding reqs is good and fun!
     }
   
 
@@ -24,7 +25,7 @@ public class TurretNeutral extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.turretSubsystem.turnTurret(0);
+    RobotContainer.turretSubsystem.turnTurret(0); //stopped the turret from spinning
   }
 
   // Called once the command ends or is interrupted.

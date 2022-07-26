@@ -11,7 +11,10 @@ import frc.robot.utils.Limelight.LightMode;
 
 
 public class FlyWheelVelocityRunReverse extends CommandBase {
-  /** Creates a new FlyWheelVelocityRun. */
+  /** Creates a new FlyWheelVelocityRun. 
+   * 
+   * Reverses flywheel
+  */
   
   private final FlyWheel_Velocity m_flyWheel_Velocity;
   public FlyWheelVelocityRunReverse(FlyWheel_Velocity f) {

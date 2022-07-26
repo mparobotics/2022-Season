@@ -16,6 +16,7 @@ public class TurretTurnRight extends CommandBase {
   public TurretTurnRight(TurretSubsystem t) {
       turretSubsystem = t;
       addRequirements(turretSubsystem);
+      //more requirement adding fun
     }
 
   // Called when the command is initially scheduled.
@@ -31,14 +32,17 @@ public class TurretTurnRight extends CommandBase {
     }*/
     
     //else
-     RobotContainer.turretSubsystem.turnTurret(-ShooterConstants.TURRET_SPEED);
+     RobotContainer.turretSubsystem.turnTurret(-ShooterConstants.TURRET_SPEED); // turns the turret to the right
      //SmartDashboard.putBoolean("Turret Good", true);
      //todo test speed 
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    //the turret should be coded to stop moving here
+    //it isnt.
+  }
 
   // Returns true when the command should end.
   @Override

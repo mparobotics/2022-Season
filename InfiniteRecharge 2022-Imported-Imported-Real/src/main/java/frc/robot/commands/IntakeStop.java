@@ -10,7 +10,7 @@ import frc.robot.subsystems.IntakeSub;
 public class IntakeStop extends CommandBase {
   IntakeSub intakeSub;
   public IntakeStop() {
-    
+    //why are there no requirements in here? there needs to be requirements in here
    }
 
   // Called when the command is initially scheduled.
@@ -21,7 +21,7 @@ public class IntakeStop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IntakeSub.IntakeStop(); //stops the elevator
+    IntakeSub.IntakeStop(); //stops the intake
   }
 
   // Called once the command ends or is interrupted.

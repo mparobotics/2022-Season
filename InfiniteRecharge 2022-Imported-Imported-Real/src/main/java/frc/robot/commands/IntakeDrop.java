@@ -14,6 +14,7 @@ public class IntakeDrop extends CommandBase {
   public IntakeDrop(IntakeSub i) {
     intakeSub = i;
     addRequirements(intakeSub);
+    //ive explained command reqs enough continue on with your day already
   }
   // Called when the command is initially scheduled.
   @Override
@@ -28,7 +29,7 @@ public class IntakeDrop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IntakeSub.IntakeDrop();
+    IntakeSub.IntakeDrop(); //drops the intake using motor
 
     //SmartDashboard.putBoolean("Is intake down?", IntakeSub.IntakeIsDown);
 }
@@ -36,7 +37,7 @@ public class IntakeDrop extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    IntakeSub.IntakeDropStop();
+    IntakeSub.IntakeDropStop(); // stops dropping intake
   }
 
   // Returns true when the command should end.

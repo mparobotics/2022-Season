@@ -11,8 +11,8 @@ import frc.robot.subsystems.IntakeSub;
 public class Intake extends CommandBase {
   IntakeSub intakeSub;
   public Intake(IntakeSub i) {
-    intakeSub = i;
-    addRequirements(intakeSub);
+    intakeSub = i; //be more descriptive than "i" in the future
+    addRequirements(intakeSub); //only one command per subsystem
   }
 
   // Called when the command is initially scheduled.
@@ -22,12 +22,16 @@ public class Intake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IntakeSub.intakeBall(IntakeConstants.INTAKE_SPEED);
+    IntakeSub.intakeBall(IntakeConstants.INTAKE_SPEED); // sets intake to spin at intake speed defined in constants
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    //should set the intake to 0 in here instead of mapping a seperate when released command
+  }
+
+
 
   // Returns true when the command should end.
   @Override

@@ -22,7 +22,7 @@ public class IntakeReverse extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IntakeSub.intakeBall(-IntakeConstants.INTAKE_SPEED); //Invert? - woogy
+    IntakeSub.intakeBall(-IntakeConstants.INTAKE_SPEED); //reverses intake. works as the same as all other intake commands
   }
 
   // Called once the command ends or is interrupted.

@@ -12,6 +12,7 @@ public class IntakeIdle extends CommandBase {
   public IntakeIdle(IntakeSub i) {
     intakeSub = i;
     addRequirements(intakeSub);
+    //they're reqs. ok. go to a higher command if u still dont know what they are
   }
 
   // Called when the command is initially scheduled.
@@ -21,7 +22,8 @@ public class IntakeIdle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IntakeSub.intakeBall(.5);
+    IntakeSub.intakeBall(.5); //always idles intake at .5 speed. this is called whenever a intake command ends in robotcontainer
+    //it was called poorly. 
   }
 
   // Called once the command ends or is interrupted.

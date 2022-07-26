@@ -12,6 +12,7 @@ public class IntakeUp extends CommandBase {
   /** Creates a new IntakeDrop. */
   public IntakeUp() {
     // Use addRequirements() here to declare subsystem dependencies.
+    //we need reqs in here
   }
 
   // Called when the command is initially scheduled.
@@ -28,7 +29,7 @@ public class IntakeUp extends CommandBase {
   @Override
   public void execute() {
     IntakeSub.IntakeUp();
-
+    //moves intake motor up
     //SmartDashboard.putBoolean("Is intake down?", IntakeSub.IntakeIsDown);
 }
 
@@ -36,6 +37,7 @@ public class IntakeUp extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     IntakeSub.IntakeDropStop();
+    //stops moving intake motor up
   }
 
   // Returns true when the command should end.

@@ -31,14 +31,17 @@ public class TurretTurnRightSlow extends CommandBase {
     }*/
     
     //else
-     RobotContainer.turretSubsystem.turnTurret(-.1);
+     RobotContainer.turretSubsystem.turnTurret(-.1); //turns the turret right, but slowly
      //SmartDashboard.putBoolean("Turret Good", true);
      //todo test speed 
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+       //the turret should be coded to stop moving here
+    //it isnt.
+  }
 
   // Returns true when the command should end.
   @Override

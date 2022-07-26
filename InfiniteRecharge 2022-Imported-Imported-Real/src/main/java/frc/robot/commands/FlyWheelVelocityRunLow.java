@@ -12,6 +12,11 @@ import frc.robot.utils.Limelight.LightMode;
 
 public class FlyWheelVelocityRunLow extends CommandBase {
   /** Creates a new FlyWheelVelocityRun. */
+
+  /*
+   * This Command Runs the shooter at the speed needed to score into the low hub
+   * 
+   */
   
   private final FlyWheel_Velocity m_flyWheel_Velocity;
   public FlyWheelVelocityRunLow(FlyWheel_Velocity f) {
@@ -32,7 +37,7 @@ public class FlyWheelVelocityRunLow extends CommandBase {
   public void execute() {
 
 
-double speedToGet = 4000;
+double speedToGet = 4500;
 
     m_flyWheel_Velocity.my_Flywheel_Velocity(speedToGet);
   }

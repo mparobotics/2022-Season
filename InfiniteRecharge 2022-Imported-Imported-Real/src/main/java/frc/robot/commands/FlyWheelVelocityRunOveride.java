@@ -12,7 +12,12 @@ import frc.robot.utils.Limelight.LightMode;
 
 public class FlyWheelVelocityRunOveride extends CommandBase {
   /** Creates a new FlyWheelVelocityRun. */
-  
+  /*
+   * This Code is fundamentally the same as other flywheel velocities, uses a button box overide for when
+   * limelight did not work
+   * 
+   * 
+   */
   private final FlyWheel_Velocity m_flyWheel_Velocity;
   public FlyWheelVelocityRunOveride(FlyWheel_Velocity f) {
   
