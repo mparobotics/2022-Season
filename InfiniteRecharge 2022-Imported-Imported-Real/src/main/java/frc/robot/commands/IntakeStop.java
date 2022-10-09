@@ -9,9 +9,10 @@ import frc.robot.subsystems.IntakeSub;
 
 public class IntakeStop extends CommandBase {
   IntakeSub intakeSub;
-  public IntakeStop() {
-    //why are there no requirements in here? there needs to be requirements in here
-   }
+  public IntakeStop(IntakeSub i) {
+    intakeSub = i;
+    addRequirements(intakeSub);
+  }
 
   // Called when the command is initially scheduled.
   @Override

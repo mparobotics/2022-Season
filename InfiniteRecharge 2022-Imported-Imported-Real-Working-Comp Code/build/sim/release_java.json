@@ -1,0 +1,21 @@
+[
+  {
+    "type": "java",
+    "name": "jar (in project InfiniteRecharge 2022-Imported-Imported-Real)",
+    "extensions": [
+      {
+        "name": "Sim DriverStation",
+        "libName": "/Users/ifrankel24/Documents/GitHub/2022-Season/InfiniteRecharge 2022-Imported-Imported-Real/build/jni/release/libhalsim_ds_socket.dylib",
+        "defaultEnabled": false
+      },
+      {
+        "name": "Sim GUI",
+        "libName": "/Users/ifrankel24/Documents/GitHub/2022-Season/InfiniteRecharge 2022-Imported-Imported-Real/build/jni/release/libhalsim_gui.dylib",
+        "defaultEnabled": true
+      }
+    ],
+    "environment": {},
+    "libraryDir": "/Users/ifrankel24/Documents/GitHub/2022-Season/InfiniteRecharge 2022-Imported-Imported-Real/build/jni/release",
+    "mainClassName": "frc.robot.Main"
+  }
+]

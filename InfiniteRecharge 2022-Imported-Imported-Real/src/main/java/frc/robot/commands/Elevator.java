@@ -42,8 +42,8 @@ public class Elevator extends CommandBase {
 
     
 
-      m_elevatorSub.BackElevatorUp(.9); //these speeds maximize the recovery time but are also crucial for getting the ball up to speed
-      m_elevatorSub.FrontElevatorUp(.38);//us having to do this is build teams fault (not rlly tho lol i only jest)
+      m_elevatorSub.BackElevatorUp(.83); //.9 these speeds maximize the recovery time but are also crucial for getting the ball up to speed
+      m_elevatorSub.FrontElevatorUp(.3);//.38 us having to do this is build teams fault (not rlly tho lol i only jest)
       //don't know why .38 is so specific
 
  
