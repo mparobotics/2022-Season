@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
   private ParallelCommandGroup ParallelTwoBall;
   private Intake intake = new Intake(intakeSub);
   private TurretAutoAlign turretAutoAlign = new TurretAutoAlign();
-  private AutoFlywheelVelocityRun autoFlywheel2ball = new AutoFlywheelVelocityRun(m_flywheelVelocity, 7651);
+  private AutoFlywheelVelocityRun autoFlywheel2ball = new AutoFlywheelVelocityRun(m_flywheelVelocity, 7851);
   private AutoFlywheelVelocityRun autoFlywheel1ball = new AutoFlywheelVelocityRun(m_flywheelVelocity, 3700);
   private IntakeIdle intakeIdle = new IntakeIdle(intakeSub);
   private Elevator autoElevator1;
@@ -132,7 +132,7 @@ public class Robot extends TimedRobot {
 
     //ShootAndCross = new SequentialCommandGroup(autoIntakeDrop, autoCross, autoShoot);
     ShootAndCross = new SequentialCommandGroup(
-                        autoFlywheel2ball, intakeDrop.withTimeout(1), autoCross, autoReturn, nullCommand.withTimeout(3), autoElevator.withTimeout(4));
+                        autoFlywheel2ball, intakeDrop.withTimeout(2), autoCross, nullCommand.withTimeout(3), autoElevator.withTimeout(4));
       
     OneBall = new SequentialCommandGroup(autoFlywheel1ball, nullCommand1.withTimeout(3), autoElevator1.withTimeout(4));
     //ParallelTwoBall = new ParallelCommandGroup(new IntakeDrop(intakeSub).withTimeout(2), ShootAndCross, spinFlywheel, turretAutoAlign);
@@ -243,15 +243,15 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
   
     DataLogManager.start();
-    //ShootAndCross.schedule();
+  //ShootAndCross.schedule();
     //set Limelight at auto start
-    //m_DriveSubsystem.encoderReset();
+   // m_DriveSubsystem.encoderReset(); //this
     //m_DriveSubsystem.zeroHeading();
-    //Limelight.setLedMode(LightMode.eOn); //TODO test
-    //ShootAndCross.schedule();
+    Limelight.setLedMode(LightMode.eOn); //TODO test
+    //ShootAndCross.schedule(); //this
     //ParallelTwoBall.schedule();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    intake.schedule();
+    //intake.schedule();
     //m_DriveSubsystem.zeroHeading();
     /*switch (autoChooser.getSelected().toString()) {
       case "One Ball":
@@ -259,6 +259,7 @@ public class Robot extends TimedRobot {
       break;
      
       case "Two Ball":
+      
       ShootAndCross.schedule();
       break;
 
@@ -276,7 +277,7 @@ public class Robot extends TimedRobot {
     //ballShoot.schedule();
     //turretAutoAlign.schedule();
     //autoFlywheel2ball.schedule();
-    if (m_autonomousCommand != null) {
+     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
     // schedule the autonomous command (example)

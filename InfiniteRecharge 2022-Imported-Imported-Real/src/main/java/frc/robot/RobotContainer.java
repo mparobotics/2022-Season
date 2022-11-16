@@ -91,9 +91,9 @@ public class RobotContainer {
   private NullCommand nullCommand = new NullCommand();
   private NullCommand nullCommand2 = new NullCommand();
   private NullCommand nullCommand3 = new NullCommand();
-  private AutoFlywheelVelocityRun flywheelVelocityRunTwoBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8944);
+  private AutoFlywheelVelocityRun flywheelVelocityRunTwoBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8044);
   private AutoFlywheelVelocityRun flywheelVelocityRunFourBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 7021);
-  private AutoFlywheelVelocityRun flywheelVelocityRunFiveBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8714);
+  private AutoFlywheelVelocityRun flywheelVelocityRunFiveBall = new AutoFlywheelVelocityRun(flyWheel_Velocity, 8014);
   private IntakeDrop autoDrop = new IntakeDrop(intakeSub);
   private AutoCross autoCross;
   private AutoReturn autoReturn;

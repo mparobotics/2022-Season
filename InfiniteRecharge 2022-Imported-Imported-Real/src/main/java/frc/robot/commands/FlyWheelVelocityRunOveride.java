@@ -37,7 +37,7 @@ public class FlyWheelVelocityRunOveride extends CommandBase {
   public void execute() {
 
 
-double speedToGet = 8000;
+double speedToGet = 7900;
 
     m_flyWheel_Velocity.my_Flywheel_Velocity(speedToGet);
   }
